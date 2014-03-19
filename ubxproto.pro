@@ -5,25 +5,24 @@
 #-------------------------------------------------
 CONFIG -= qt
 
-TARGET = ubloxproto
+TARGET = ubxproto
 TEMPLATE = lib
 
 DEFINES += UBLOXPROTO_LIBRARY
 
 SOURCES += \
-    ublox.c
+    ubx.c
 
 HEADERS +=\
-        qublox_global.h \
     ubxmessage.h \
-    ublox.h \
+    ubx.h \
     portable_endian.h \
-    ubloxaid.h \
-    ubloxcfg.h \
-    ubloxlog.h \
-    ubloxmon.h \
-    ubloxrxm.h \
-    ubloxutils.h
+    ubxaid.h \
+    ubxcfg.h \
+    ubxlog.h \
+    ubxmon.h \
+    ubxrxm.h \
+    ubxutils.h
 
 header_files.files = $$HEADERS
 header_files.path = ../include
