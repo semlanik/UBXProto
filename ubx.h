@@ -1,5 +1,5 @@
 /*
- * ubloxproto
+ * ubxproto
  * Copyright (c) 2014, Alexey Edelev aka semlanik, All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -21,17 +21,17 @@
  *
  * Actual LGPL text https://www.gnu.org/licenses/lgpl.html
  *
- * File: ublox.h
+ * File: ubx.h
  */
 
 #ifndef UBLOX_H
 #define UBLOX_H
 
-#include "ubloxaid.h"
-#include "ubloxcfg.h"
-#include "ubloxlog.h"
-#include "ubloxmon.h"
-#include "ubloxrxm.h"
-#include "ubloxutils.h"
+#include "ubxaid.h"
+#include "ubxcfg.h"
+#include "ubxlog.h"
+#include "ubxmon.h"
+#include "ubxrxm.h"
+#include "ubxutils.h"
 
 #endif // UBLOX_H

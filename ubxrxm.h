@@ -1,5 +1,5 @@
 /*
- * ubloxproto
+ * ubxproto
  * Copyright (c) 2014, Alexey Edelev aka semlanik, All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
  *
  * Actual LGPL text https://www.gnu.org/licenses/lgpl.html
  *
- * File: ubloxrxm.h
+ * File: ubxrxm.h
  */
 
 #ifndef UBLOXRXM_H

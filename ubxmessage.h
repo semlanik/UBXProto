@@ -1,5 +1,5 @@
 ﻿/*
- * ubloxproto
+ * ubxproto
  * Copyright (c) 2014, Alexey Edelev aka semlanik, All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
