@@ -33,16 +33,37 @@ extern "C"
 {
 #endif
 
-extern struct UBXMsgBuffer getCFG_ANT();
+extern struct UBXMsgBuffer getCFG_ANT(UBXX2_t flags, //See UBXANTFlags to fill this field
+                                      struct UBXANTPins pins);
 extern struct UBXMsgBuffer getCFG_ANT_POLL();
-extern struct UBXMsgBuffer getCFG_CFG();
-extern struct UBXMsgBuffer getCFG_CFG_OPT();
-extern struct UBXMsgBuffer getCFG_DAT_IN();
+extern struct UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, //See UBXCFGMask to fill this field
+                                      UBXX4_t saveMask, //See UBXCFGMask to fill this field
+                                      UBXX4_t loadMask //See UBXCFGMask to fill this field
+                                      );
+extern struct UBXMsgBuffer getCFG_CFG_OPT(UBXX4_t clearMask, //See UBXCFGMask to fill this field
+                                          UBXX4_t saveMask, //See UBXCFGMask to fill this field
+                                          UBXX4_t loadMask, //See UBXCFGMask to fill this field
+                                          UBXX1_t deviceMask //See UBXCFGDeviceMask to fill this field
+                                          );
+extern struct UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA,
+                                         UBXR8_t flat,
+                                         UBXR4_t dX,
+                                         UBXR4_t dY,
+                                         UBXR4_t dZ,
+                                         UBXR4_t rotX,
+                                         UBXR4_t rotY,
+                                         UBXR4_t rotZ,
+                                         UBXR4_t scale);
 extern struct UBXMsgBuffer getCFG_DAT_POLL();
 extern struct UBXMsgBuffer getCFG_GNSS_POLL();
-extern struct UBXMsgBuffer getCFG_GNSS();
+extern struct UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
+                                       UBXU1_t numTrkChHw,
+                                       UBXU1_t numTrkChUse,
+                                       UBXU1_t numConfigBlocks,
+                                       struct UBXCFG_GNSS_PART* gnssPart,
+                                       int gnssPartCount);
 extern struct UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId);
-extern struct UBXMsgBuffer getCFG_INF();
+extern struct UBXMsgBuffer getCFG_INF(struct UBXCFG_INF_PART *infPart, int infPartCount);
 extern struct UBXMsgBuffer getCFG_ITFM_POLL();
 extern struct UBXMsgBuffer getCFG_ITFM();
 extern struct UBXMsgBuffer getCFG_LOGFILTER_POLL();

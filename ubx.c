@@ -482,7 +482,18 @@ struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_ANT(){}
+struct UBXMsgBuffer getCFG_ANT(UBXX2_t flags, struct UBXANTPins pins)
+{
+    int payloadSize = sizeof(struct UBXCFG_ANT);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_ANT);
+    msg->payload.CFG_ANT.flags = flags;
+    msg->payload.CFG_ANT.pins = pins;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_ANT_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_ANT_POLL);
@@ -493,9 +504,51 @@ struct UBXMsgBuffer getCFG_ANT_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_CFG(){}
-struct UBXMsgBuffer getCFG_CFG_OPT(){}
-struct UBXMsgBuffer getCFG_DAT_IN(){}
+struct UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask)
+{
+    int payloadSize = sizeof(struct UBXCFG_CFG);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_CFG);
+    msg->payload.CFG_CFG.clearMask = clearMask;
+    msg->payload.CFG_CFG.saveMask = saveMask;
+    msg->payload.CFG_CFG.loadMask = loadMask;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getCFG_CFG_OPT(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask, UBXX1_t deviceMask)
+{
+    int payloadSize = sizeof(struct UBXCFG_CFG_OPT);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_CFG);
+    msg->payload.CFG_CFG_OPT.clearMask = clearMask;
+    msg->payload.CFG_CFG_OPT.saveMask = saveMask;
+    msg->payload.CFG_CFG_OPT.loadMask = loadMask;
+    msg->payload.CFG_CFG_OPT.deviceMask = deviceMask;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA, UBXR8_t flat, UBXR4_t dX, UBXR4_t dY, UBXR4_t dZ, UBXR4_t rotX, UBXR4_t rotY, UBXR4_t rotZ, UBXR4_t scale)
+{
+    int payloadSize = sizeof(struct UBXCFG_DAT_IN);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_CFG);
+    msg->payload.CFG_DAT_IN.majA = majA;
+    msg->payload.CFG_DAT_IN.flat = flat;
+    msg->payload.CFG_DAT_IN.dX = dX;
+    msg->payload.CFG_DAT_IN.dY = dY;
+    msg->payload.CFG_DAT_IN.dZ = dZ;
+    msg->payload.CFG_DAT_IN.rotX = rotX;
+    msg->payload.CFG_DAT_IN.rotY = rotY;
+    msg->payload.CFG_DAT_IN.rotZ = rotZ;
+    msg->payload.CFG_DAT_IN.scale = scale;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
 
 struct UBXMsgBuffer getCFG_DAT_POLL()
 {
@@ -517,7 +570,26 @@ struct UBXMsgBuffer getCFG_GNSS_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_GNSS(){}
+struct UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
+                                UBXU1_t numTrkChHw,
+                                UBXU1_t numTrkChUse,
+                                UBXU1_t numConfigBlocks,
+                                struct UBXCFG_GNSS_PART* gnssPart,
+                                int gnssPartCount)
+{
+    int payloadSize = sizeof(struct UBXCFG_GNSS) + gnssPartCount*sizeof(struct UBXCFG_GNSS_PART);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_GNSS);
+    msg->payload.CFG_GNSS.msgVer = msgVer;
+    msg->payload.CFG_GNSS.numTrkChHw = numTrkChHw;
+    msg->payload.CFG_GNSS.numTrkChUse = numTrkChUse;
+    msg->payload.CFG_GNSS.numConfigBlocks = numConfigBlocks;
+    memcpy(&(msg->payload.CFG_GNSS) + sizeof(struct UBXCFG_GNSS), gnssPart, gnssPartCount*sizeof(struct UBXCFG_GNSS_PART));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId)
 {
     int payloadSize = sizeof(struct UBXCFG_INF_POLL);
@@ -529,7 +601,17 @@ struct UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId)
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_INF(){}
+struct UBXMsgBuffer getCFG_INF(struct UBXCFG_INF_PART* infPart, int infPartCount)
+{
+    int payloadSize = sizeof(struct UBXCFG_INF) + sizeof(struct UBXCFG_INF_PART)*infPartCount;
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_INF);
+    memcpy(&(msg->payload.CFG_INF) + sizeof(struct UBXCFG_INF), infPart, infPartCount*sizeof(struct UBXCFG_INF_PART));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_ITFM_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_ITFM_POLL);
@@ -540,7 +622,11 @@ struct UBXMsgBuffer getCFG_ITFM_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_ITFM(){}
+struct UBXMsgBuffer getCFG_ITFM()
+{
+
+}
+
 struct UBXMsgBuffer getCFG_LOGFILTER_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_LOGFILTER_POLL);
