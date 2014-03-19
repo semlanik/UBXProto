@@ -341,6 +341,25 @@ enum UBXNAV5Mask
     UBXNAV5DgpsMask = 1 << 7,
 };
 
+enum UBXNAV5Model
+{
+    UBXNAV5ModelPortable = 0,
+    UBXNAV5ModelStationary = 2,
+    UBXNAV5ModelPedestrian = 3,
+    UBXNAV5ModelAutomotive = 4,
+    UBXNAV5ModelSea = 5,
+    UBXNAV5ModelAirborne1g = 6,
+    UBXNAV5ModelAirborne2g = 7,
+    UBXNAV5ModelAirborne4g = 8
+};
+
+enum UBXNAV5FixMode
+{
+    UBXNAV5Fix2DOnly = 1,
+    UBXNAV5Fix3DOnly = 2,
+    UBXNAV5FixAuto2D3D = 3
+};
+
 enum UBXNAVX5Mask
 {
     UBXNAVX5AopMinMax = 1 << 2,
@@ -351,7 +370,6 @@ enum UBXNAVX5Mask
     UBXNAVX5Aop = 1 << 14
 };
 
-
 enum UBXNMEAFilter
 {
     UBXNMEAPosFilter = 1,
@@ -360,6 +378,12 @@ enum UBXNMEAFilter
     UBXNMEADateFilter = 1 << 3,
     UBXNMEAGPSOnlyFilter = 1 << 4,
     UBXNMEATrackFilter = 1 << 5,
+};
+
+enum UBXNMEAVersion
+{
+    UBXNMEAVersion23 = 0x23,
+    UBXNMEAVersion21 = 0x21
 };
 
 enum UBXNMEAFlags
@@ -374,6 +398,26 @@ enum UBXNMEAGNSSToFilter
     UBXNMEASBASFilter = 1 << 1,
     UBXNMEAQZSSFilter = 1 << 4,
     UBXNMEAGLONASSFilter = 1 << 5
+};
+
+enum UBXNMEASVNumbering
+{
+    UBXNMEASVNumStrict = 0,
+    UBXNMEASVNumExtended = 1
+};
+
+enum UBXNMEATalkerIds
+{
+    UBXNMEATalkerNotOverriden = 0,
+    UBXNMEATalkerGP = 1,
+    UBXNMEATalkerGL = 2,
+    UBXNMEATalkerGN = 3
+};
+
+enum UBXNMEAGSVTalkerIds
+{
+    UBXNMEAGSVTalkerGNSSSpecific = 0,
+    UBXNMEAGSVTalkerMain = 1
 };
 
 enum UBXPM2LimitPeakCurrent

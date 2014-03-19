@@ -109,7 +109,7 @@ struct UBXMsgBuffer getCFG_MSG_POLL(enum UBXMessageClass msgClass, enum UBXMessa
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessageId msgId, u_int8_t rate)
+struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate)
 {
     int payloadSize = sizeof(struct UBXCFG_MSG_RATE);
     struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
@@ -122,7 +122,7 @@ struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessa
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMessageId msgId, u_int8_t rate[6])
+struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate[])
 {
     int payloadSize = sizeof(struct UBXCFG_MSG_RATES);
     struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
@@ -622,9 +622,17 @@ struct UBXMsgBuffer getCFG_ITFM_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_ITFM()
+struct UBXMsgBuffer getCFG_ITFM(struct UBXITFMConfig config,
+                                struct UBXITFMConfig2 config2)
 {
-
+    int payloadSize = sizeof(struct UBXCFG_ITFM);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_ITFM);
+    msg->payload.CFG_ITFM.config = config;
+    msg->payload.CFG_ITFM.config2 = config2;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
 }
 
 struct UBXMsgBuffer getCFG_LOGFILTER_POLL()
@@ -637,7 +645,27 @@ struct UBXMsgBuffer getCFG_LOGFILTER_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_LOGFILTER(){}
+struct UBXMsgBuffer getCFG_LOGFILTER(UBXU1_t version,
+                                     UBXX1_t flags,
+                                     UBXU2_t minIterval,
+                                     UBXU2_t timeThreshold,
+                                     UBXU2_t speedThreshold,
+                                     UBXU4_t positionThreshold)
+{
+    int payloadSize = sizeof(struct UBXCFG_LOGFILTER);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_LOGFILTER);
+    msg->payload.CFG_LOGFILTER.version = version;
+    msg->payload.CFG_LOGFILTER.flags = flags;
+    msg->payload.CFG_LOGFILTER.minIterval = minIterval;
+    msg->payload.CFG_LOGFILTER.timeThreshold = timeThreshold;
+    msg->payload.CFG_LOGFILTER.speedThreshold = speedThreshold;
+    msg->payload.CFG_LOGFILTER.positionThreshold = positionThreshold;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_NAV5_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NAV5_POLL);
@@ -648,7 +676,48 @@ struct UBXMsgBuffer getCFG_NAV5_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_NAV5(){}
+struct UBXMsgBuffer getCFG_NAV5(UBXX2_t mask,
+                                enum UBXNAV5Model dynModel,
+                                enum UBXNAV5FixMode fixMode,
+                                UBXI4_t fixedAlt,
+                                UBXU4_t fixedAltVar,
+                                UBXI1_t minElev,
+                                UBXU1_t drLimit,
+                                UBXU2_t pDop,
+                                UBXU2_t tDop,
+                                UBXU2_t pAcc,
+                                UBXU2_t tAcc,
+                                UBXU1_t staticHoldThresh,
+                                UBXU1_t dgpsTimeOut,
+                                UBXU1_t cnoThreshNumSVs,
+                                UBXU1_t cnoThresh)
+{
+    int payloadSize = sizeof(struct UBXCFG_NAV5);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_NAV5);
+    msg->payload.CFG_NAV5.mask = mask;
+    msg->payload.CFG_NAV5.dynModel = dynModel;
+    msg->payload.CFG_NAV5.fixMode = fixMode;
+    msg->payload.CFG_NAV5.fixedAlt = fixedAlt;
+    msg->payload.CFG_NAV5.fixedAltVar = fixedAltVar;
+    msg->payload.CFG_NAV5.minElev = minElev;
+    msg->payload.CFG_NAV5.drLimit = drLimit;
+    msg->payload.CFG_NAV5.pDop = pDop;
+    msg->payload.CFG_NAV5.tDop = tDop;
+    msg->payload.CFG_NAV5.pAcc = pAcc;
+    msg->payload.CFG_NAV5.tAcc = tAcc;
+    msg->payload.CFG_NAV5.staticHoldThresh = staticHoldThresh;
+    msg->payload.CFG_NAV5.dgpsTimeOut = dgpsTimeOut;
+    msg->payload.CFG_NAV5.cnoThreshNumSVs = cnoThreshNumSVs;
+    msg->payload.CFG_NAV5.cnoThresh = cnoThresh;
+    msg->payload.CFG_NAV5.reserved2 = 0;
+    msg->payload.CFG_NAV5.reserved3 = 0;
+    msg->payload.CFG_NAV5.reserved4 = 0;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_NAVX5_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NAVX5_POLL);
@@ -659,7 +728,51 @@ struct UBXMsgBuffer getCFG_NAVX5_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_NAVX5(){}
+struct UBXMsgBuffer getCFG_NAVX5(UBXU2_t version,
+                                 UBXX2_t mask1,
+                                 UBXU1_t minSVs,
+                                 UBXU1_t maxSVs,
+                                 UBXU1_t minCNO,
+                                 UBXU1_t iniFix3D,
+                                 UBXU2_t wknRollover,
+                                 UBXU1_t usePPP,
+                                 UBXU1_t aopCFG,
+                                 UBXU1_t aopOrbMaxErr)
+{
+    int payloadSize = sizeof(struct UBXCFG_NAVX5);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_NAVX5);
+    msg->payload.CFG_NAVX5.version = version;
+    msg->payload.CFG_NAVX5.mask1 = mask1;
+    msg->payload.CFG_NAVX5.reserved0 = 0;
+    msg->payload.CFG_NAVX5.reserved1 = 0;
+    msg->payload.CFG_NAVX5.reserved2 = 0;
+    msg->payload.CFG_NAVX5.minSVs = minSVs;
+    msg->payload.CFG_NAVX5.maxSVs = maxSVs;
+    msg->payload.CFG_NAVX5.minCNO = minCNO;
+    msg->payload.CFG_NAVX5.reserved5 = 0;
+    msg->payload.CFG_NAVX5.iniFix3D = iniFix3D;
+    msg->payload.CFG_NAVX5.reserved6 = 0;
+    msg->payload.CFG_NAVX5.reserved7 = 0;
+    msg->payload.CFG_NAVX5.reserved8 = 0;
+    msg->payload.CFG_NAVX5.wknRollover = wknRollover;
+    msg->payload.CFG_NAVX5.reserved9 = 0;
+    msg->payload.CFG_NAVX5.reserved10 = 0;
+    msg->payload.CFG_NAVX5.reserved11 = 0;
+    msg->payload.CFG_NAVX5.usePPP = usePPP;
+    msg->payload.CFG_NAVX5.aopCFG = aopCFG;
+    msg->payload.CFG_NAVX5.reserved12 = 0;
+    msg->payload.CFG_NAVX5.reserved13 = 0;
+    msg->payload.CFG_NAVX5.aopOrbMaxErr = aopOrbMaxErr;
+    msg->payload.CFG_NAVX5.reserved14 = 0;
+    msg->payload.CFG_NAVX5.reserved15 = 0;
+    msg->payload.CFG_NAVX5.reserved3 = 0;
+    msg->payload.CFG_NAVX5.reserved4 = 0;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_NMEA_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NMEA_POLL);
@@ -670,8 +783,49 @@ struct UBXMsgBuffer getCFG_NMEA_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_NMEA(){}
-struct UBXMsgBuffer getCFG_NVS(){}
+struct UBXMsgBuffer getCFG_NMEA(UBXX1_t filter,
+                                UBXU1_t nmeaVersion,
+                                UBXU1_t numSV,
+                                UBXX1_t flags,
+                                UBXX4_t gnssToFilter,
+                                enum UBXNMEASVNumbering svNumbering,
+                                enum UBXNMEATalkerIds mainTalkerId,
+                                enum UBXNMEAGSVTalkerIds gsvTalkerId)
+{
+    int payloadSize = sizeof(struct UBXCFG_NMEA);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_NMEA);
+    msg->payload.CFG_NMEA.filter = filter;
+    msg->payload.CFG_NMEA.nmeaVersion = nmeaVersion;
+    msg->payload.CFG_NMEA.numSV = numSV;
+    msg->payload.CFG_NMEA.flags = flags;
+    msg->payload.CFG_NMEA.gnssToFilter = gnssToFilter;
+    msg->payload.CFG_NMEA.svNumbering = svNumbering;
+    msg->payload.CFG_NMEA.mainTalkerId = mainTalkerId;
+    msg->payload.CFG_NMEA.gsvTalkerId = gsvTalkerId;
+    msg->payload.CFG_NMEA.reserved = 0;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getCFG_NVS(UBXX4_t clearMask,
+                               UBXX4_t saveMask,
+                               UBXX4_t loadMask,
+                               UBXX1_t deviceMask)
+{
+    int payloadSize = sizeof(struct UBXCFG_NVS);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_NVS);
+    msg->payload.CFG_NVS.clearMask = clearMask;
+    msg->payload.CFG_NVS.saveMask = saveMask;
+    msg->payload.CFG_NVS.loadMask = loadMask;
+    msg->payload.CFG_NVS.deviceMask = deviceMask;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_PM2_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_PM2_POLL);
@@ -682,7 +836,22 @@ struct UBXMsgBuffer getCFG_PM2_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_PM2(){}
+struct UBXMsgBuffer getCFG_PM2(struct UBXCFG_PM2Flags flags, UBXU4_t updatePeriod, UBXU4_t searchPeriod, UBXU4_t gridOffset, UBXU2_t onTime, UBXU2_t minAcqTime)
+{
+    int payloadSize = sizeof(struct UBXCFG_PM2);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_PM2);
+    msg->payload.CFG_PM2.flags = flags;
+    msg->payload.CFG_PM2.updatePeriod = updatePeriod;
+    msg->payload.CFG_PM2.searchPeriod = searchPeriod;
+    msg->payload.CFG_PM2.gridOffset = gridOffset;
+    msg->payload.CFG_PM2.onTime = onTime;
+    msg->payload.CFG_PM2.minAcqTime = minAcqTime;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_PRT_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_PRT_POLL);
@@ -704,7 +873,26 @@ struct UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId)
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_PRT(){}
+struct UBXMsgBuffer getCFG_PRT_UART()
+{
+
+}
+
+struct UBXMsgBuffer getCFG_PRT_USB()
+{
+
+}
+
+struct UBXMsgBuffer getCFG_PRT_SPI()
+{
+
+}
+
+struct UBXMsgBuffer getCFG_PRT_DDC()
+{
+
+}
+
 struct UBXMsgBuffer getCFG_RATE_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RATE_POLL);
