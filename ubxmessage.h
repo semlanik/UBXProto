@@ -743,7 +743,7 @@ struct UBXAID_ALM_OPT {
 };
 
 struct UBXAID_ALP {
-    //No payload
+    //Variable payload
 };
 
 struct UBXAID_ALP_END {

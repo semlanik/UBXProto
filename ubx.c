@@ -263,7 +263,16 @@ struct UBXMsgBuffer getAID_ALP_END()
     return buffer;
 }
 
-struct UBXMsgBuffer getAID_ALP(){}
+struct UBXMsgBuffer getAID_ALP(UBXU2_t* chunk, int chunkSize)
+{
+    int payloadSize = sizeof(struct UBXAID_ALP) + chunkSize;
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_ALP);
+    memcpy(&(msg->payload) + sizeof(struct UBXAID_ALP), chunk, chunkSize);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
 
 struct UBXMsgBuffer getAID_AOP_POLL()
 {
@@ -286,8 +295,32 @@ struct UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
-struct UBXMsgBuffer getAID_AOP(){}
-struct UBXMsgBuffer getAID_AOP_OPT(){}
+struct UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59])
+{
+    int payloadSize = sizeof(struct UBXAID_AOP);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_AOP);
+    msg->payload.AID_AOP.svid = svid;
+    memcpy(msg->payload.AID_AOP.data, data, 59*sizeof(UBXU1_t));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48], UBXU1_t optional1[48], UBXU1_t optional2[48])
+{
+    int payloadSize = sizeof(struct UBXAID_AOP_OPT);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_AOP);
+    msg->payload.AID_AOP_OPT.svid = svid;
+    memcpy(msg->payload.AID_AOP_OPT.data, data, 59*sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional0, optional0, 48*sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional1, optional1, 48*sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional2, optional2, 48*sizeof(UBXU1_t));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
 
 struct UBXMsgBuffer getAID_DATA_POLL()
 {
@@ -320,8 +353,33 @@ struct UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
-struct UBXMsgBuffer getAID_EPH(){}
-struct UBXMsgBuffer getAID_EPH_OPT(){}
+struct UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how)
+{
+    int payloadSize = sizeof(struct UBXAID_EPH);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_EPH);
+    msg->payload.AID_EPH.svid = svid;
+    msg->payload.AID_EPH.how = how;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t sf2d[8], UBXU4_t sf3d[8])
+{
+    int payloadSize = sizeof(struct UBXAID_EPH_OPT);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_EPH);
+    msg->payload.AID_EPH_OPT.svid = svid;
+    msg->payload.AID_EPH_OPT.how = how;
+    memcpy(msg->payload.AID_EPH_OPT.sf1d, sf1d, 8*sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_EPH_OPT.sf2d, sf2d, 8*sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_EPH_OPT.sf3d, sf3d, 8*sizeof(UBXU4_t));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getAID_HUI_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_HUI_POLL);
@@ -331,7 +389,54 @@ struct UBXMsgBuffer getAID_HUI_POLL()
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
-struct UBXMsgBuffer getAID_HUI(){}
+
+struct UBXMsgBuffer getAID_HUI(UBXI4_t health,
+                               UBXR4_t utcA0,
+                               UBXR4_t utcA1,
+                               UBXI4_t utcTOW,
+                               UBXI2_t utcWNT,
+                               UBXI2_t utcLS,
+                               UBXI2_t utcWNF,
+                               UBXI2_t utcDN,
+                               UBXI2_t utcLSF,
+                               UBXI2_t utcSpare,
+                               UBXR4_t klobA0,
+                               UBXR4_t klobA1,
+                               UBXR4_t klobA2,
+                               UBXR4_t klobA3,
+                               UBXR4_t klobB0,
+                               UBXR4_t klobB1,
+                               UBXR4_t klobB2,
+                               UBXR4_t klobB3,
+                               UBXX2_t flags)
+{
+    int payloadSize = sizeof(struct UBXAID_HUI);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_HUI);
+    msg->payload.AID_HUI.health = health;
+    msg->payload.AID_HUI.utcA0 = utcA0;
+    msg->payload.AID_HUI.utcA1 = utcA1;
+    msg->payload.AID_HUI.utcTOW = utcTOW;
+    msg->payload.AID_HUI.utcWNT = utcWNT;
+    msg->payload.AID_HUI.utcLS = utcLS;
+    msg->payload.AID_HUI.utcWNF = utcWNF;
+    msg->payload.AID_HUI.utcDN = utcDN;
+    msg->payload.AID_HUI.utcLSF = utcLSF;
+    msg->payload.AID_HUI.utcSpare = utcSpare;
+    msg->payload.AID_HUI.klobA0 = klobA0;
+    msg->payload.AID_HUI.klobA1 = klobA1;
+    msg->payload.AID_HUI.klobA2 = klobA2;
+    msg->payload.AID_HUI.klobA3 = klobA3;
+    msg->payload.AID_HUI.klobA0 = klobB0;
+    msg->payload.AID_HUI.klobA1 = klobB1;
+    msg->payload.AID_HUI.klobA2 = klobB2;
+    msg->payload.AID_HUI.klobA3 = klobB3;
+    msg->payload.AID_HUI.flags = flags;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getAID_INI_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_INI_POLL);
@@ -342,7 +447,41 @@ struct UBXMsgBuffer getAID_INI_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getAID_INI(){}
+struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
+                               UBXI1_t ecefYOrLat,
+                               UBXI1_t ecefZOrLat,
+                               UBXU1_t posAcc,
+                               UBXI1_t tmCfg,
+                               UBXU2_t wnoOrDate,
+                               UBXU4_t towOrDate,
+                               UBXI4_t towNs,
+                               UBXU4_t tAccMS,
+                               UBXU4_t tAccNS,
+                               UBXI4_t clkDOrFreq,
+                               UBXU4_t clkDAccOrFreqAcc,
+                               UBXX4_t flags)
+{
+    int payloadSize = sizeof(struct UBXAID_INI);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_INI);
+    msg->payload.AID_INI.ecefXOrLat = ecefXOrLat;
+    msg->payload.AID_INI.ecefYOrLat = ecefYOrLat;
+    msg->payload.AID_INI.ecefZOrLat = ecefZOrLat;
+    msg->payload.AID_INI.posAcc = posAcc;
+    msg->payload.AID_INI.tmCfg = tmCfg;
+    msg->payload.AID_INI.wnoOrDate = wnoOrDate;
+    msg->payload.AID_INI.towOrDate = towOrDate;
+    msg->payload.AID_INI.towNs = towNs;
+    msg->payload.AID_INI.tAccMS = tAccMS;
+    msg->payload.AID_INI.tAccNS = tAccNS;
+    msg->payload.AID_INI.clkDOrFreq = clkDOrFreq;
+    msg->payload.AID_INI.clkDAccOrFreqAcc = clkDAccOrFreqAcc;
+    msg->payload.AID_INI.flags = flags;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_ANT(){}
 struct UBXMsgBuffer getCFG_ANT_POLL()
 {
