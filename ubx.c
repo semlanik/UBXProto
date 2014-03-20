@@ -1218,3 +1218,1226 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
+
+/*!
+ * \enum UBXMessageClass
+ * \brief UBXMessageClass is a grouping of messages which are related to each other.
+ * The following table lists all the current message classes.
+ * \var UBXMsgClassNAV
+ * Navigation Results: Position, Speed, Time, Acc, Heading, DOP, SVs used
+ * \var UBXMsgClassRXM
+ * Receiver Manager Messages: Satellite Status, RTC Status
+ * \var UBXMsgClassINF
+ * Information Messages: Printf-Style Messages, with IDs such as Error, Warning, Notice
+ * \var UBXMsgClassACK
+ * Ack/Nack Messages: as replies to CFG Input Messages
+ * \var UBXMsgClassCFG
+ * Configuration Input Messages: Set Dynamic Model, Set DOP Mask, Set Baud Rate, etc.
+ * \var UBXMsgClassMON
+ * Monitoring Messages: Comunication Status, CPU Load, Stack Usage, Task Status
+ * \var UBXMsgClassAID
+ * AssistNow Aiding Messages: Ephemeris, Almanac, other A-GPS data input
+ * \var UBXMsgClassTIM
+ * Timing Messages: Time Pulse Output, Timemark Results
+ * \var UBXMsgClassLOG
+ * Logging Messages: Log creation, deletion, info and retrieval
+ * \var UBXMsgClassInvalid
+ * Default invalid message class
+ */
+
+/*!
+ * \enum UBXMessageId
+ * \brief UBXMessageId is a type of messages
+ * \var UBXMsgIdACK_NACK
+ * Message Acknowledged
+ * \var UBXMsgIdACK_ACK
+ * Message Not-Acknowledged
+ *
+ * \var UBXMsgIdAID_ALM
+ * GPS Aiding Almanac Data
+ * \var UBXMsgIdAID_ALPSRV
+ * AlmanacPlus data
+ * \var UBXMsgIdAID_ALP
+ * ALP file data transfer
+ * \var UBXMsgIdAID_AOP
+ * AssistNow Autonomous data
+ * \var UBXMsgIdAID_DATA
+ * GPS Initial Aiding Data
+ * \var UBXMsgIdAID_EPH
+ * GPS Aiding Ephemeris Data
+ * \var UBXMsgIdAID_HUI
+ * GPS Health, UTC and ionosphere parameters
+ * \var UBXMsgIdAID_INI
+ * Aiding position, time, frequency, clock drift
+ * \var UBXMsgIdAID_REQ
+ * Sends a poll (AID-DATA) for all GPS Aiding Data
+ *
+ * \var UBXMsgIdCFG_ANT
+ * Antenna Control Settings
+ * \var UBXMsgIdCFG_CFG
+ * Clear, Save and Load configurations
+ * \var UBXMsgIdCFG_DAT
+ * Datum Setting
+ * \var UBXMsgIdCFG_GNSS
+ * GNSS system configuration
+ * \var UBXMsgIdCFG_INF
+ * Information message configuration
+ * \var UBXMsgIdCFG_ITFM
+ * Jamming/Interference Monitor configuration.
+ * \var UBXMsgIdCFG_LOGFILTER
+ * Data Logger Configuration
+ * \var UBXMsgIdCFG_MSG
+ * Message Configuration
+ * \var UBXMsgIdCFG_NAV5
+ * Navigation Engine Settings
+ * \var UBXMsgIdCFG_NAVX5
+ * Navigation Engine Expert Settings
+ * \var UBXMsgIdCFG_NMEA
+ * NMEA protocol configuration
+ * \var UBXMsgIdCFG_NVS
+ * Clear, Save and Load non-volatile storage data
+ * \var UBXMsgIdCFG_PM2
+ * Extended Power Management configuration
+ * \var UBXMsgIdCFG_PRT
+ * Ports Configuration
+ * \var UBXMsgIdCFG_RATE
+ * Navigation/Measurement Rate Settings
+ * \var UBXMsgIdCFG_RINV
+ * Contents of Remote Inventory
+ * \var UBXMsgIdCFG_RST
+ * Reset Receiver / Clear Backup Data Structures
+ * \var UBXMsgIdCFG_RXM
+ * RXM configuration
+ * \var UBXMsgIdCFG_SBAS
+ * SBAS Configuration
+ * \var UBXMsgIdCFG_TP5
+ * Time Pulse Parameters
+ * \var UBXMsgIdCFG_USB
+ * USB Configuration
+ *
+ * \var UBXMsgIdINF_DEBUG
+ * ASCII String output, indicating debug output
+ * \var UBXMsgIdINF_ERROR
+ * ASCII String output, indicating an error
+ * \var UBXMsgIdINF_NOTICE
+ * ASCII String output, with informational contents
+ * \var UBXMsgIdINF_TEST
+ * ASCII String output, indicating test output
+ * \var UBXMsgIdINF_WARNING
+ * ASCII String output, indicating a warning
+ *
+ * \var UBXMsgIdLOG_CREATE
+ * Create Log File
+ * \var UBXMsgIdLOG_ERASE
+ * Erase Logged Data
+ * \var UBXMsgIdLOG_FINDTIME
+ * Find the index of the first log entry <= given time
+ * \var UBXMsgIdLOG_INFO
+ * Log information
+ * \var UBXMsgIdLOG_RETRIEVEPOS
+ * Position fix log entry
+ * \var UBXMsgIdLOG_RETRIEVESTRING
+ * Byte string log entry
+ * \var UBXMsgIdLOG_RETRIEVE
+ * Request log data
+ * \var UBXMsgIdLOG_STRING
+ * Store arbitrary string in on-board Flash memory
+ *
+ * \var UBXMsgIdMON_HW2
+ * Extended Hardware Status
+ * \var UBXMsgIdMON_HW
+ * Hardware Status
+ * \var UBXMsgIdMON_IO
+ * I/O Subsystem Status
+ * \var UBXMsgIdMON_MSGPP
+ * Message Parse and Process Status
+ * \var UBXMsgIdMON_RXBUF
+ * Receiver Buffer Status
+ * \var UBXMsgIdMON_RXR
+ * Receiver Status Information
+ * \var UBXMsgIdMON_TXBUF
+ * Transmitter Buffer Status
+ * \var UBXMsgIdMON_VER
+ * Receiver/Software Version
+ *
+ * \var UBXMsgIdNAV_AOPSTATUS
+ * AssistNow Autonomous Status
+ * \var UBXMsgIdNAV_CLOCK
+ * Clock Solution
+ * \var UBXMsgIdNAV_DGPS
+ * DGPS Data Used for NAV
+ * \var UBXMsgIdNAV_DOP
+ * Dilution of precision
+ * \var UBXMsgIdNAV_POSECEF
+ * Position Solution in ECEF
+ * \var UBXMsgIdNAV_POSLLH
+ * Geodetic Position Solution
+ * \var UBXMsgIdNAV_PVT
+ * Navigation Position Velocity Time Solution
+ * \var UBXMsgIdNAV_SBAS
+ * SBAS Status Data
+ * \var UBXMsgIdNAV_SOL
+ * Navigation Solution Information
+ * \var UBXMsgIdNAV_STATUS
+ * Receiver Navigation Status
+ * \var UBXMsgIdNAV_SVINFO
+ * Space Vehicle Information
+ * \var UBXMsgIdNAV_TIMEGPS
+ * GPS Time Solution
+ * \var UBXMsgIdNAV_TIMEUTC
+ * UTC Time Solution
+ * \var UBXMsgIdNAV_VELECEF
+ * Velocity Solution in ECEF
+ * \var UBXMsgIdNAV_VELNED
+ * Velocity Solution in NED
+ *
+ * \var UBXMsgIdRXM_ALM
+ * GPS Constellation Almanac Data
+ * \var UBXMsgIdRXM_EPH
+ * GPS Constellation Ephemeris Data
+ * \var UBXMsgIdRXM_PMREQ
+ * Requests a Power Management task
+ * \var UBXMsgIdRXM_RAW
+ * Raw Measurement Data
+ * \var UBXMsgIdRXM_SFRB
+ * Subframe Buffer
+ * \var UBXMsgIdRXM_SVSI
+ * SV Status Info
+ *
+ * \var UBXMsgIdTIM_TM2
+ * Time mark data
+ * \var UBXMsgIdTIM_TP
+ * Time Pulse Timedata
+ * \var UBXMsgIdTIM_VRFY
+ * Sourced Time Verification
+ *
+ * \var MsgIdInvalid
+ * Default invalid message identificator
+ */
+
+/*!
+ * \enum UBXResetMode
+ * \brief UBXResetMode describes possible reset modes
+ * for #UBXCFG_RST message.
+ * \var UBXHardwareReset
+ * Hardware reset (Watchdog) immediately
+ * \var UBXControlledReset
+ * Controlled Software reset
+ * \var UBXControlledResetGNSSOnly
+ * Controlled Software reset (GNSS only)
+ * \var UBXHardwareResetAfterShutdown
+ * Hardware reset (Watchdog) after
+ * \var UBXControlledGNSSStop
+ * Controlled GNSS stop
+ * \var UBXControlledGNSSStart
+ * Controlled GNSS start
+ */
+
+/*!
+ * \enum UBXBBRSpecialSets
+ * \brief UBXBBRSpecialSets implements special sets for
+ * #UBXCFG_RST message.
+ * \var UBXBBRHotstart
+ * Hotstart
+ * \var UBXBBRWarmstart
+ * Warmstart
+ * \var UBXBBRColdstart
+ * Coldstart
+ */
+
+/*!
+ * \enum UBXBBRMask
+ * \brief UBXBBRMask implements members for BBR(built-in battery-backed RAM) bitmask
+ * for #UBXCFG_RST message.
+ * \var UBXBBReph
+ * Ephemeris
+ * \var UBXBBRalm
+ * Almanac
+ * \var UBXBBRhealth
+ * Health
+ * \var UBXBBRklob
+ * Klobuchar parameters
+ * \var UBXBBRpos
+ * Position
+ * \var UBXBBRclkd
+ * Clock Drift
+ * \var UBXBBRosc
+ * Oscillator Parameter
+ * \var UBXBBRutc
+ * UTC Correction + GPS Leap Seconds Parameters
+ * \var UBXBBRrtc
+ * RTC
+ * \var UBXBBRsfdr
+ * SFDR Parameters
+ * \var UBXBBRvmon
+ * SFDR Vehicle Monitoring Parameters
+ * \var UBXBBRtct
+ * TCT Parameters
+ * \var UBXBBRaop
+ * Autonomous Orbit Parameters
+ */
+
+/*!
+ * \enum UBXHUIFlags
+ * \brief UBXHUIFlags implements HUI flags bitmask
+ * for #UBXAID_HUI message.
+ * \var UBXHUIHealthValid
+ * Healthmask field in this message is valid
+ * \var UBXHUIUTCValid
+ * UTC parameter fields in this message are valid
+ * \var UBXHUIKlobValid
+ * Klobuchar parameter fields in this message are valid
+ */
+
+/*!
+ * \enum UBXINItmCfg
+ * \brief UBXINItmCfg implements Time mark configuration bitmask
+ * for #UBXAID_INI message.
+ * \var UBXINIfEdge
+ * Use falling edge (default rising)
+ * \var UBXINItm1
+ * Time mark on extint 1 (default extint 0)
+ * \var UBXINIf1
+ * Frequency on extint 1 (default extint 0)
+ */
+
+/*!
+ * \enum UBXINIFlags
+ * \brief UBXINIFlags implements INI flags bitmask
+ * for #UBXAID_INI message.
+ * \var UBXINIpos
+ * Position is valid
+ * \var UBXINItime
+ * Time is valid
+ * \var UBXINIclockD
+ * Clock drift data contains valid clock drift, must not be set together with clockF
+ * \var UBXINItp
+ * Use time pulse
+ * \var UBXINIclockF
+ * Clock drift data contains valid frequency, must not be set together with clockD
+ * \var UBXINIlla
+ * Position is given in lat/long/alt (default is ECEF)
+ * \var UBXINIaltInv
+ * Altitude is not valid, in case lla was set
+ * \var UBXINIprevTm
+ * Use time mark received before AID-INI message (default uses mark received after message)
+ * \var UBXINIutc
+ * Time is given as UTC date/time (default is GPS wno/tow)
+ */
+
+/*!
+ * \enum UBXANTFlags
+ * \brief UBXANTFlags implements ANT flags bitmask
+ * for #UBXCFG_ANT message.
+ * \var UBXANTsvcs
+ * Enable Antenna Supply Voltage Control Signal
+ * \var UBXANTscd
+ * Enable Short Circuit Detection
+ * \var UBXANTocd
+ * Enable Open Circuit Detection
+ * \var UBXANTpdwnOnSCD
+ * Power Down Antenna supply if Short Circuit is detected. (only in combination with Bit 1)
+ * \var UBXANTrecovery
+ * Enable automatic recovery from short state
+ */
+
+/*!
+ * \enum UBXCFGMask
+ * \brief UBXCFGMask implements CFG flags bitmask
+ * for #UBXCFG_CFG message and #UBXCFG_NVS.
+ * \var UBXCFGioPort
+ * Port Settings\n
+ * \note #UBXCFG_CFG only
+ * \var UBXCFGmsgConf
+ * Message Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGinfMsg
+ * INF Message Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGnavConf
+ * Navigation Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGrxmConf
+ * Receiver Manager Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGrinvConf
+ * Remote Inventory Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGantConf
+ * Antenna Configuration\n
+ * \note#UBXCFG_CFG only
+ * \var UBXCFGalm
+ * GPS Almanac data\n
+ * \note#UBXCFG_NVS only
+ * \var UBXCFGaopConf
+ * AOP data\n
+ * \note#UBXCFG_NVS only
+ */
+
+/*!
+ * \enum UBXCFGMask
+ * \brief UBXCFGMask implements CFG flags bitmask
+ * for #UBXCFG_CFG message and #UBXCFG_NVS.
+ * Mask selects the devices for #UBXCFG_CFG
+ * and #UBXCFG_NVS commands.
+ * \var UBXCFGdevBBR
+ * built-in battery-backed RAM
+ * \var UBXCFGdevFlash
+ * external flash memory
+ * \var UBXCFGdevEEPROM
+ * external EEPROM
+ * \var UBXCFGdevSpiFlash
+ * external SPI Flash
+ */
+
+/*!
+ * \enum UBXCFGTimepulses
+ * \brief UBXCFGTimepulses contains possible timepulse
+ * selections for #UBXCFG_TP5 message.
+ * \var UBXCFGTimepulse
+ * TIMEPULSE selection
+ * \var UBXCFGTimepulse2
+ * TIMEPULSE2 selection
+ */
+
+/*!
+ * \enum UBXCFGTimepulseFlags
+ * \brief UBXCFGTimepulseFlags implements timepulse flags
+ * for #UBXCFG_TP5 message.
+ * \var UBXCFGTimepulseActive
+ * if set enable time pulse; if pin assigned to another function, other function takes precedence
+ * \var UBXCFGTimepulseLockGpsFreq
+ * if set synchronize time pulse to GPS as soon as GPS time is valid, otherwise use local clock
+ * \var UBXCFGTimepulseLockedOtherSet
+ * if set use 'freqPeriodLock' and 'pulseLenRatioLock' as soon as GPS time is valid and 'freqPeriod' and
+ * 'pulseLenRatio' if GPS time is invalid,
+ * if flag is cleared 'freqPeriod' and 'pulseLenRatio' used regardless of GPS time
+ * \var UBXCFGTimepulseIsFreq
+ * if set 'freqPeriodLock' and 'freqPeriod' interpreted as frequency, otherwise interpreted as period
+ * \var UBXCFGTimepulseIsLenght
+ * if set 'pulseLenRatioLock' and 'pulseLenRatio' interpreted as pulse length, otherwise interpreted as duty cycle
+ * \var UBXCFGTimepulseAlignToTow
+ * align pulse to top of second (period time must be integer fraction of 1s)
+ * \var UBXCFGTimepulsePolarity
+ * pulse polarity:\n
+ * 0 = falling edge at top of second\n
+ * 1 = rising edge at top of second
+ * \var UBXCFGTimepulseGridUTSGPS
+ * timegrid to use:\n
+ * 0 = UTC\n
+ * 1 = GPS
+ */
+
+/*!
+ * \enum UBXCFGProtocolIds
+ * \brief UBXCFGProtocolIds
+ * Protocol Identifiers, identifying the output
+ * protocol for #UBXCFG_INF.
+ * \var UBXProtocol
+ * UBX Protocol
+ * \var UBXNMEAProtocol
+ * NMEA Protocol
+ */
+
+/*!
+ * \enum UBXGNSSIds
+ * \brief UBXGNSSIds
+ * GNSS identificators used for #UBXCFG_GNSS in #UBXCFG_GNSS_PART
+ * \var UBXGPS
+ * GPS
+ * \var UBXSBAS
+ * SBAS
+ * \var UBXQZSS
+ * QZSS
+ * \var UBXGLONASS
+ * GLONASS
+ */
+
+/*!
+ * \enum UBXCFGInfMsgMask
+ * \brief UBXCFGInfMsgMask implements
+ * bit mask, saying which information messages are enabled on each I/O port
+ * \var UBXInfError
+ * Error
+ * \var UBXInfWarning
+ * Warning
+ * \var UBXInfNotice
+ * Notice
+ * \var UBXInfDebug
+ * Debug
+ * \var UBXInfTest
+ * Test
+ */
+
+/*!
+ * \enum UBXITFMAntSetting
+ * \brief UBXITFMAntSetting implements possible antenna settings for
+ * #UBXCFG_ITFM in UBXCFG_ITFM::config2 part.
+ * \var UBXITFMAntUnknown
+ * Unknown
+ * \var UBXITFMAntPassive
+ * Passive
+ * \var UBXITFMAntActive
+ * Active
+ */
+
+/*!
+ * \enum UBXLOGFILTERFlags
+ * \brief UBXLOGFILTERFlags implements log filter flags bitmask for
+ * #UBXCFG_LOGFILTER
+ * \var UBXLOGFILTERRecordEnabled
+ * 1 = enable recording\n
+ * 0 = disable recording
+ * \var UBXLOGFILTERPsmOncePerWakupEnabled
+ * 1 = enable recording only one single position per PSM on/off mode wake up period\n
+ * 0 = disable once per wake up
+ * \var UBXLOGFILTERApplyAllFilterSettings
+ * 1 = apply all filter settings\n
+ * 0 = only apply recordEnabled
+ */
+
+/*!
+ * \enum UBXNAV5Mask
+ * \brief UBXNAV5Mask implements flags bitmask
+ * for #UBXCFG_NAV5 message
+ * \var UBXNAV5Dyn
+ * Apply dynamic model settings
+ * \var UBXNAV5MinEl
+ * Apply minimum elevation settings
+ * \var UBXNAV5PosFixMode
+ * Apply fix mode settings
+ * \var UBXNAV5DrLim
+ * Reserved
+ * \var UBXNAV5PosMask
+ * Apply position mask settings
+ * \var UBXNAV5TimeMask
+ * Apply time mask settings
+ * \var UBXNAV5StaticHoldMask
+ * Apply static hold settings
+ * \var UBXNAV5DgpsMask
+ * Apply DGPS settings.
+ */
+
+/*!
+ * \enum UBXNAV5Model
+ * \brief UBXNAV5Model
+ * enum describes dynamic platform models
+ * for #UBXCFG_NAV5 message
+ * \var UBXNAV5ModelPortable
+ * Portable
+ * \var UBXNAV5ModelStationary
+ * Stationary
+ * \var UBXNAV5ModelPedestrian
+ * Pedestrian
+ * \var UBXNAV5ModelAutomotive
+ * Automotive
+ * \var UBXNAV5ModelSea
+ * Sea
+ * \var UBXNAV5ModelAirborne1g
+ * Airborne1g
+ * \var UBXNAV5ModelAirborne2g
+ * Airborne2g
+ * \var UBXNAV5ModelAirborne4g
+ * Airborne4g
+ */
+
+/*!
+ * \enum UBXNAV5FixMode
+ * \brief UBXNAV5FixMode
+ * enum describes position fixing mode
+ * for #UBXCFG_NAV5 message
+ * \var UBXNAV5Fix2DOnly
+ * 2D Only
+ * \var UBXNAV5Fix3DOnly
+ * 3D Only
+ * \var UBXNAV5FixAuto2D3D
+ * Auto 2D/3D
+ */
+
+/*!
+ * \enum UBXNAVX5Mask
+ * \brief UBXNAVX5Mask
+ * implements flags bitmask
+ * for #UBXCFG_NAVX5 message
+ * \var UBXNAVX5AopMinMax
+ * Apply min/max SVs settings
+ * \var UBXNAVX5AopMinCno
+ * Apply minimum C/N0 setting
+ * \var UBXNAVX5AopInitial3dfix
+ * Apply initial 3D fix settings
+ * \var UBXNAVX5AopWknRoll
+ * Apply GPS weeknumber rollover settings
+ * \var UBXNAVX5AopPPP
+ * Apply PPP flag\n
+ * \note Only supported on certain product variants
+ * \var UBXNAVX5Aop
+ * Apply useAOP flag and aopOrbMaxErr setting (AssistNow Autonomous)
+ */
+
+/*!
+ * \enum UBXNMEAFilter
+ * \brief UBXNMEAFilter
+ * implements NMEA message filter bitmask
+ * for #UBXCFG_NMEA
+ * \var UBXNMEAPosFilter
+ * Enable position output for failed or invalid fixes
+ * \var UBXNMEAMskPosFilter
+ * Enable position output for invalid fixes
+ * \var UBXNMEATimeFilter
+ * Enable time output for invalid times
+ * \var UBXNMEADateFilter
+ * Enable date output for invalid dates
+ * \var UBXNMEAGPSOnlyFilter
+ * Restrict output to GPS satellites only
+ * \var UBXNMEATrackFilter
+ * Enable COG output even if COG is frozen
+ */
+
+/*!
+ * \enum UBXNMEAVersion
+ * \brief UBXNMEAVersion
+ * describes supported NMEA protocol version
+ * \var UBXNMEAVersion23
+ * NMEA version 2.3
+ * \var UBXNMEAVersion21
+ * NMEA version 2.1
+ */
+
+/*!
+ * \enum UBXNMEAFlags
+ * \brief UBXNMEAFlags
+ * implements flags bitmask for #UBXCFG_NMEA
+ * \var UBXNMEACompatFlag
+ * enable compatibility mode.\n
+ * This might be needed for certain applications when customer's NMEA parser expects a fixed number of digits in
+ * position coordinates
+ * \var UBXNMEAConsiderFlag
+ * enable considering mode.
+ */
+
+/*!
+ * \enum UBXNMEAGNSSToFilter
+ * \brief UBXNMEAGNSSToFilter
+ * implements bitmask to filters out satellites based
+ * on their GNSS.
+ * \var UBXNMEAGPSFilter
+ * Disable reporting of GPS satellites
+ * \var UBXNMEASBASFilter
+ * Disable reporting of SBAS satellites
+ * \var UBXNMEAQZSSFilter
+ * Disable reporting of QZSS satellites
+ * \var UBXNMEAGLONASSFilter
+ * Disable reporting of GLONASS satellites
+ */
+
+/*!
+ * \enum UBXNMEASVNumbering
+ * \brief UBXNMEASVNumbering
+ *
+ * \var UBXNMEASVNumStrict
+ * Satellites are not output
+ * \var UBXNMEASVNumExtended
+ * Use UBX proprietary numbering
+ */
+
+/*!
+ * \enum UBXNMEATalkerIds
+ * \brief UBXNMEATalkerIds
+ *
+ * \var UBXNMEATalkerNotOverriden
+ * Main Talker ID is not overridden
+ * \var UBXNMEATalkerGP
+ * Set main Talker ID to 'GP'
+ * \var UBXNMEATalkerGL
+ * Set main Talker ID to 'GL'
+ * \var UBXNMEATalkerGN
+ * Set main Talker ID to 'GN'
+ */
+
+/*!
+ * \enum UBXNMEAGSVTalkerIds
+ * \brief UBXNMEAGSVTalkerIds
+ *
+ * \var UBXNMEAGSVTalkerGNSSSpecific
+ * Use GNSS specific Talker ID (as defined by NMEA)
+ * \var UBXNMEAGSVTalkerMain
+ * Use the main Talker ID
+ */
+
+/*!
+ * \enum UBXPM2LimitPeakCurrent
+ * \brief UBXPM2LimitPeakCurrent
+ *
+ * \var UBXPM2LimitCurrentDisabled
+ * disabled
+ * \var UBXPM2LimitCurrentEnabled
+ * enabled, peak current is limited
+ */
+
+/*!
+ * \enum UBXPM2Mode
+ * \brief UBXPM2Mode
+ *
+ * \var UBXPM2OnOffOperation
+ * ON/OFF operation
+ * \var UBXPM2CyclicTrackOperation
+ * Cyclic tracking operation
+ */
+
+
+/*!
+ * \enum UBXPRTModeCharLen
+ * \brief UBXPRTModeCharLen used for #UBXCFG_PRT
+ *
+ * \var UBXPRTMode5BitCharLen
+ * 5bit \n
+ * \note Not supported
+ * \var UBXPRTMode6BitCharLen
+ * 6bit\n
+ * \note Not supported
+ * \var UBXPRTMode7BitCharLen
+ * 7bit\n
+ * \note Supported only with parity
+ * \var UBXPRTMode8BitCharLen
+ * 8bit
+ */
+
+/*!
+ * \enum UBXPRTModeParity
+ * \brief UBXPRTModeParity used for #UBXCFG_PRT
+ *
+ * \var UBXPRTModeEvenParity
+ * Even Parity
+ * \var UBXPRTModeOddParity
+ * Odd Parity
+ * \var UBXPRTModeNoParity
+ * No Parity
+ * \var UBXPRTModeReserved
+ * Reserved\n
+ * \note Exclude this member from target value
+ */
+
+/*!
+ * \enum UBXPRTModeStopBits
+ * \brief UBXPRTModeStopBits used for #UBXCFG_PRT
+ *
+ * \var UBXPRTMode1StopBit
+ * 1 Stop Bit
+ * \var UBXPRTMode1dot5StopBit
+ * 1.5 Stop Bit
+ * \var UBXPRTMode2StopBit
+ * 2 Stop Bit
+ * \var UBXPRTMode0dot5StopBit
+ * 0.5 Stop Bit
+ */
+
+/*!
+ * \enum UBXPRTInProtoMask
+ * \brief UBXPRTInProtoMask used for #UBXCFG_PRT
+ *
+ * \var UBXPRTInProtoInUBX
+ * UBX protocol
+ * \var UBXPRTInProtoInNMEA
+ * NMEA protocol
+ * \var UBXPRTInProtoInRTCM
+ * RTCM protocol
+ */
+
+/*!
+ * \enum UBXPRTOutProtoMask
+ * \brief UBXPRTOutProtoMask used for #UBXCFG_PRT
+ *
+ * \var UBXPRTOutProtoOutUBX
+ * UBX protocol
+ * \var UBXPRTOutProtoOutNMEA
+ * NMEA protocol
+ */
+
+/*!
+ * \enum UBXPRTFlags
+ * \brief UBXPRTFlags used for #UBXCFG_PRT
+ *
+ * \var UBXPRTExtendedTxTimeout
+ * Extended TX timeout: if set, the port will timeout if allocated TX memory >=4 kB and no activity for 1.5s
+ */
+
+/*!
+ * \enum UBXPRTSPIMode
+ * \brief UBXPRTSPIMode used for #UBXCFG_PRT
+ *
+ * \var UBXPRTSPIMode0
+ * 0 SPI Mode 0: CPOL = 0, CPHA = 0
+ * \var UBXPRTSPIMode1
+ * SPI Mode 1: CPOL = 0, CPHA = 1
+ * \var UBXPRTSPIMode2
+ * SPI Mode 2: CPOL = 1, CPHA = 0
+ * \var UBXPRTSPIMode3
+ * SPI Mode 3: CPOL = 1, CPHA = 1
+ */
+
+/*!
+ * \enum UBXRINVFlags
+ * \brief UBXRINVFlags used for #UBXCFG_RINV
+ *
+ * \var UBXRINVDump
+ * Dump data at startup. Does not work if flag binary is set.
+ * \var UBXRINVBinary
+ * Data is binary
+ */
+
+/*!
+ * \enum UBXRXMLowPowerModes
+ * \brief UBXRXMLowPowerModes used for #UBXCFG_RXM
+ *
+ * \var UBXRXMContinousMode
+ * Continous Mode
+ * \var UBXRXMPowerSaveMode
+ * Power Save Mode
+ */
+
+/*!
+ * \enum UBXSBASModes
+ * \brief UBXSBASModes used for #UBXCFG_SBAS
+ *
+ * \var UBXSBASModeEnabled
+ * SBAS Enabled (1) / Disabled (0)
+ * \var UBXSBASModeTest
+ * SBAS Testbed: Use data anyhow (1) / Ignore data when in Test Mode (SBAS Msg 0)
+ */
+
+/*!
+ * \enum UBXSBASUsage
+ * \brief UBXSBASUsage
+ *
+ * \var UBXSBASUsageRange
+ * Use SBAS GEOs as a ranging source (for navigation)
+ * \var UBXSBASUsageDiffCorr
+ * Use SBAS Differential Corrections
+ * \var UBXSBASUsageIntegrity
+ * Use SBAS Integrity Information
+ */
+
+/*!
+ * \enum UBXSBASScanModes2
+ * \brief UBXSBASScanModes2
+ *
+ * \var UBXSBASScanModePRN152
+ * \var UBXSBASScanModePRN153
+ * \var UBXSBASScanModePRN154
+ * \var UBXSBASScanModePRN155
+ * \var UBXSBASScanModePRN156
+ * \var UBXSBASScanModePRN157
+ * \var UBXSBASScanModePRN158
+ */
+
+/*!
+ * \enum UBXSBASScanModes1
+ * \brief UBXSBASScanModes1
+ *
+ * \var UBXSBASScanModePRN120
+ * \var UBXSBASScanModePRN121
+ * \var UBXSBASScanModePRN122
+ * \var UBXSBASScanModePRN123
+ * \var UBXSBASScanModePRN124
+ * \var UBXSBASScanModePRN125
+ * \var UBXSBASScanModePRN126
+ * \var UBXSBASScanModePRN127
+ * \var UBXSBASScanModePRN128
+ * \var UBXSBASScanModePRN129
+ * \var UBXSBASScanModePRN130
+ * \var UBXSBASScanModePRN131
+ * \var UBXSBASScanModePRN132
+ * \var UBXSBASScanModePRN133
+ * \var UBXSBASScanModePRN134
+ * \var UBXSBASScanModePRN135
+ * \var UBXSBASScanModePRN136
+ * \var UBXSBASScanModePRN137
+ * \var UBXSBASScanModePRN138
+ * \var UBXSBASScanModePRN139
+ * \var UBXSBASScanModePRN140
+ * \var UBXSBASScanModePRN141
+ * \var UBXSBASScanModePRN142
+ * \var UBXSBASScanModePRN143
+ * \var UBXSBASScanModePRN144
+ * \var UBXSBASScanModePRN145
+ * \var UBXSBASScanModePRN146
+ * \var UBXSBASScanModePRN147
+ * \var UBXSBASScanModePRN148
+ * \var UBXSBASScanModePRN149
+ * \var UBXSBASScanModePRN150
+ * \var UBXSBASScanModePRN151
+ */
+
+/*!
+ * \enum UBXUSBFlags
+ * \brief UBXUSBFlags
+ *
+ * \var USBFlagReEnum
+ * force re-enumeration
+ * \var USBFlagPowerMode
+ * self-powered (1), bus-powered (0)
+ */
+
+/*!
+ * \enum UBXLOGCfg
+ * \brief UBXLOGCfg
+ * \var UBXLOGCfgCircular
+ * Log is circular (new entries overwrite old ones in a full log) if this bit set
+ */
+
+/*!
+ * \enum UBXLOGSize
+ * \brief UBXLOGSize
+ *
+ * \var UBXLOGMaximumSafeSize
+ * Maximum safe size\n
+ * \note Ensures that logging will not be interupted and enough space
+ * will be left avaiable for all other uses of the filestore
+ * \var UBXLOGMinimunSize
+ * Minimun size
+ * \var UBXLOGUserDefined
+ * User defined\n
+ * \note See UBXLOG_CREATE::userDefinedSize
+ */
+
+/*!
+ * \enum UBXLOGStatus
+ * \brief UBXLOGStatus
+ *
+ * \var UBXLOGStatusRecording
+ * Log entry recording is currently turned on
+ * \var UBXLOGStatusInactive
+ * Logging system not active - no log present
+ * \var UBXLOGStatusCircular
+ * The current log is circular
+ */
+
+/*!
+ * \enum UBXRETRIEVEPOSFixType
+ * \brief UBXRETRIEVEPOSFixType
+ *
+ * \var UBXRETRIEVEPOS2DFix
+ * 2D-Fix
+ * \var UBXRETRIEVEPOS3DFix
+ * 3D-Fix
+ */
+
+/*!
+ * \enum UBXRXRFlags
+ * \brief UBXRXRFlags
+ *
+ * \var UBXRXRAwake
+ * not in Backup mode
+ */
+
+/*!
+ * \enum UBXAOPStatus
+ * \brief UBXAOPStatus
+ *
+ * \var UBXAOPStatusIdle
+ * AOP idle
+ * \var UBXAOPStatusRunning
+ * AOP running
+ */
+
+/*!
+ * \enum UBXAOPCfg
+ * \brief UBXAOPCfg
+ *
+ * \var UBXAOPCfgUseAOP
+ * AOP enabled flag
+ */
+
+/*!
+ * \enum UBXGPSFix
+ * \brief UBXGPSFix
+ *
+ * \var UBXGPSNoFix
+ * No Fix
+ * \var UBXGPSDeadReckoning
+ * Dead Reckoning only
+ * \var UBXGPS2DFix
+ * 2D-Fix
+ * \var UBXGPS3DFix
+ * 3D-Fix
+ * \var UBXGPSGNSSDeadReckoning
+ * GNSS + dead reckoning combined
+ * \var UBXGPSTimeOnlyFix
+ * Time only fix
+ */
+
+/*!
+ * \enum UBXPVTValid
+ * \brief UBXPVTValid
+ *
+ * \var UBXPVTValidDate
+ * Valid UTC Date
+ * \var UBXPVTValidTime
+ * Valid UTC Time of Day
+ * \var UBXPVTFullyResolved
+ * UTC Time of Day has been fully resolved (no seconds uncertainty)
+ */
+
+/*!
+ * \enum UBXPVTPSMStates
+ * \brief UBXPVTPSMStates
+ *
+ * \var UBXPVTPSMStateNA
+ * n/a (i.e no PSM is active)
+ * \var UBXPVTPSMStateEnabled
+ * Enabled (an intermediate state before Acquisition state)
+ * \var UBXPVTPSMStateAcquisition
+ * Acquisition
+ * \var UBXPVTPSMStateTracking
+ * Tracking
+ * \var UBXPVTPSMStatePowerOptim
+ * Power optimized tracking
+ * \var UBXPVTPSMStateInactive
+ * Inactive
+ */
+
+/*!
+ * \enum UBXSBASService
+ * \brief UBXSBASService
+ *
+ * \var UBXSBASServiceRanging
+ * Service ranging
+ * \var UBXSBASServiceCorrections
+ * Service corrections
+ * \var UBXSBASServiceIntegrity
+ * Service integrity
+ * \var UBXSBASServiceTestmode
+ * Service in testmode
+ */
+
+/*!
+ * \enum UBXSBASSOLFlags
+ * \brief UBXSBASSOLFlags
+ *
+{
+ * \var UBXSBASSOLGPSfixOK
+ * Fix within limits. Position and velocity valid and within DOP and ACC Masks.
+ * \var UBXSBASSOLDiffSoln
+ * DGPS used
+ * \var UBXSBASSOLWKNSet
+ * Valid GPS week number
+ * \var UBXSBASSOLTOWSet
+ * Valid GPS time of week (iTOW & fTOW)
+ */
+
+/*!
+ * \enum UBXSVINFOChipGen
+ * \brief UBXSVINFOChipGen
+ *
+ * \var UBXSVINFOAntarisChip
+ * Antaris, Antaris 4
+ * \var UBXSVINFOUBlox5Chip
+ * u-blox 5
+ * \var UBXSVINFOUBlox6Chip
+ * u-blox 6
+};
+
+/*!
+ * \enum UBXSVINFOFlags
+ * \brief UBXSVINFOFlags
+ *
+{
+ * \var UBXSVINFOFlagsSVUsed
+ * SV is used for navigation
+ * \var UBXSVINFOFlagsDiffCorr
+ * Differential correction data is available for this SV
+ * \var UBXSVINFOFlagsOrbitAvail
+ * Orbit information is available for this SV (Ephemeris or Almanac)
+ * \var UBXSVINFOFlagsOrbitEph
+ * Orbit information is Ephemeris
+ * \var UBXSVINFOFlagsUnhealthy
+ * SV is unhealthy / shall not be used
+ * \var UBXSVINFOFlagsOrbitAlm
+ * Orbit information is Almanac Plus
+ * \var UBXSVINFOFlagsOrbitAop
+ * Orbit information is AssistNow Autonomous
+ * \var UBXSVINFOFlagsSmoothed
+ * Carrier smoothed pseudorange used
+ */
+
+/*!
+ * \enum UBXSVINFOQualityId
+ * \brief UBXSVINFOQualityId
+ *
+ * \var UBXSVINFOQualityChannelIdle
+ * This channel is idle
+ * \var UBXSVINFOQualityChannelSearching
+ * Channel is searching
+ * \var UBXSVINFOQualitySignalAquired
+ * Signal aquired
+ * \var UBXSVINFOQualitySignalDetected
+ * Signal detected but unusable
+ * \var UBXSVINFOQualityCodeLockOnSignal
+ * Code Lock on Signal
+ * \var UBXSVINFOQualityCodeCarrierLocked
+ * Code and Carrier locked
+ */
+
+/*!
+ * \enum UBXTIMEGPSValidityFlags
+ * \brief UBXTIMEGPSValidityFlags
+ *
+ * \var UBXTIMEGPSTowValid
+ * Valid GPS time of week (iTOW & fTOW)
+ * \var UBXTIMEGPSWeekValid
+ * Valid GPS week number
+ * \var UBXTIMEGPSLeapSValid
+ * Valid GPS leap seconds
+ */
+
+/*!
+ * \enum UBXTIMEUTCValidityFlags
+ * \brief UBXTIMEUTCValidityFlags
+ *
+ * \var UBXTIMEUTCValidTOW
+ * Valid Time of Week
+ * \var UBXTIMEUTCValidWKN
+ * Valid Week Number
+ * \var UBXTIMEUTCValidUTC
+ * Valid UTC Time
+ */
+
+/*!
+ * \enum UBXPMREQFlags
+ * \brief UBXPMREQFlags
+ *
+ * \var UBXPMREQBackup
+ * The receiver goes into backup mode for a time period defined by duration
+ */
+
+/*!
+ * \enum UBXTM2FlagsMode
+ * \brief UBXTM2FlagsMode
+ *
+ * \var UBXTM2FlagsModeSingle
+ * Single mode
+ * \var UBXTM2FlagsModeRunning
+ * Running mode
+ */
+
+/*!
+ * \enum UBXTM2FlagsRun
+ * \brief UBXTM2FlagsRun
+ *
+ * \var UBXTM2FlagsRunArmed
+ * Armed
+ * \var UBXTM2FlagsRunStopped
+ * Stopped
+ */
+
+/*!
+ * \enum UBXTM2FlagsTimeBase
+ * \brief UBXTM2FlagsTimeBase
+ *
+ * \var UBXTM2FlagsTimeBaseReceiverTime
+ * Time base is Receiver Time
+ * \var UBXTM2FlagsTimeBaseGPS
+ * Time base is GPS
+ * \var UBXTM2FlagsTimeBaseUTC
+ * Time base is UTC
+ */
+
+/*!
+ * \enum UBXTM2FlagsUTC
+ * \brief UBXTM2FlagsUTC
+ *
+ * \var UBXTM2FlagsUTCNotAvailable
+ * UTC not available
+ * \var UBXTM2FlagsUTCAvailable
+ * UTC available
+ */
+
+/*!
+ * \enum UBXTM2FlagsTime
+ * \brief UBXTM2FlagsTime
+ *
+ * \var UBXTM2FlagsTimeInvalid
+ * Time is not valid
+ * \var UBXTM2FlagsTimeValid
+ * Time is valid (Valid GPS fix)
+ */
+
+/*!
+ * \enum UBXTPFlags
+ * \brief UBXTPFlags
+ *
+ * \var UBXTPTimeBaseUTC
+ *  If is set time base is UTC. If not set time base is GPS
+ * \var UBXTPUTCAvailable
+ * UTC available
+ */
+
+/*!
+ * \enum UBXVRFYFlagsSource
+ * \brief UBXVRFYFlagsSource
+ *
+ * \var UBXVRFYNoTimeAidingDone
+ * No time aiding done
+ * \var UBXVRFYSourceRTC
+ * Source was RTC
+ * \var UBXVRFYSourceAID_INI
+ * Source was AID-INI
+ */
+
+/*! \struct UBXHdr
+ *  \brief This structure is UBX message header
+ *  \var UBXHdr::msgClass
+ *       Message class. A class is a grouping of messages which are related to each other.
+ *       See #UBXMessageClass
+ *  \var UBXHdr::msgId
+ *       Message identificator. See #UBXMessageId
+ *  \var UBXHdr::length
+ *       Length is defined as being the length of the payload, only. It does not include
+ *       Sync Chars, Length Field, Class, ID or CRC fields. The number format of the
+ *       length field is an unsigned 16-Bit integer in Little Endian Format.
+ */
+
+/*! \struct UBXMsg
+ *  \brief This structure is base for every message in
+ *       UBX protocol
+ *  \var UBXMsg::preamble
+ *       preable of UBX message is allways 0xB562
+ *  \var UBXMsg::hdr
+ *       UBX message header of #UBXHdr type.
+ *  \var UBXMsg::payload
+ *       Union of #UBXMsgs type that contains all possible payloads
+ *       for current protocol version
+ */
+
+/*! \struct UBXMsgBuffer
+ *  \brief This structure is used by every message getters
+ *         to wrap returned message data.
+ *  \var UBXMsgBuffer::size
+ *       size of buffer
+ *  \var UBXMsgBuffer::data
+ *       pointer to data heap
+ */
+
+/*! \union UBXMsgs
+ *  \brief This union contains all possible payloads
+ *         in current protocol version
+ */
+
+/*! \struct UBXAlpFileInfo
+ *  \brief This structure contains data of alpfile
+ *       It's simple wrapper on byte array with file id
+ *       specification
+ *  \var UBXAlpFileInfo::fileId
+ *       File id used to indetificate part appurtenance
+ *  \var UBXMsg::alpData
+ *       Part of file data
+ *  \var UBXMsg::dataSize
+ *       Size of part in bytes
+ */
+
+/*!
+ * \struct UBXCFG_ITFM
+ * \brief The UBXCFG_ITFM struct
+ * \var struct UBXITFMConfig config;
+ * \var struct UBXITFMConfig2 config2;
+ */

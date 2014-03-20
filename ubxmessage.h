@@ -85,209 +85,170 @@ typedef double         UBXR8_t;
 typedef char           UBXCH_t;
 #endif
 
-/*!
- * \enum UBXMessageClass
- * \brief UBXMessageClass is a grouping of messages which are related to each other.
- *        The following table lists all the current message classes.
- */
 enum UBXMessageClass
 {
-    UBXMsgClassNAV = 0x01, //!< Navigation Results: Position, Speed, Time, Acc, Heading, DOP, SVs used
-    UBXMsgClassRXM = 0x02, //!< Receiver Manager Messages: Satellite Status, RTC Status
-    UBXMsgClassINF = 0x04, //!< Information Messages: Printf-Style Messages, with IDs such as Error, Warning, Notice
-    UBXMsgClassACK = 0x05, //!< Ack/Nack Messages: as replies to CFG Input Messages
-    UBXMsgClassCFG = 0x06, //!< Configuration Input Messages: Set Dynamic Model, Set DOP Mask, Set Baud Rate, etc.
-    UBXMsgClassMON = 0x0A, //!< Monitoring Messages: Comunication Status, CPU Load, Stack Usage, Task Status
-    UBXMsgClassAID = 0x0B, //!< AssistNow Aiding Messages: Ephemeris, Almanac, other A-GPS data input
-    UBXMsgClassTIM = 0x0D, //!< Timing Messages: Time Pulse Output, Timemark Results
-    UBXMsgClassLOG = 0x21, //!< Logging Messages: Log creation, deletion, info and retrieval
-    UBXMsgClassInvalid = 255 //!< Default invalid message class
+    UBXMsgClassNAV = 0x01,
+    UBXMsgClassRXM = 0x02,
+    UBXMsgClassINF = 0x04,
+    UBXMsgClassACK = 0x05,
+    UBXMsgClassCFG = 0x06,
+    UBXMsgClassMON = 0x0A,
+    UBXMsgClassAID = 0x0B,
+    UBXMsgClassTIM = 0x0D,
+    UBXMsgClassLOG = 0x21,
+    UBXMsgClassInvalid = 255
 };
 
-/*!
- *  \enum UBXMessageId
- *  \brief UBXMessageId is a  type of messages
- */
 enum UBXMessageId
 {
-    UBXMsgIdACK_NACK = 0x00, //!< Message Acknowledged
-    UBXMsgIdACK_ACK = 0x01, //!< Message Not-Acknowledged
+    UBXMsgIdACK_NACK = 0x00,
+    UBXMsgIdACK_ACK = 0x01,
 
-    UBXMsgIdAID_ALM = 0x30, //!< GPS Aiding Almanac Data
-    UBXMsgIdAID_ALPSRV = 0x32, //!< AlmanacPlus data
-    UBXMsgIdAID_ALP = 0x50, //!< ALP file data transfer
-    UBXMsgIdAID_AOP = 0x33, //!< AssistNow Autonomous data
-    UBXMsgIdAID_DATA = 0x10, //!< GPS Initial Aiding Data
-    UBXMsgIdAID_EPH = 0x31, //!< GPS Aiding Ephemeris Data
-    UBXMsgIdAID_HUI = 0x02, //!< GPS Health, UTC and ionosphere parameters
-    UBXMsgIdAID_INI = 0x01, //!< Aiding position, time, frequency, clock drift
-    UBXMsgIdAID_REQ = 0x00, //!< Sends a poll (AID-DATA) for all GPS Aiding Data
+    UBXMsgIdAID_ALM = 0x30,
+    UBXMsgIdAID_ALPSRV = 0x32,
+    UBXMsgIdAID_ALP = 0x50,
+    UBXMsgIdAID_AOP = 0x33,
+    UBXMsgIdAID_DATA = 0x10,
+    UBXMsgIdAID_EPH = 0x31,
+    UBXMsgIdAID_HUI = 0x02,
+    UBXMsgIdAID_INI = 0x01,
+    UBXMsgIdAID_REQ = 0x00,
 
-    UBXMsgIdCFG_ANT = 0x13, //!< Antenna Control Settings
-    UBXMsgIdCFG_CFG = 0x09, //!< Clear, Save and Load configurations
-    UBXMsgIdCFG_DAT = 0x06, //!< Datum Setting
-    UBXMsgIdCFG_GNSS = 0x3E, //!< GNSS system configuration
-    UBXMsgIdCFG_INF = 0x02, //!< Information message configuration
-    UBXMsgIdCFG_ITFM = 0x39, //!< Jamming/Interference Monitor configuration.
-    UBXMsgIdCFG_LOGFILTER = 0x47, //!< Data Logger Configuration
-    UBXMsgIdCFG_MSG = 0x01, //!< Message Configuration
-    UBXMsgIdCFG_NAV5 = 0x24, //!< Navigation Engine Settings
-    UBXMsgIdCFG_NAVX5 = 0x23, //!< Navigation Engine Expert Settings
-    UBXMsgIdCFG_NMEA = 0x17, //!< NMEA protocol configuration
-    UBXMsgIdCFG_NVS = 0x22, //!< Clear, Save and Load non-volatile storage data
-    UBXMsgIdCFG_PM2 = 0x3B, //!< Extended Power Management configuration
-    UBXMsgIdCFG_PRT = 0x00, //!< Ports Configuration
-    UBXMsgIdCFG_RATE = 0x08, //!< Navigation/Measurement Rate Settings
-    UBXMsgIdCFG_RINV = 0x34, //!< Contents of Remote Inventory
-    UBXMsgIdCFG_RST = 0x04, //!< Reset Receiver / Clear Backup Data Structures
-    UBXMsgIdCFG_RXM = 0x11, //!< RXM configuration
-    UBXMsgIdCFG_SBAS = 0x16, //!< SBAS Configuration
-    UBXMsgIdCFG_TP5 = 0x31, //!< Time Pulse Parameters
-    UBXMsgIdCFG_USB = 0x1B, //!< USB Configuration
+    UBXMsgIdCFG_ANT = 0x13,
+    UBXMsgIdCFG_CFG = 0x09,
+    UBXMsgIdCFG_DAT = 0x06,
+    UBXMsgIdCFG_GNSS = 0x3E,
+    UBXMsgIdCFG_INF = 0x02,
+    UBXMsgIdCFG_ITFM = 0x39,
+    UBXMsgIdCFG_LOGFILTER = 0x47,
+    UBXMsgIdCFG_MSG = 0x01,
+    UBXMsgIdCFG_NAV5 = 0x24,
+    UBXMsgIdCFG_NAVX5 = 0x23,
+    UBXMsgIdCFG_NMEA = 0x17,
+    UBXMsgIdCFG_NVS = 0x22,
+    UBXMsgIdCFG_PM2 = 0x3B,
+    UBXMsgIdCFG_PRT = 0x00,
+    UBXMsgIdCFG_RATE = 0x08,
+    UBXMsgIdCFG_RINV = 0x34,
+    UBXMsgIdCFG_RST = 0x04,
+    UBXMsgIdCFG_RXM = 0x11,
+    UBXMsgIdCFG_SBAS = 0x16,
+    UBXMsgIdCFG_TP5 = 0x31,
+    UBXMsgIdCFG_USB = 0x1B,
 
-    UBXMsgIdINF_DEBUG = 0x04, //!< ASCII String output, indicating debug output
-    UBXMsgIdINF_ERROR = 0x00, //!< ASCII String output, indicating an error
-    UBXMsgIdINF_NOTICE = 0x02, //!< ASCII String output, with informational contents
-    UBXMsgIdINF_TEST = 0x03, //!< ASCII String output, indicating test output
-    UBXMsgIdINF_WARNING = 0x01, //!< ASCII String output, indicating a warning
+    UBXMsgIdINF_DEBUG = 0x04,
+    UBXMsgIdINF_ERROR = 0x00,
+    UBXMsgIdINF_NOTICE = 0x02,
+    UBXMsgIdINF_TEST = 0x03,
+    UBXMsgIdINF_WARNING = 0x01,
 
-    UBXMsgIdLOG_CREATE = 0x07, //!< Create Log File
-    UBXMsgIdLOG_ERASE = 0x03, //!< Erase Logged Data
-    UBXMsgIdLOG_FINDTIME = 0x0E, //!< Find the index of the first log entry <= given time
-    UBXMsgIdLOG_INFO = 0x08, //!< Log information
-    UBXMsgIdLOG_RETRIEVEPOS = 0x0B, //!< Position fix log entry
-    UBXMsgIdLOG_RETRIEVESTRING = 0x0D, //!< Byte string log entry
-    UBXMsgIdLOG_RETRIEVE = 0x09, //!< Request log data
-    UBXMsgIdLOG_STRING = 0x04, //!< Store arbitrary string in on-board Flash memory
+    UBXMsgIdLOG_CREATE = 0x07,
+    UBXMsgIdLOG_ERASE = 0x03,
+    UBXMsgIdLOG_FINDTIME = 0x0E,
+    UBXMsgIdLOG_INFO = 0x08,
+    UBXMsgIdLOG_RETRIEVEPOS = 0x0B,
+    UBXMsgIdLOG_RETRIEVESTRING = 0x0D,
+    UBXMsgIdLOG_RETRIEVE = 0x09,
+    UBXMsgIdLOG_STRING = 0x04,
 
-    UBXMsgIdMON_HW2 = 0x0B, //!< Extended Hardware Status
-    UBXMsgIdMON_HW = 0x09, //!< Hardware Status
-    UBXMsgIdMON_IO = 0x02, //!< I/O Subsystem Status
-    UBXMsgIdMON_MSGPP = 0x06, //!< Message Parse and Process Status
-    UBXMsgIdMON_RXBUF = 0x07, //!< Receiver Buffer Status
-    UBXMsgIdMON_RXR = 0x21, //!< Receiver Status Information
-    UBXMsgIdMON_TXBUF = 0x08, //!< Transmitter Buffer Status
-    UBXMsgIdMON_VER = 0x04, //!< Receiver/Software Version
+    UBXMsgIdMON_HW2 = 0x0B,
+    UBXMsgIdMON_HW = 0x09,
+    UBXMsgIdMON_IO = 0x02,
+    UBXMsgIdMON_MSGPP = 0x06,
+    UBXMsgIdMON_RXBUF = 0x07,
+    UBXMsgIdMON_RXR = 0x21,
+    UBXMsgIdMON_TXBUF = 0x08,
+    UBXMsgIdMON_VER = 0x04,
 
-    UBXMsgIdNAV_AOPSTATUS = 0x60, //!< AssistNow Autonomous Status
-    UBXMsgIdNAV_CLOCK = 0x22, //!< Clock Solution
-    UBXMsgIdNAV_DGPS = 0x31, //!< DGPS Data Used for NAV
-    UBXMsgIdNAV_DOP = 0x04, //!< Dilution of precision
-    UBXMsgIdNAV_POSECEF = 0x01, //!< Position Solution in ECEF
-    UBXMsgIdNAV_POSLLH = 0x02, //!< Geodetic Position Solution
-    UBXMsgIdNAV_PVT = 0x07, //!< Navigation Position Velocity Time Solution
-    UBXMsgIdNAV_SBAS = 0x32, //!< SBAS Status Data
-    UBXMsgIdNAV_SOL = 0x06, //!< Navigation Solution Information
-    UBXMsgIdNAV_STATUS = 0x03, //!< Receiver Navigation Status
-    UBXMsgIdNAV_SVINFO = 0x30, //!< Space Vehicle Information
-    UBXMsgIdNAV_TIMEGPS = 0x20, //!< GPS Time Solution
-    UBXMsgIdNAV_TIMEUTC = 0x21, //!< UTC Time Solution
-    UBXMsgIdNAV_VELECEF = 0x11, //!< Velocity Solution in ECEF
-    UBXMsgIdNAV_VELNED = 0x12, //!< Velocity Solution in NED
+    UBXMsgIdNAV_AOPSTATUS = 0x60,
+    UBXMsgIdNAV_CLOCK = 0x22,
+    UBXMsgIdNAV_DGPS = 0x31,
+    UBXMsgIdNAV_DOP = 0x04,
+    UBXMsgIdNAV_POSECEF = 0x01,
+    UBXMsgIdNAV_POSLLH = 0x02,
+    UBXMsgIdNAV_PVT = 0x07,
+    UBXMsgIdNAV_SBAS = 0x32,
+    UBXMsgIdNAV_SOL = 0x06,
+    UBXMsgIdNAV_STATUS = 0x03,
+    UBXMsgIdNAV_SVINFO = 0x30,
+    UBXMsgIdNAV_TIMEGPS = 0x20,
+    UBXMsgIdNAV_TIMEUTC = 0x21,
+    UBXMsgIdNAV_VELECEF = 0x11,
+    UBXMsgIdNAV_VELNED = 0x12,
 
-    UBXMsgIdRXM_ALM = 0x30, //!< GPS Constellation Almanac Data
-    UBXMsgIdRXM_EPH = 0x31, //!< GPS Constellation Ephemeris Data
-    UBXMsgIdRXM_PMREQ = 0x41, //!< Requests a Power Management task
-    UBXMsgIdRXM_RAW = 0x10, //!< Raw Measurement Data
-    UBXMsgIdRXM_SFRB = 0x11, //!< Subframe Buffer
-    UBXMsgIdRXM_SVSI = 0x20, //!< SV Status Info
+    UBXMsgIdRXM_ALM = 0x30,
+    UBXMsgIdRXM_EPH = 0x31,
+    UBXMsgIdRXM_PMREQ = 0x41,
+    UBXMsgIdRXM_RAW = 0x10,
+    UBXMsgIdRXM_SFRB = 0x11,
+    UBXMsgIdRXM_SVSI = 0x20,
 
-    UBXMsgIdTIM_TM2 = 0x03, //!< Time mark data
-    UBXMsgIdTIM_TP = 0x01, //!< Time Pulse Timedata
-    UBXMsgIdTIM_VRFY = 0x06, //!< Sourced Time Verification
+    UBXMsgIdTIM_TM2 = 0x03,
+    UBXMsgIdTIM_TP = 0x01,
+    UBXMsgIdTIM_VRFY = 0x06,
 
-    MsgIdInvalid = 0xFF //!< Default invalid message identificator
+    MsgIdInvalid = 0xFF
 };
 
-/*!
- * \enum UBXResetMode
- * \brief UBXResetMode describes possible reset modes
- *        for #UBXCFG_RST message.
- */
 enum UBXResetMode
 {
-    UBXHardwareReset = 0x00, //!< Hardware reset (Watchdog) immediately
-    UBXControlledReset = 0x01, //!< Controlled Software reset
-    UBXControlledResetGNSSOnly = 0x02, //!< Controlled Software reset (GNSS only)
-    UBXHardwareResetAfterShutdown = 0x04, //!< Hardware reset (Watchdog) after
-    UBXControlledGNSSStop = 0x08, //!< Controlled GNSS stop
-    UBXControlledGNSSStart = 0x09 //!< Controlled GNSS start
+    UBXHardwareReset = 0x00,
+    UBXControlledReset = 0x01,
+    UBXControlledResetGNSSOnly = 0x02,
+    UBXHardwareResetAfterShutdown = 0x04,
+    UBXControlledGNSSStop = 0x08,
+    UBXControlledGNSSStart = 0x09
 };
 
-/*!
- * \enum UBXBBRSpecialSets
- * \brief UBXBBRSpecialSets implements special sets for
- *        #UBXCFG_RST message.
- */
 enum UBXBBRSpecialSets
 {
-    UBXBBRHotstart = 0x0000, //!< Hotstart
-    UBXBBRWarmstart = 0x0001, //!< Warmstart
-    UBXBBRColdstart = 0xFFFF //!< Coldstart
+    UBXBBRHotstart = 0x0000,
+    UBXBBRWarmstart = 0x0001,
+    UBXBBRColdstart = 0xFFFF
 };
 
-/*!
- * \enum UBXBBRMask
- * \brief UBXBBRMask implements members for BBR bitmask
- *        for #UBXCFG_RST message.
- */
 enum UBXBBRMask
 {
-    UBXBBReph = 1, //!< Ephemeris
-    UBXBBRalm = 1 << 1, //!< Almanac
-    UBXBBRhealth = 1 << 2, //!< Health
-    UBXBBRklob = 1 << 3, //!< Klobuchar parameters
-    UBXBBRpos = 1 << 4, //!< Position
-    UBXBBRclkd = 1 << 5, //!< Clock Drift
-    UBXBBRosc = 1 << 6, //!< Oscillator Parameter
-    UBXBBRutc = 1 << 7, //!< UTC Correction + GPS Leap Seconds Parameters
-    UBXBBRrtc = 1 << 8, //!< RTC
-    UBXBBRsfdr = 1 << 11, //!< SFDR Parameters
-    UBXBBRvmon = 1 << 12, //!< SFDR Vehicle Monitoring Parameters
-    UBXBBRtct = 1 << 13, //!< TCT Parameters
-    UBXBBRaop = 1 << 15 //!< Autonomous Orbit Parameters
+    UBXBBReph = 1,
+    UBXBBRalm = 1 << 1,
+    UBXBBRhealth = 1 << 2,
+    UBXBBRklob = 1 << 3,
+    UBXBBRpos = 1 << 4,
+    UBXBBRclkd = 1 << 5,
+    UBXBBRosc = 1 << 6,
+    UBXBBRutc = 1 << 7,
+    UBXBBRrtc = 1 << 8,
+    UBXBBRsfdr = 1 << 11,
+    UBXBBRvmon = 1 << 12,
+    UBXBBRtct = 1 << 13,
+    UBXBBRaop = 1 << 15
 };
 
-/*!
- * \enum UBXHUIFlags
- * \brief UBXHUIFlags implements HUI flags bitmask
- *        for #UBXAID_HUI message.
- */
 enum UBXHUIFlags
 {
-    UBXHUIHealthValid = 1, //!< Healthmask field in this message is valid
-    UBXHUIUTCValid = 1 << 1, //!< UTC parameter fields in this message are valid
-    UBXHUIKlobValid = 1 << 2 //!< Klobuchar parameter fields in this message are valid
+    UBXHUIHealthValid = 1,
+    UBXHUIUTCValid = 1 << 1,
+    UBXHUIKlobValid = 1 << 2
 };
 
-/*!
- * \enum UBXINItmCfg
- * \brief UBXINItmCfg implements Time mark configuration bitmask
- *        for #UBXAID_INI message.
- */
 enum UBXINItmCfg
 {
-    UBXINIfEdge = 1 << 1, //!< Use falling edge (default rising)
-    UBXINItm1 = 1 << 4, //!< Time mark on extint 1 (default extint 0)
-    UBXINIf1 = 1 << 6 //!< Frequency on extint 1 (default extint 0)
+    UBXINIfEdge = 1 << 1,
+    UBXINItm1 = 1 << 4,
+    UBXINIf1 = 1 << 6
 };
 
-/*!
- * \enum UBXINIFlags
- * \brief UBXINIFlags implements INI flags bitmask
- *        for #UBXAID_INI message.
- */
 enum UBXINIFlags
 {
-    UBXINIpos = 1, //!< Position is valid
-    UBXINItime = 1 << 1, //!< Time is valid
-    UBXINIclockD = 1 << 2, //!< Clock drift data contains valid clock drift, must not be set together with clockF
-    UBXINItp = 1 << 3, //!< Use time pulse
-    UBXINIclockF = 1 << 4, //!< Clock drift data contains valid frequency, must not be set together with clockD
-    UBXINIlla = 1 << 5, //!< Position is given in lat/long/alt (default is ECEF)
-    UBXINIaltInv = 1 << 6, //!< Altitude is not valid, in case lla was set
-    UBXINIprevTm = 1 << 7, //!< Use time mark received before AID-INI message (default uses mark received after message)
-    UBXINIutc = 1 << 10 //!< Time is given as UTC date/time (default is GPS wno/tow)
+    UBXINIpos = 1,
+    UBXINItime = 1 << 1,
+    UBXINIclockD = 1 << 2,
+    UBXINItp = 1 << 3,
+    UBXINIclockF = 1 << 4,
+    UBXINIlla = 1 << 5,
+    UBXINIaltInv = 1 << 6,
+    UBXINIprevTm = 1 << 7,
+    UBXINIutc = 1 << 10
 };
 
 enum UBXANTFlags
@@ -520,7 +481,7 @@ enum UBXPRTOutProtoMask
 
 enum UBXPRTFlags
 {
-    extendedTxTimeout = 1 << 1
+    UBXPRTExtendedTxTimeout = 1 << 1
 };
 
 enum UBXPRTSPIMode {
@@ -532,8 +493,8 @@ enum UBXPRTSPIMode {
 
 enum UBXRINVFlags
 {
-    UBXRINVBinary = 1,
-    UBXRINVDump = 1 << 1
+    UBXRINVDump = 1,
+    UBXRINVBinary = 1 << 1
 };
 
 enum UBXRXMLowPowerModes
@@ -604,13 +565,13 @@ enum UBXSBASScanModes1
 
 enum UBXUSBFlags
 {
-    USBFlagReEnum,
-    USBFlagPowerMode
+    USBFlagReEnum = 1,
+    USBFlagPowerMode = 1 << 1
 };
 
 enum UBXLOGCfg
 {
-    UBXLOGCfgCircular
+    UBXLOGCfgCircular = 1
 };
 
 enum UBXLOGSize
@@ -774,31 +735,19 @@ enum UBXTM2FlagsTime
 
 enum UBXTPFlags
 {
-    UBXTPTimeBase = 1,
-    UBXTPUTC = 1 << 1
+    UBXTPTimeBaseUTC = 1,
+    UBXTPUTCAvailable = 1 << 1
 };
 
 enum UBXVRFYFlagsSource
 {
-    UBXVRFYNoTimeAidingSone = 0,
+    UBXVRFYNoTimeAidingDone = 0,
     UBXVRFYSourceRTC = 2,
     UBXVRFYSourceAID_INI = 3
 };
 
 #pragma pack(push,1)
 
-/*! \struct UBXHdr
- *  \brief This structure is UBX message header
- *  \var UBXHdr::msgClass
- *       Message class. A class is a grouping of messages which are related to each other.
- *       See #UBXMessageClass
- *  \var UBXHdr::msgId
- *       Message identificator. See #UBXMessageId
- *  \var UBXHdr::length
- *       Length is defined as being the length of the payload, only. It does not include
- *       Sync Chars, Length Field, Class, ID or CRC fields. The number format of the
- *       length field is an unsigned 16-Bit integer in Little Endian Format.
- */
 struct UBXHdr {
     UBXU1_t msgClass;
     UBXU1_t msgId;
@@ -1079,10 +1028,10 @@ struct UBXITFMConfig2
     UBXX4_t reserved3:18; //Should be 0x00
 };
 
-struct UBXCFG_ITFM {
-    struct UBXITFMConfig config;
-    struct UBXITFMConfig2 config2;
-};
+    struct UBXCFG_ITFM {
+        struct UBXITFMConfig config;
+        struct UBXITFMConfig2 config2;
+    };
 
 struct UBXCFG_LOGFILTER_POLL {
     //No payload data
@@ -1120,8 +1069,8 @@ struct UBXCFG_NAV5_POLL {
 
 struct UBXCFG_NAV5 {
     UBXX2_t mask; //See UBXNAV5Mask to fill this field
-    UBXU1_t dynModel;
-    UBXU1_t fixMode;
+    UBXU1_t dynModel; //See UBXNAV5Model to fill this field
+    UBXU1_t fixMode; //See UBXNAV5FixMode to fill this field
     UBXI4_t fixedAlt;
     UBXU4_t fixedAltVar;
     UBXI1_t minElev;
@@ -2022,10 +1971,6 @@ struct UBXTIM_VRFY {
     UBXU1_t reserved1;
 };
 
-/*! \union UBXMsgs
- *  \brief This union contains all possible payloads
- *         in current protocol version
- */
 union UBXMsgs
 {
     struct UBXACK_NACK ACK_NACK;
@@ -2151,17 +2096,6 @@ union UBXMsgs
     struct UBXTIM_VRFY TIM_VRFY;
 };
 
-/*! \struct UBXAlpFileInfo
- *  \brief This structure contains data of alpfile
- *       It's simple wrapper on byte array with file id
- *       specification
- *  \var UBXAlpFileInfo::fileId
- *       File id used to indetificate part appurtenance
- *  \var UBXMsg::alpData
- *       Part of file data
- *  \var UBXMsg::dataSize
- *       Size of part in bytes
- */
 struct UBXAlpFileInfo
 {
     int fileId;
@@ -2169,17 +2103,6 @@ struct UBXAlpFileInfo
     int dataSize;
 };
 
-/*! \struct UBXMsg
- *  \brief This structure is base for every message in
- *       UBX protocol
- *  \var UBXMsg::preamble
- *       preable of UBX message is allways 0xB562
- *  \var UBXMsg::hdr
- *       UBX message header of #UBXHdr type.
- *  \var UBXMsg::payload
- *       Union of #UBXMsgs type that contains all possible payloads
- *       for current protocol version
- */
 struct UBXMsg
 {
     u_int16_t preamble;
@@ -2187,14 +2110,6 @@ struct UBXMsg
     union UBXMsgs payload;
 };
 
-/*! \struct UBXMsgBuffer
- *  \brief This structure is used by every message getters
- *         to wrap returned message data.
- *  \var UBXMsgBuffer::size
- *       size of buffer
- *  \var UBXMsgBuffer::data
- *       pointer to data heap
- */
 struct UBXMsgBuffer
 {
     int size;
