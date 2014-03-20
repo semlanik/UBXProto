@@ -135,7 +135,7 @@ struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMess
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_RST(enum UBXResetMode mode, u_int16_t mask)
+struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
 {
     int payloadSize = sizeof(struct UBXCFG_RST);
     struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
@@ -146,6 +146,19 @@ struct UBXMsgBuffer getCFG_RST(enum UBXResetMode mode, u_int16_t mask)
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
+
+struct UBXMsgBuffer getCFG_RST_OPT(enum UBXBBRSpecialSets special, UBXU2_t mask)
+{
+    int payloadSize = sizeof(struct UBXCFG_RST);
+    struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RST);
+    msg->payload.CFG_RST.resetMode = special;
+    msg->payload.CFG_RST.navBBRMask = mask;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 
 struct UBXMsgBuffer getCFG_TP5_POLL_OPT(enum UBXCFGTimepulses tpIdx)
 {

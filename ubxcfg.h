@@ -137,7 +137,8 @@ extern struct UBXMsgBuffer getCFG_RATE_POLL();
 extern struct UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeRef);
 extern struct UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t *data, int dataSize);
 extern struct UBXMsgBuffer getCFG_RINV_POLL();
-extern struct UBXMsgBuffer getCFG_RST(enum UBXResetMode mode, u_int16_t mask);
+extern struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask);
+extern struct UBXMsgBuffer getCFG_RST_OPT(enum UBXBBRSpecialSets special, UBXU2_t mask);
 extern struct UBXMsgBuffer getCFG_RXM(UBXU1_t lpMode //See UBXRXMLowPowerModes to fill this field
                                       );
 extern struct UBXMsgBuffer getCFG_RXM_POLL();
