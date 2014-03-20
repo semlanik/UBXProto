@@ -1886,7 +1886,7 @@ struct UBXRXM_SVSI {
     UBXI2_t week;
     UBXU1_t numVis;
     UBXU1_t numSV;
-
+    //Variable payload of UBXRXM_SVSI_PART type
 };
 
 struct UBXSVSISVFlags

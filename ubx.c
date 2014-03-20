@@ -875,22 +875,30 @@ struct UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId)
 
 struct UBXMsgBuffer getCFG_PRT_UART()
 {
-
+    //TODO
+    struct UBXMsgBuffer buffer = createBuffer(0);
+    return buffer;
 }
 
 struct UBXMsgBuffer getCFG_PRT_USB()
 {
-
+    //TODO
+    struct UBXMsgBuffer buffer = createBuffer(0);
+    return buffer;
 }
 
 struct UBXMsgBuffer getCFG_PRT_SPI()
 {
-
+    //TODO
+    struct UBXMsgBuffer buffer = createBuffer(0);
+    return buffer;
 }
 
 struct UBXMsgBuffer getCFG_PRT_DDC()
 {
-
+    //TODO
+    struct UBXMsgBuffer buffer = createBuffer(0);
+    return buffer;
 }
 
 struct UBXMsgBuffer getCFG_RATE_POLL()
@@ -903,8 +911,31 @@ struct UBXMsgBuffer getCFG_RATE_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_RATE(){}
-struct UBXMsgBuffer getCFG_RINV(){}
+struct UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeRef)
+{
+    int payloadSize = sizeof(struct UBXCFG_RATE);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RATE);
+    msg->payload.CFG_RATE.measRate = measRate;
+    msg->payload.CFG_RATE.navRate = navRate;
+    msg->payload.CFG_RATE.timeRef = timeRef;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t* data, int dataSize)
+{
+    int payloadSize = sizeof(struct UBXCFG_RINV) + dataSize*sizeof(UBXU1_t);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RINV);
+    msg->payload.CFG_RINV.flags = flags;
+    memcpy(&(msg->payload.CFG_RINV) + sizeof(struct UBXCFG_RINV), data, dataSize*sizeof(UBXU1_t));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_RINV_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RINV_POLL);
@@ -914,7 +945,19 @@ struct UBXMsgBuffer getCFG_RINV_POLL()
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
-struct UBXMsgBuffer getCFG_RXM(){}
+
+struct UBXMsgBuffer getCFG_RXM(UBXU1_t lpMode)
+{
+    int payloadSize = sizeof(struct UBXCFG_RXM);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RXM);
+    msg->payload.CFG_RXM.reserved1 = 8;
+    msg->payload.CFG_RXM.lpMode = lpMode;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_RXM_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RXM_POLL);
@@ -925,7 +968,21 @@ struct UBXMsgBuffer getCFG_RXM_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_SBAS(){}
+struct UBXMsgBuffer getCFG_SBAS(UBXX1_t mode, UBXX1_t usage, UBXU1_t maxSBAS, UBXX1_t scanmode2, UBXX4_t scanmode1)
+{
+    int payloadSize = sizeof(struct UBXCFG_SBAS);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_SBAS);
+    msg->payload.CFG_SBAS.mode = mode;
+    msg->payload.CFG_SBAS.usage = usage;
+    msg->payload.CFG_SBAS.maxSBAS = maxSBAS;
+    msg->payload.CFG_SBAS.scanmode2 = scanmode2;
+    msg->payload.CFG_SBAS.scanmode1 = scanmode1;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 struct UBXMsgBuffer getCFG_SBAS_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_SBAS_POLL);
@@ -956,23 +1013,114 @@ struct UBXMsgBuffer getCFG_USB_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_USB(){}
-struct UBXMsgBuffer getLOG_CREATE(){}
-struct UBXMsgBuffer getLOG_ERASE(){}
-struct UBXMsgBuffer getLOG_FINDTIME_IN(){}
-
-struct UBXMsgBuffer getLOG_INFO_POLL()
+struct UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
+                               UBXU2_t productId,
+                               UBXU2_t powerConsumption,
+                               UBXX2_t flags,
+                               UBXCH_t* vendorString,
+                               UBXCH_t* productString,
+                               UBXCH_t* serialNumber)
 {
-    int payloadSize = sizeof(struct UBXCFG_INF_POLL);
+    int payloadSize = sizeof(struct UBXCFG_USB);
     struct UBXMsgBuffer buffer = createBuffer(payloadSize);
     struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
-    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_INF);
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_USB);
+    msg->payload.CFG_USB.vendorId = vendorId;
+    msg->payload.CFG_USB.productId = productId;
+    msg->payload.CFG_USB.reserved1 = 0;
+    msg->payload.CFG_USB.reserved2 = 1;
+    msg->payload.CFG_USB.powerConsumption = powerConsumption;
+    msg->payload.CFG_USB.flags = flags;
+    int vendorStringSize = strlen(vendorString)>32?32:strlen(vendorString);
+    memcpy(msg->payload.CFG_USB.vendorString, vendorString, vendorStringSize);
+
+    int productStringSize = strlen(productString)>32?32:strlen(productString);
+    memcpy(msg->payload.CFG_USB.productString, productString, productStringSize);
+
+    int serialNumberSize = strlen(serialNumber)>32?32:strlen(serialNumber);
+    memcpy(msg->payload.CFG_USB.serialNumber, serialNumber, serialNumberSize);
+
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
 
-struct UBXMsgBuffer getLOG_RETRIEVE(){}
-struct UBXMsgBuffer getLOG_STRING(){}
+struct UBXMsgBuffer getLOG_CREATE(UBXU1_t version, UBXX1_t logCfg, UBXU1_t logSize, UBXU4_t userDefinedSize)
+{
+    int payloadSize = sizeof(struct UBXLOG_CREATE);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_CREATE);
+    msg->payload.LOG_CREATE.version = version;
+    msg->payload.LOG_CREATE.logCfg = logCfg;
+    msg->payload.LOG_CREATE.reserved = 0;
+    msg->payload.LOG_CREATE.logSize = logSize;
+    msg->payload.LOG_CREATE.userDefinedSize = userDefinedSize;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getLOG_ERASE()
+{
+    int payloadSize = sizeof(struct UBXLOG_ERASE);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_ERASE);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getLOG_FINDTIME_IN(UBXU2_t year, UBXU1_t month, UBXU1_t day, UBXU1_t hour, UBXU1_t minute, UBXU1_t second)
+{
+    int payloadSize = sizeof(struct UBXLOG_FINDTIME_IN);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_FINDTIME);
+    msg->payload.LOG_FINDTIME_IN.version = 0;
+    msg->payload.LOG_FINDTIME_IN.type = 0;
+    msg->payload.LOG_FINDTIME_IN.year = year;
+    msg->payload.LOG_FINDTIME_IN.month = month;
+    msg->payload.LOG_FINDTIME_IN.day = day;
+    msg->payload.LOG_FINDTIME_IN.hour = hour;
+    msg->payload.LOG_FINDTIME_IN.minute = minute;
+    msg->payload.LOG_FINDTIME_IN.second = second;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getLOG_INFO_POLL()
+{
+    int payloadSize = sizeof(struct UBXLOG_INFO_POLL);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_INFO);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getLOG_RETRIEVE(UBXU4_t startNumber,
+                                    UBXU4_t entryCount,
+                                    UBXU1_t version)
+{
+    int payloadSize = sizeof(struct UBXLOG_RETRIEVE);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_RETRIEVE);
+    msg->payload.LOG_RETRIEVE.startNumber = startNumber;
+    msg->payload.LOG_RETRIEVE.entryCount = entryCount;
+    msg->payload.LOG_RETRIEVE.version = version;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getLOG_STRING()
+{
+    int payloadSize = sizeof(struct UBXLOG_STRING);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassLOG, UBXMsgIdLOG_STRING);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
 
 struct UBXMsgBuffer getMON_VER_POLL()
 {
@@ -1026,5 +1174,34 @@ struct UBXMsgBuffer getRXM_EPH_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
-struct UBXMsgBuffer getRXM_PMREQ(){}
-struct UBXMsgBuffer getRXM_SVSI(){}
+struct UBXMsgBuffer getRXM_PMREQ(UBXU4_t duration, UBXX4_t flags)
+{
+    int payloadSize = sizeof(struct UBXRXM_PMREQ);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassRXM, UBXMsgIdRXM_PMREQ);
+    msg->payload.RXM_PMREQ.duration = duration;
+    msg->payload.RXM_PMREQ.flags = flags;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
+                                UBXI2_t week,
+                                UBXU1_t numVis,
+                                UBXU1_t numSV,
+                                struct UBXRXM_SVSI_PART* svsiPart,
+                                int svsiPartCount)
+{
+    int payloadSize = sizeof(struct UBXRXM_SVSI) + svsiPartCount*sizeof(struct UBXRXM_SVSI_PART);
+    struct UBXMsgBuffer buffer = createBuffer(payloadSize);
+    struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassRXM, UBXMsgIdRXM_SVSI);
+    msg->payload.RXM_SVSI.iTOW = iTOW;
+    msg->payload.RXM_SVSI.week = week;
+    msg->payload.RXM_SVSI.numVis = numVis;
+    msg->payload.RXM_SVSI.numSV = numSV;
+    memcpy(&(msg->payload.RXM_SVSI) + sizeof(struct UBXRXM_SVSI), svsiPart, svsiPartCount*sizeof(struct UBXRXM_SVSI_PART));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
