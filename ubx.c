@@ -2466,10 +2466,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \brief Message acknowledged
  * \var UBXACK_ACK::msgClass
  * Class ID of the Acknowledged Message
- * \note See #UBXMessageClass to fill this field
+ * \see #UBXMessageClass to fill this field
  * \var UBXACK_ACK::msgId
  * Message ID of the Acknowledged Message
- * \note See #UBXMessageId to fill this field
+ * \see #UBXMessageId to fill this field
 */
 
 /*!
@@ -2478,10 +2478,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \brief Message Not-Acknowledged
  * \var UBXACK_NACK::msgClass
  * Class ID of the Acknowledged Message
- * \note See #UBXMessageClass to fill this field
+ * \see #UBXMessageClass to fill this field
  * \var UBXACK_NACK::msgId
  * Message ID of the Acknowledged Message
- * \note See #UBXMessageId to fill this field
+ * \see #UBXMessageId to fill this field
 */
 
 /*!
@@ -2682,877 +2682,1205 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXAID_EPH_POLL
+ * This message has an empty payload!
+ * Poll GPS Aiding Data (Ephemeris) for all 32 SVs by sending this message to the receivewithout any payload.
+ * The receiver will return 32 messages of type #UBXAID_EPH
  * \note No payload
- * \brief The UBXAID_EPH_POLL structure is
+ * \brief Poll GPS Aiding Ephemeris Data
  *
 */
 
 /*!
  * \struct UBXAID_EPH_POLL_OPT
- * \brief The UBXAID_EPH_POLL_OPT structure is
+ * Poll GPS Constellation Data (Ephemeris) for an SV by sending this message to the receiver.
+ * The receiver will return 32 messages of type #UBXAID_EPH
+ * \brief Poll GPS Aiding Ephemeris Data for a SV
  *
- * \var svid
- *
+ * \var UBXAID_EPH_POLL_OPT::svid
+ * SV ID for which the receiver shall return its
+ * Ephemeris Data (Valid Range: 1 .. 32).
 */
 
 /*!
  * \struct UBXAID_EPH
- * \brief The UBXAID_EPH structure is
- *
- * \var svid
- *
- * \var how
- *
+ * - SF1D0 to SF3D7 is only sent if ephemeris is available for this SV. If not, the payload may
+ * be reduced to 8 Bytes, or all bytes are set to zero, indicating that this SV Number does
+ * not have valid ephemeris for the moment. This may happen even if NAV-SVINFO and
+ * RXM-SVSI are indicating ephemeris availability as the internal data may not represent the
+ * content of an original broadcast ephemeris (or only parts thereof).
+ * - SF1D0 to SF3D7 contain the 24 words following the Hand-Over Word ( HOW ) from the
+ * GPS navigation message, subframes 1 to 3. The Truncated TOW Count is not valid and
+ * cannot be used. See IS-GPS-200 for a full description of the contents of the Subframes.
+ * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - When polled, the data contained in this message does not represent the full original
+ * ephemeris broadcast. Some fields that are irrelevant to u-blox receivers may be missing.
+ * The week number in Subframe 1 has already been modified to match the Time Of
+ * Ephemeris (TOE).
+ * \brief GPS Aiding Ephemeris Input/Output Message
+ * \var UBXAID_EPH::svid
+ * SV ID for which this ephemeris data is (Valid
+ * Range: 1 .. 32).
+ * \var UBXAID_EPH::how
+ * Hand-Over Word of first Subframe. This is
+ * required if data is sent to the receiver.
+ * 0 indicates that no Ephemeris Data is following.
 */
 
 /*!
  * \struct UBXAID_EPH_OPT
- * \brief The UBXAID_EPH_OPT structure is
- *
- * \var svid
- *
- * \var how
- *
- * \var sf1d[8]
- *
- * \var sf2d[8]
- *
- * \var sf3d[8]
- *
+ * - SF1D0 to SF3D7 is only sent if ephemeris is available for this SV. If not, the payload may
+ * be reduced to 8 Bytes, or all bytes are set to zero, indicating that this SV Number does
+ * not have valid ephemeris for the moment. This may happen even if NAV-SVINFO and
+ * RXM-SVSI are indicating ephemeris availability as the internal data may not represent the
+ * content of an original broadcast ephemeris (or only parts thereof).
+ * - SF1D0 to SF3D7 contain the 24 words following the Hand-Over Word ( HOW ) from the
+ * GPS navigation message, subframes 1 to 3. The Truncated TOW Count is not valid and
+ * cannot be used. See IS-GPS-200 for a full description of the contents of the Subframes.
+ * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - When polled, the data contained in this message does not represent the full original
+ * ephemeris broadcast. Some fields that are irrelevant to u-blox receivers may be missing.
+ * The week number in Subframe 1 has already been modified to match the Time Of
+ * Ephemeris (TOE).
+ * \brief GPS Aiding Ephemeris Input/Output Message
+ * \var UBXAID_EPH_OPT::svid
+ * SV ID for which this ephemeris data is (Valid
+ * Range: 1 .. 32).
+ * \var UBXAID_EPH_OPT::how
+ * Hand-Over Word of first Subframe. This is
+ * required if data is sent to the receiver.
+ * 0 indicates that no Ephemeris Data is following.
+ * \var UBXAID_EPH_OPT::sf1d[8]
+ * Subframe 1 Words 3..10 (SF1D0..SF1D7)
+ * \var UBXAID_EPH_OPT::sf2d[8]
+ * Subframe 2 Words 3..10 (SF1D0..SF1D7)
+ * \var UBXAID_EPH_OPT::sf3d[8]
+ * Subframe 3 Words 3..10 (SF1D0..SF1D7)
 */
 
 /*!
  * \struct UBXAID_HUI_POLL
  * \note No payload
- * \brief The UBXAID_HUI_POLL structure is
- *
-    //No payload
+ * \brief Poll GPS Health, UTC and ionosphere parameters
 */
 
 /*!
  * \struct UBXAID_HUI
- * \brief The UBXAID_HUI structure is
- *
- * \var health
- *
- * \var utcA0
- *
- * \var utcA1
- *
- * \var utcTOW
- *
- * \var utcWNT
- *
- * \var utcLS
- *
- * \var utcWNF
- *
- * \var utcDN
- *
- * \var utcLSF
- *
- * \var utcSpare
- *
- * \var klobA0
- *
- * \var klobA1
- *
- * \var klobA2
- *
- * \var klobA3
- *
- * \var klobB0
- *
- * \var klobB1
- *
- * \var klobB2
- *
- * \var klobB3
- *
- * \var flags
- *
+ * This message contains a health bit mask, UTC time and Klobuchar parameters. For more
+ * information on these parameters, please see the ICD-GPS-200 documentation.
+ * \brief GPS Health, UTC and ionosphere parameters
+ * \var UBXAID_HUI::health
+ * Bitmask, every bit represenst a GPS SV (1-32). If
+ * the bit is set the SV is healthy.
+ * \var UBXAID_HUI::utcA0
+ * UTC - parameter A0
+ * \var UBXAID_HUI::utcA1
+ * UTC - parameter A1
+ * \var UBXAID_HUI::utcTOW
+ * UTC - reference time of week
+ * \var UBXAID_HUI::utcWNT
+ * UTC - reference week number
+ * \var UBXAID_HUI::utcLS
+ * UTC - time difference due to leap seconds before event
+ * \var UBXAID_HUI::utcWNF
+ * UTC - week number when next leap second event occurs
+ * \var UBXAID_HUI::utcDN
+ * UTC - day of week when next leap second event occurs
+ * \var UBXAID_HUI::utcLSF
+ * UTC - time difference due to leap seconds after event
+ * \var UBXAID_HUI::utcSpare
+ * UTC - Spare to ensure structure is a multiple of 4 bytes
+ * \var UBXAID_HUI::klobA0
+ * Klobuchar - alpha 0
+ * \var UBXAID_HUI::klobA1
+ * Klobuchar - alpha 1
+ * \var UBXAID_HUI::klobA2
+ * Klobuchar - alpha 2
+ * \var UBXAID_HUI::klobA3
+ * Klobuchar - alpha 3
+ * \var UBXAID_HUI::klobB0
+ * Klobuchar - beta 0
+ * \var UBXAID_HUI::klobB1
+ * Klobuchar - beta 1
+ * \var UBXAID_HUI::klobB2
+ * Klobuchar - beta 2
+ * \var UBXAID_HUI::klobB3
+ * Klobuchar - beta 3
+ * \var UBXAID_HUI::flags
+ * Flags.
+ * \see #UBXHUIFlags to fill this field
 */
 
 /*!
  * \struct UBXAID_INI_POLL
- * \brief The UBXAID_INI_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll GPS Initial Aiding Data
 */
 
 /*!
  * \struct UBXAID_INI
- * \brief The UBXAID_INI structure is
+ * This message contains position, time and clock drift information. The position can be input
+ * in either the ECEF X/Y/Z coordinate system or as lat/lon/height. The time can either be input
+ * as inexact value via the standard communication interface, suffering from latency
+ * depending on the baudrate, or using harware time synchronization where an accuracte
+ * time pulse is input on the external interrupts. It is also possible to supply hardware
+ * frequency aiding by connecting a continuous signal to an external interrupt.
+ * \brief Aiding position, time, frequency, clock drift
  *
- * \var ecefXOrLat
- *
- * \var ecefYOrLat
- *
- * \var ecefZOrLat
- *
- * \var posAcc
- *
- * \var tmCfg
- *
- * \var wnoOrDate
- *
- * \var towOrDate
- *
- * \var towNs
- *
- * \var tAccMS
- *
- * \var tAccNS
- *
- * \var clkDOrFreq
- *
- * \var clkDAccOrFreqAcc
- *
- * \var flags
- *
+ * \var UBXAID_INI::ecefXOrLat
+ * WGS84 ECEF X coordinate or latitude, depending on UBXAID_INI::flags
+ * \var UBXAID_INI::ecefYOrLat
+ * WGS84 ECEF Y coordinate or longitude, depending on UBXAID_INI::flags
+ * \var UBXAID_INI::ecefZOrLat
+ *  WGS84 ECEF Z coordinate or altitude, depending on UBXAID_INI::flags
+ * \var UBXAID_INI::posAcc
+ * Position accuracy
+ * \var UBXAID_INI::tmCfg
+ * Time mark configuration
+ * \see #UBXINItmCfg to fill this field
+ * \var UBXAID_INI::wnoOrDate
+ * Actual week number or yearSince2000/Month (YYMM), depending on UBXAID_INI::flags
+ * \var UBXAID_INI::towOrDate
+ * Actual time of week or
+ * DayOfMonth/Hour/Minute/Second
+ * (DDHHMMSS), depending on UBXAID_INI::flags
+ * \var UBXAID_INI::towNs
+ * Fractional part of time of week
+ * \var UBXAID_INI::tAccMS
+ * Milliseconds part of time accuracy
+ * \var UBXAID_INI::tAccNS
+ * Nanoseconds part of time accuracy
+ * \var UBXAID_INI::clkDOrFreq
+ * Clock drift or frequency, depending on UBXAID_INI::flags
+ * \var UBXAID_INI::clkDAccOrFreqAcc
+ * Accuracy of clock drift or frequency, depending on UBXAID_INI::flags
+ * \var UBXAID_INI::flags
+ * Bitmask with the flags
+ * \see #UBXINIFlags to fill this field
 */
 
 /*!
  * \struct UBXAID_REQ
- * \brief The UBXAID_REQ structure is
- *
-    //No payload
+ * AID-REQ is not a message but a placeholder for configuration purposes.
+ * If the virtual AID-REQ is configured to be output (see CFG-MSG), the receiver will output a
+ * request for aiding data (AID-DATA) after a start-up if its internally stored data (position,
+ * time) don't allow it to perform a hot start. If position and time information could be
+ * retrieved from internal storage, no AID-REQ will be sent, even when the receiver is missing
+ * valid ephemeris data. Only GPS orbits are supported for GNSS.
+ * \note No payload
+ * \brief Sends a poll UXBAID_DATA for all GPS Aiding Data
 */
 
 /*!
  * \struct UBXCFG_ANT_POLL
- * \brief The UBXCFG_ANT_POLL structure is
- *
-    //No payload
+ * Sending this (empty / no-payload) message to the receiver results in the receiver returning a
+ * message of type #UBXCFG_ANT
+ * \note No payload
+ * \brief Poll Antenna Control Settings
 */
 
 /*!
  * \struct UBXANTPins
-{
- * \var UBXANTpinSwitch:5
- *
- * \var UBXANTpinSCD:5
- *
- * \var UBXANTpinOCD:5
- *
- * \var UBXANTreconfig:1
- *
+ * It describes antenna pin configuration
+ * \brief This sturcture is a part of #UBXCFG_ANT message
+ * \var UBXANTPins::UBXANTpinSwitch
+ * PIO-Pin used for switching antenna supply (internal to TIM-LP/TIM-LF)
+ * \var UBXANTPins::UBXANTpinSCD
+ * PIO-Pin used for detecting a short in the antenna supply
+ * \var UBXANTPins::UBXANTpinOCD
+ * PIO-Pin used for detecting open/not connected antenna
+ * \var UBXANTPins::UBXANTreconfig
+ * If set to one, and this command is sent to the receiver, the receiver will reconfigure the pins as specified
 */
 
 /*!
  * \struct UBXCFG_ANT
- * \brief The UBXCFG_ANT structure is
- *
- * \var flags
- *
- * \note See #UBXANTFlags to fill this field
-    struct UBXANTPins pins;
+ * \brief Antenna Control Settings
+ * \var UBXCFG_ANT::flags
+ * Antenna flag mask
+ * \see #UBXANTFlags to fill this field
+ * \var UBXCFG_ANT::pins
+ * Antenna Pin Configuration
 */
 
 /*!
  * \struct UBXCFG_CFG
- * \brief The UBXCFG_CFG structure is
+ * See the Receiver Configuration chapter(u-blox official documentation) for a detailed description on how Receiver
+ * Configuration should be used. The three masks are made up of individual bits, each bit
+ * indicating the sub-section of all configurations on which the corresponding action shall be
+ * carried out. The reserved bits in the masks must be set to '0'. For detailed information
+ * please refer to the Organization of the Configuration Sections (u-blox official documentation). Please note that commands
+ * can be combined. The sequence of execution is Clear, Save, Load
+ * \brief Clear, Save and Load configurations
  *
- * \var clearMask
- *
- * \note See #UBXCFGMask to fill this field
- * \var saveMask
- *
- * \note See #UBXCFGMask to fill this field
- * \var loadMask
- *
- * \note See #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG::clearMask
+ * Mask with configuration sub-sections to Clear
+ * \note Load Default Configurations to Permanent
+ *       Configurations in non-volatile memory
+ * \see #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG::saveMask
+ * Mask with configuration sub-section to Save
+ * \note Save Current Configuration to Non-volatile
+ *       Memory
+ * \see #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG::loadMask
+ * Mask with configuration sub-sections to Load
+ * \note Load Permanent Configurations from
+ *       Non-volatile Memory to Current
+ *       Configurations
+ * \see #UBXCFGMask to fill this field
 */
 
 /*!
  * \struct UBXCFG_CFG_OPT
- * \brief The UBXCFG_CFG_OPT structure is
+ * See the Receiver Configuration chapter(u-blox official documentation) for a detailed description on how Receiver
+ * Configuration should be used. The three masks are made up of individual bits, each bit
+ * indicating the sub-section of all configurations on which the corresponding action shall be
+ * carried out. The reserved bits in the masks must be set to '0'. For detailed information
+ * please refer to the Organization of the Configuration Sections (u-blox official documentation). Please note that commands
+ * can be combined. The sequence of execution is Clear, Save, Load
+ * \brief Clear, Save and Load configurations
  *
- * \var clearMask
- *
- * \note See #UBXCFGMask to fill this field
- * \var saveMask
- *
- * \note See #UBXCFGMask to fill this field
- * \var loadMask
- *
- * \note See #UBXCFGMask to fill this field
- * \var deviceMask
- *
- * \note See #UBXCFGDeviceMask to fill this field
+ * \var UBXCFG_CFG_OPT::clearMask
+ * Mask with configuration sub-sections to Clear
+ * \note Load Default Configurations to Permanent
+ *       Configurations in non-volatile memory
+ * \see #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG_OPT::saveMask
+ * Mask with configuration sub-section to Save
+ * \note Save Current Configuration to Non-volatile
+ *       Memory
+ * \see #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG_OPT::loadMask
+ * Mask with configuration sub-sections to Load
+ * \note Load Permanent Configurations from
+ *       Non-volatile Memory to Current
+ *       Configurations
+ * \see #UBXCFGMask to fill this field
+ * \var UBXCFG_CFG_OPT::deviceMask
+ * Mask which selects the devices for this
+ * command
+ * \see #UBXCFGDeviceMask to fill this field
 */
 
 /*!
  * \struct UBXCFG_DAT_POLL
- * \brief The UBXCFG_DAT_POLL structure is
- *
-    //No payload
+ * Upon sending of this message, the receiver returns UBXCFG_DAT
+ * \note No payload
+ * \brief Poll Datum Setting
 */
 
 /*!
  * \struct UBXCFG_DAT_IN
- * \brief The UBXCFG_DAT_IN structure is
+ * \brief Set User-defined Datum
  *
- * \var majA
- *
- * \var flat
- *
- * \var dX
- *
- * \var dY
- *
- * \var dZ
- *
- * \var rotX
- *
- * \var rotY
- *
- * \var rotZ
- *
- * \var scale
- *
+ * \var UBXCFG_DAT_IN::majA
+ * Semi-major Axis
+ * \note accepted range = 6,300,000.0
+ * to 6,500,000.0 metres
+ * \var UBXCFG_DAT_IN::flat
+ * 1.0 / Flattening
+ * \note accepted range is 0.0 to 500.0
+ * \var UBXCFG_DAT_IN::dX
+ * X Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_IN::dY
+ * Y Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_IN::dZ
+ * Z Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_IN::rotX
+ * Rotation about the X Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_IN::rotY
+ * Rotation about the Y Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_IN::rotZ
+ * Rotation about the Z Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_IN::scale
+ * Scale change
+ * \note accepted range is 0.0 to 50.0 parts per million
 */
 
 /*!
  * \struct UBXCFG_DAT_OUT
- * \brief The UBXCFG_DAT_OUT structure is
- *
- * \var datumNum
- *
- * \var datumName[6]
- *
- * \var majA
- *
- * \var flat
- *
- * \var dX
- *
- * \var dY
- *
- * \var dZ
- *
- * \var rotX
- *
- * \var rotY
- *
- * \var rotZ
- *
- * \var scale
- *
+ *  Returns the parameters of the currently defined datum. If no user-defined datum has been
+ * set, this will default to WGS84.
+ * \brief The currently defined Datum
+ * \var UBXCFG_DAT_OUT::datumNum
+ * Datum Number: 0 = WGS84, -1 = user-defined
+ * \var UBXCFG_DAT_OUT::datumName[6]
+ * ASCII String: WGS84 or USER
+ * \var UBXCFG_DAT_OUT::majA
+ * Semi-major Axis
+ * \note accepted range = 6,300,000.0
+ * to 6,500,000.0 metres
+ * \var UBXCFG_DAT_OUT::flat
+ * 1.0 / Flattening
+ * \note accepted range is 0.0 to 500.0
+ * \var UBXCFG_DAT_OUT::dX
+ * X Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_OUT::dY
+ * Y Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_OUT::dZ
+ * Z Axis shift at the origin
+ * \note accepted range is +/-5000.0 metres
+ * \var UBXCFG_DAT_OUT::rotX
+ * Rotation about the X Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_OUT::rotY
+ * Rotation about the Y Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_OUT::rotZ
+ * Rotation about the Z Axis
+ * \note accepted range is +/-20.0 milli-arc seconds
+ * \var UBXCFG_DAT_OUT::scale
+ * Scale change
+ * \note accepted range is 0.0 to 50.0 parts per million
 */
 
 /*!
  * \struct UBXCFG_GNSS_POLL
- * \brief The UBXCFG_GNSS_POLL structure is
- *
-    //No payload
+ * Polls the configuration of the GNSS system configuration\
+ * \note No payload
+ * \brief Polls the configuration of the GNSS system configuration
 */
 
 /*!
  * \struct UBXCFG_GNSS
- * \brief The UBXCFG_GNSS structure is
+ * Gets or sets the GNSS system channel sharing configuration. The receiver will send an
+ * #UBXACK_ACK message if the configuration is valid, an #UBXACK_NAK if any configuration
+ * parameter is invalid.
+ * The number of tracking channels in use must not exceed the number of tracking channels
+ * available on hardware, and the sum of all reserved tracking channels needs to be smaller or
+ * equal the number of tracking channels in use. Additionally, the maximum number of
+ * tracking channels used for the specific GNSS system must be greater or equal to the
+ * number of reserved tracking channels.
+ * See section GNSS Configuration for a discussion of the use of this message and section
+ * Satellite Numbering for a description of the GNSS IDs available.
+ * Configuration specific to the GNSS system can be done via other messages. Configuration
+ * specific to SBAS can be done with #UBXCFG_SBAS.
+ * Note that GLONASS operation cannot be selected when the receiver is configured to
+ * operate in Power Save Mode (using #UBXCFG_RXM).
+ * \note This message contains variable payload. See #UBXCFG_GNSS_PART to add variable payload.
+ * \brief GNSS system configuration
  *
- * \var msgVer
- *
- * \var numTrkChHw
- *
- * \var numTrkChUse
- *
- * \var numConfigBlocks
- *
-    //Variable addition here
-    //See structure below
+ * \var UBXCFG_GNSS::msgVer
+ * Message version
+ * \var UBXCFG_GNSS::numTrkChHw
+ *  Number of tracking channels available in
+ * hardware
+ * \note Read only
+ * \var UBXCFG_GNSS::numTrkChUse
+ * Number of tracking channels to use
+ * \note Should be <= UBXCFG_GNSS::numTrkChHw
+ * \var UBXCFG_GNSS::numConfigBlocks
+ * Number of configuration blocks following
 */
 
 /*!
-     * \struct  UBXCFG_GNSS_PART
-{
- * \var gnssId
- *
- * \note See #UBXGNSSIds to fill this field
- * \var resTrkCh
- *
- * \var maxTrkCh
- *
- * \var reserved1
- *
- * \var flags
- *  //0 - disabled, 1 - enabled
+ * \struct  UBXCFG_GNSS_PART
+ * \brief This structure is variable payload for #UBXCFG_GNSS
+ * \var UBXCFG_GNSS_PART::gnssId
+ * GNSS identifier
+ * \see #UBXGNSSIds to fill this field
+ * \var UBXCFG_GNSS_PART::resTrkCh
+ * Number of reserved (minimum) tracking
+ * channels for this GNSS system
+ * \var UBXCFG_GNSS_PART::maxTrkCh
+ * Maximum number of tracking channels used for
+ * this GNSS system
+ * \note should be >= UBXCFG_GNSS_PART::resTrkCh
+ * \var UBXCFG_GNSS_PART::reserved1
+ * Reserved
+ * \var UBXCFG_GNSS_PART::flags
+ * Bitfield of flags.\n
+ * The only acceptable values:\n
+ * - 0 - disabled
+ * - 1 - enabled
 */
 
 /*!
  * \struct UBXCFG_INF_POLL
- * \brief The UBXCFG_INF_POLL structure is
+ * \brief Poll INF message configuration for one protocol
  *
  * \var protocolId
- *
+ * Protocol Identifier, identifying the output
+ * protocol for this Poll Request.
+ * \see #UBXCFGProtocolIds to fill this field
 */
 
 /*!
  * \struct UBXCFG_INF
- * \brief The UBXCFG_INF structure is
- *
-    //Variable payload
-    //See structure UBXCFG_INF_PART below
+ * The value of infMsgMask[x] below are that each bit represents one of the INF class
+ * messages (Bit 0 for ERROR, Bit 1 for WARNING and so on.). For a complete list, please see
+ * the Message Class INF(). Several configurations can be concatenated to one input
+ * message. In this case the payload length can be a multiple of the normal length. Output
+ * messages from the module contain only one configuration unit. Please note that I/O Ports 1
+ * and 2 correspond to serial ports 1 and 2. I/O port 0 is DDC. I/O port 3 is USB. I/O port 4 is
+ * SPI. I/O port 5 is reserved for future use.
+ * \note This message has variable payload of #UBXCFG_INF_PART type
+ * \brief Information message configuration
 */
 
 /*!
  * \struct UBXCFG_INF_PART
- * \brief The UBXCFG_INF_PART structure is
+ * \brief The UBXCFG_INF_PART structure is variable payload for #UBXCFG_INF message
  *
  * \var protocolId
- *
+ * Protocol Identifier, identifying for which
+ * protocol the configuration is set/get
+ * \see #UBXCFGProtocolIds to fill this field
  * \var reserved0
- *
+ * Reserved
  * \var reserved1
- *
+ * Reserved
  * \var infMsgMask[6]
- *
- * \note See #UBXCFGInfMsgMask to fill this field
+ * A bit mask, saying which information messages
+ * are enabled on each I/O port
+ * \see #UBXCFGInfMsgMask to fill this field
 */
 
 /*!
  * \struct UBXCFG_ITFM_POLL
- * \brief The UBXCFG_ITFM_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Polls the Jamming/Interference Monitor configuration.
 */
 
 /*!
-             * \struct  UBXITFMConfig
-{
- * \var bbThreshold:4
- *
- * \var cwThreshold:5
- *
- * \var reserved1:22
- *  //Should be 0x16B156
- * \var enbled:1
- *
+ * \struct  UBXITFMConfig
+ * \brief This structure describes bitfields of UBXCFG_ITFM::config field
+ * \var UBXITFMConfig::bbThreshold
+ * Broadband jamming detection threshold
+ * \note unit - dB
+ * \var UBXITFMConfig::cwThreshold
+ * CW jamming detection threshold
+ * \note unit - dB
+ * \var UBXITFMConfig::reserved1
+ * Reserved algorithm settings
+ * \note should be set to 0x16B156
+ * \var UBXITFMConfig::enbled
+ * Enable interference detection
 */
 
 /*!
-             * \struct  UBXITFMConfig2
-{
- * \var reserved2:12
- *  //Should be 0x31E
- * \var antSetting:2
- *
- * \note See #UBXITFMAntSetting to fill this field
- * \var reserved3:18
- *  //Should be 0x00
+ * \struct  UBXITFMConfig2
+ * \brief This structure describes bitfields of UBXCFG_ITFM::config2 field
+ * \var UBXITFMConfig2::reserved2
+ * Reserved
+ * \note Should be 0x31E
+ * \var UBXITFMConfig2::antSetting
+ * Antenna setting
+ * \see #UBXITFMAntSetting to fill this field
+ * \var UBXITFMConfig2::reserved3
+ * Reserved
+ * \note Should be 0x00
 */
 
 /*!
  * \struct UBXCFG_ITFM
- * \brief The UBXCFG_ITFM structure is
+ * \brief Jamming/Interference Monitor configuration
  *
-        struct UBXITFMConfig config;
-        struct UBXITFMConfig2 config2;
-    */
+ * \var UBXCFG_ITFM::config
+ * Interference config word
+ * \see #UBXITFMConfig to fill this field
+ * \var UBXCFG_ITFM::config2
+ * Extra settings for jamming/interference monitor
+ * \see #UBXITFMConfig2 to fill this field
+*/
 
 /*!
  * \struct UBXCFG_LOGFILTER_POLL
- * \brief The UBXCFG_LOGFILTER_POLL structure is
- *
-    //No payload data
+ * Upon sending of this message, the receiver returns CFG-LOGFILTER as defined below
+ * \note No payload
+ * \brief Poll Data Logger filter Configuration
 */
 
 /*!
  * \struct UBXCFG_LOGFILTER
- * \brief The UBXCFG_LOGFILTER structure is
+ * This message is used to enable/disable logging and to get or set the position entry filter
+ * settings.
+ * Position entries can be filtered based on time difference, position difference or current
+ * speed thresholds. Position and speed filtering also have a minimum time interval.
+ * A position is logged if any of the thresholds are exceeded. If a threshold is set to zero it is
+ * ignored. The maximum rate of position logging is 1Hz.
+ * The filter settings will only be applied if the 'applyAllFilterSettings' flag is set. This enables
+ * recording to be enabled/disabled without affecting the other settings.
+ * \brief Data Logger Configuration
  *
- * \var version
- *
- * \var flags
- *
- * \note See #UBXLOGFILTERFlags to fill this field
- * \var minIterval
- *
- * \var timeThreshold
- *
- * \var speedThreshold
- *
- * \var positionThreshold
- *
+ * \var UBXCFG_LOGFILTER::version
+ * The version of this message
+ * \note Set to 1
+ * \var UBXCFG_LOGFILTER::flags
+ * Flags
+ * \see #UBXLOGFILTERFlags to fill this field
+ * \var UBXCFG_LOGFILTER::minIterval
+ * Minimum time interval between logged
+ * positions
+ * \note This is only applied in
+ * combination with the speed and/or
+ * position thresholds
+ * \note 0 - not set
+ * \var UBXCFG_LOGFILTER::timeThreshold
+ * If the time difference is greater than the
+ * threshold then the position is logged
+ * \note 0 - not set
+ * \var UBXCFG_LOGFILTER::speedThreshold
+ * If the current speed is greater than the
+ * threshold then the position is logged
+ * \note 0 - not set
+ * \note UBXCFG_LOGFILTER::minInterval also applies
+ * \var UBXCFG_LOGFILTER::positionThreshold
+ * If the 3D position difference is greater than the
+ * threshold then the position is logged
+ * \note 0 - not set
+ * \note minInterval also applies
 */
 
 /*!
  * \struct UBXCFG_MSG_POLL
- * \brief The UBXCFG_MSG_POLL structure is
+ * \brief Poll a message configuration
  *
- * \var msgClass
- *
- * \var msgId
- *
+ * \var UBXCFG_MSG_POLL::msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \var UBXCFG_MSG_POLL::msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
 */
 
 /*!
  * \struct UBXCFG_MSG_RATES
- * \brief The UBXCFG_MSG_RATES structure is
- *
- * \var msgClass
- *
- * \var msgId
- *
- * \var rate[6]
- *
+ * Set/Get message rate configurations to/from the receiver. See also section "How to change
+ * between protocols" (u-blox official documentation).
+ * - Send rate is relative to the event a message is registered on. For example, if the rate of a
+ * navigation message is set to 2, the message is sent every second navigation solution. For
+ * configuring NMEA messages, the section "NMEA Messages Overview" (u-blox official documentation describes Class and
+ * Identifier numbers used.
+ * \brief Set Message Rates
+ * \var UBXCFG_MSG_RATES::msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \var UBXCFG_MSG_RATES::msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
+ * \var UBXCFG_MSG_RATES::rate[6]
+ * Send rate on I/O Port (6 Ports)
 */
 
 /*!
  * \struct UBXCFG_MSG_RATE
- * \brief The UBXCFG_MSG_RATE structure is
- *
- * \var msgClass
- *
- * \var msgId
- *
- * \var rate
- *
+ * Set/Get message rate configurations to/from the receiver. See also section "How to change
+ * between protocols" (u-blox official documentation).
+ * \brief Set Message Rate
+ * \var UBXCFG_MSG_RATE::msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \var UBXCFG_MSG_RATE::msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
+ * \var UBXCFG_MSG_RATE::rate
+ * Send rate on current Port
 */
 
 /*!
  * \struct UBXCFG_NAV5_POLL
- * \brief The UBXCFG_NAV5_POLL structure is
- *
-    //No payload data
+ * \note No payload
+ * \brief Poll Navigation Engine Settings
 */
 
 /*!
  * \struct UBXCFG_NAV5
- * \brief The UBXCFG_NAV5 structure is
+ * See the Navigation "Configuration Settings Description" (u-blox official documentation) for a detailed description of how
+ * these settings affect receiver operation.
+ * \brief Navigation Engine Settings
  *
  * \var mask
- *
- * \note See #UBXNAV5Mask to fill this field
- * \var dynModel
- *
- * \note See #UBXNAV5Model to fill this field
- * \var fixMode
- *
- * \note See #UBXNAV5FixMode to fill this field
- * \var fixedAlt
- *
- * \var fixedAltVar
- *
- * \var minElev
- *
- * \var drLimit
- *
- * \var pDop
- *
- * \var tDop
- *
- * \var pAcc
- *
- * \var tAcc
- *
- * \var staticHoldThresh
- *
- * \var dgpsTimeOut
- *
- * \var cnoThreshNumSVs
- *
- * \var cnoThresh
- *
- * \var reserved2
- *  //Set to 0
- * \var reserved3
- *  //Set to 0
- * \var reserved4
- *  //Set to 0
+ * Parameters Bitmask. Only the masked parameters will be applied.
+ * \see #UBXNAV5Mask to fill this field
+ * \var UBXCFG_NAV5::dynModel
+ * Dynamic Platform model
+ * \see #UBXNAV5Model to fill this field
+ * \var UBXCFG_NAV5::fixMode
+ * Position Fixing Mode
+ * \see #UBXNAV5FixMode to fill this field
+ * \var UBXCFG_NAV5::fixedAlt
+ * Fixed altitude (mean sea level) for 2D fix mode
+ * \var UBXCFG_NAV5::fixedAltVar
+ * Fixed altitude variance for 2D mode
+ * \var UBXCFG_NAV5::minElev
+ * Minimum Elevation for a GNSS satellite to be
+ * used in NAV
+ * \var UBXCFG_NAV5::drLimit
+ * Reserved
+ * \var UBXCFG_NAV5::pDop
+ * Position DOP Mask to use
+ * \var UBXCFG_NAV5::tDop
+ * Time DOP Mask to use
+ * \var UBXCFG_NAV5::pAcc
+ * Position Accuracy Mask
+ * \var UBXCFG_NAV5::tAcc
+ * Time Accuracy Mask
+ * \var UBXCFG_NAV5::staticHoldThresh
+ * Static hold threshold
+ * \var UBXCFG_NAV5::dgpsTimeOut
+ * DGPS timeout
+ * \var UBXCFG_NAV5::cnoThreshNumSVs
+ * Number of satellites required to have C/N0
+ * above cnoThresh for a fix to be attempted
+ * \var UBXCFG_NAV5::cnoThresh
+ * C/N0 threshold for deciding whether to attempt
+ * a fix
+ * \var UBXCFG_NAV5::reserved2
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAV5::reserved3
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAV5::reserved4
+ * Reserved
+ * \note Set to 0
 */
 
 /*!
  * \struct UBXCFG_NAVX5_POLL
- * \brief The UBXCFG_NAVX5_POLL structure is
- *
-    //No payload
+ * Sending this (empty / no-payload) message to the receiver results in the receiver returning a
+ * message of type CFG-NAVX5 with a payload as defined below.
+ * \note No payload
+ * \brief Poll Navigation Engine Expert Settings
 */
 
 /*!
  * \struct UBXCFG_NAVX5
- * \brief The UBXCFG_NAVX5 structure is
+ * \brief Navigation Engine Expert Settings
  *
- * \var version
- *
- * \var mask1
- *
- * \note See #UBXNAVX5Mask to fill this field
- * \var reserved0
- *  //Set 0
- * \var reserved1
- *  //Set 0
- * \var reserved2
- *  //Set 0
- * \var minSVs
- *
- * \var maxSVs
- *
- * \var minCNO
- *
- * \var reserved5
- *  //Set 0
- * \var iniFix3D
- *
- * \var reserved6
- *  //Set 0
- * \var reserved7
- *  //Set 0
- * \var reserved8
- *  //Set 0
- * \var wknRollover
- *
- * \var reserved9
- *  //Set 0
- * \var reserved10
- *  //Set 0
- * \var reserved11
- *  //Set 0
- * \var usePPP
- *
- * \var aopCFG
- *  // 0-disabled, 1 - enabled
- * \var reserved12
- *  //Set 0
- * \var reserved13
- *  //Set 0
- * \var aopOrbMaxErr
- *
- * \var reserved14
- *  //Set 0
- * \var reserved15
- *  //Set 0
- * \var reserved3
- *  //Set 0
- * \var reserved4
- *  //Set 0
+ * \var UBXCFG_NAVX5::version
+ * Message version
+ * \note 0 for this version
+ * \var UBXCFG_NAVX5::mask1
+ * First Parameters Bitmask. Only the flagged
+ * parameters will be applied, unused bits must be
+ * set to 0
+ * \see #UBXNAVX5Mask to fill this field
+ * \var UBXCFG_NAVX5::reserved0
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved1
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved2
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::minSVs
+ * Minimum number of satellites for navigation
+ * \var UBXCFG_NAVX5::maxSVs
+ * Maximum number of satellites for navigation
+ * \var UBXCFG_NAVX5::minCNO
+ * Minimum satellite signal level for navigation
+ * \var UBXCFG_NAVX5::reserved5
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::iniFix3D
+ * Initial Fix must be 3D flag
+ * \note
+ * - 0 - false
+ * - 1 - true
+ * \var UBXCFG_NAVX5::reserved6
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved7
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved8
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::wknRollover
+ * GPS week rollover number; GPS week numbers
+ * will be set correctly from this week up to 1024
+ * weeks after this week.
+ * \note 0 reverts to firmware default.
+ * \var UBXCFG_NAVX5::reserved9
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved10
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved11
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::usePPP
+ * Use Precise Point Positioning flag
+ * \note Only supported on certain product variants
+ * \note
+ * - 0 - false
+ * - 1 - true
+ * \var UBXCFG_NAVX5::aopCFG
+ * AssistNow Autonomous configuration
+ * /note
+ * - 0 - disabled
+ * - 1 - enabled
+ * \var UBXCFG_NAVX5::reserved12
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved13
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::aopOrbMaxErr
+ * maximum acceptable (modelled) AssistNow
+ * Autonomous orbit error
+ * \note valid range = 5..1000,
+ * \note 0 - reset to firmware default
+ * \var UBXCFG_NAVX5::reserved14
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved15
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved3
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_NAVX5::reserved4
+ * Reserved
+ * \note Set to 0
 */
 
 /*!
  * \struct UBXCFG_NMEA_POLL
- * \brief The UBXCFG_NMEA_POLL structure is
- *
-    //No payload
-*/
+ * \note No payload
+ * \brief Poll the NMEA protocol configuration
+ */
 
 /*!
  * \struct UBXCFG_NMEA
- * \brief The UBXCFG_NMEA structure is
+ * Set/Get the NMEA protocol configuration. See section "NMEA Protocol Configuration" (u-blox official documentation) for a
+ * detailed description of the configuration effects on NMEA output.
+ * \brief NMEA protocol configuration
  *
- * \var filter
- *
- * \note See #UBXNMEAFilter to fill this field
- * \var nmeaVersion
- *
- * \var numSV
- *
- * \var flags
- *
- * \note See #UBXNMEAFlags to fill this field
- * \var gnssToFilter
- *
- * \note See #UBXNMEAGNSSToFilter to fill this field
- * \var svNumbering
- *
- * \var mainTalkerId
- *
- * \var gsvTalkerId
- *
- * \var reserved
- *
+ * \var UBXCFG_NMEA::filter
+ * Filter flags
+ * \see #UBXNMEAFilter to fill this field
+ * \var UBXCFG_NMEA::nmeaVersion
+ * NMEA version
+ * \see #UBXNMEAVersion to fill this field
+ * \var UBXCFG_NMEA::numSV
+ * Maximum Number of SVs to report in NMEA
+ * protocol.\n
+ * This does not affect the receiver's operation.
+ * It only limits the number of SVs reported in
+ * NMEA mode (this might be needed with older
+ * mapping applications which only support 8- or
+ * 12-channel receivers).
+ * \var UBXCFG_NMEA::flags
+ * Flags
+ * \see #UBXNMEAFlags to fill this field
+ * \var UBXCFG_NMEA::gnssToFilter
+ * Filters out satellites based on their GNSS. If a
+ * bitfield is enabled, the corresponding satellites
+ * will be not output.
+ * \see #UBXNMEAGNSSToFilter to fill this field
+ * \var UBXCFG_NMEA::svNumbering
+ * Configures the display of satellites that do not
+ * have an NMEA-defined value.
+ * \note This does not apply to satellites with an
+ * unknown ID.
+ * \var UBXCFG_NMEA::mainTalkerId
+ * By default the main Talker ID (i.e. the Talker ID
+ * used for all messages other than GSV) is
+ * determined by the GNSS assignment of the
+ * receiver's channels (see #UBXCFG_GNSS).
+ * This field enables the main Talker ID to be
+ * overridden.
+ * \var UBXCFG_NMEA::gsvTalkerId
+ * By default the Talker ID for GSV messages is
+ * GNSS specific (as defined by NMEA).
+ * This field enables the GSV Talker ID to be
+ * overridden.
+ * \var UBXCFG_NMEA::reserved
+ * Reserved
+ * \note Set to 0
 */
 
 /*!
  * \struct UBXCFG_NVS
  * \brief The UBXCFG_NVS structure is
  *
- * \var clearMask
- *
- * \note See #UBXCFGMask CFG_NVS section to fill this field
- * \var saveMask
- *
- * \note See #UBXCFGMask CFG_NVS section to fill this field
- * \var loadMask
- *
- * \note See #UBXCFGMask CFG_NVS section to fill this field
- * \var deviceMask
- *
- * \note See #UBXCFGDeviceMask to fill this field
+ * \var UBXCFG_NVS::clearMask
+ * Mask of data to be cleared
+ * \see #UBXCFGMask CFG_NVS section to fill this field
+ * \var UBXCFG_NVS::saveMask
+ * Mask of data to be saved
+ * \see #UBXCFGMask CFG_NVS section to fill this field
+ * \var UBXCFG_NVS::loadMask
+ * Mask of data to be loaded,
+ * \see #UBXCFGMask CFG_NVS section to fill this field
+ * \var UBXCFG_NVS::deviceMask
+ * Mask of devices to consider
+ * \note Default: all devices
+ * \see #UBXCFGDeviceMask to fill this field
 */
 
 /*!
  * \struct UBXCFG_PM2_POLL
- * \brief The UBXCFG_PM2_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll extended Power Management configuration
 */
 
 /*!
-             * \struct UBXCFG_PM2Flags
-{
- * \var blank1:1
- *
- * \var reserved:3
- *
- * \var extIntSelect:1
- *
- * \var extIntWake:1
- *
- * \var extIntBackup:1
- *
- * \var blank2:1
- *
- * \var limitPeakCurr:2
- *
- * \note See #UBXPM2LimitPeakCurrent to fill this field
- * \var waitTimeFix:1
- *
- * \var updateRTC:1
- *
- * \var updateEPH:1
- *
- * \var blank3:3
- *
- * \var doNotEnterOff:1
- *
- * \var mode:2
- *
- * \note See #UBXPM2Mode to fill this field
+* \struct UBXCFG_PM2Flags
+ * \var UBXCFG_PM2Flags::blank1
+ * Stub to make gap
+ * \var UBXCFG_PM2Flags::reserved
+ * Reserved
+ * \note Must be set to '000'
+ * \var UBXCFG_PM2Flags::extIntSelect
+ * EXTINT Pin Select
+ * \note
+ * - 0 - EXTINT0
+ * - 1 - EXTINT1
+ * \var UBXCFG_PM2Flags::extIntWake
+ * EXTINT Pin Control
+ * \note
+ * - 0 - disabled
+ * - 1 - enabled, force receiver into BACKUP mode when selected EXTINT pin is 'low'
+ * \var UBXCFG_PM2Flags::extIntBackup
+ * EXTINT Pin Control
+ * - 0 - disabled
+ * - 1 - enabled, force receiver into BACKUP mode when selected EXTINT pin is 'low'
+ * \var UBXCFG_PM2Flags::blank2
+ * Stub to make gap
+ * \var UBXCFG_PM2Flags::limitPeakCurr
+ * Limit Peak Current
+ * \see #UBXPM2LimitPeakCurrent to fill this field
+ * \var UBXCFG_PM2Flags::waitTimeFix
+ *  Wait for Timefix
+ * \note
+ * - 0 - wait for normal Fix ok, before starting on-time
+ * - 1 - wait for time fix ok, before starting on-time
+ * \var UBXCFG_PM2Flags::updateRTC
+ * Update Real Time Clock
+ * - 0 - Do not wake-up to update RTC. RTC is updated during normal on-time.
+ * - 1 - Update RTC. The receiver adds extra wake-up cycles to update the RTC.
+ * \var UBXCFG_PM2Flags::updateEPH
+ * Update Ephemeris
+ * - 0 - Do not wake-up to update Ephemeris data
+ * - 1 - Update Ephemeris. The receiver adds extra wake-up cycles to update the Ephemeris data
+ * \var UBXCFG_PM2Flags::blank3
+ * Stub to make gap
+ * \var UBXCFG_PM2Flags::doNotEnterOff
+ *  Behavior of receiver in case of no fix
+ * - 0 - receiver enters inactive for search state
+ * - 1 - receiver does not enter inactive for search state but keeps trying to acquire a fix instead
+ * \var UBXCFG_PM2Flags::mode
+ * Mode of operation
+ * \see #UBXPM2Mode to fill this field
 */
 
 /*!
  * \struct UBXCFG_PM2
- * \brief The UBXCFG_PM2 structure is
- *
- * \var version
- *
- * \var reserved1
- *
- * \var reserved2
- *
- * \var reserved3
- *
-    struct UBXCFG_PM2Flags flags;
- * \var updatePeriod
- *
- * \var searchPeriod
- *
- * \var gridOffset
- *
- * \var onTime
- *
- * \var minAcqTime
- *
- * \var reserved4
- *
- * \var reserved5
- *
- * \var reserved6
- *
- * \var reserved7
- *
- * \var reserved8
- *
- * \var reserved9
- *
- * \var reserved10
- *
- * \var reserved11
- *
+ * \brief Extended Power Management configuration
+ * \var UBXCFG_PM2::version
+ * Message version
+ * \note 1 for this version
+ * \var UBXCFG_PM2::reserved1
+ * Reserved
+ * \var UBXCFG_PM2::reserved2
+ * Reserved
+ * \var UBXCFG_PM2::reserved3
+ * Reserved
+ * \var UBXCFG_PM2::flags
+ * PSM configuration flags
+ * \note See UBXCFG_PM2Flags to fill this field
+ * \var UBXCFG_PM2::updatePeriod
+ * Position update period.
+ * \note If set to 0, the receiver will never retry a fix
+ * \var UBXCFG_PM2::searchPeriod
+ * Acquisition retry period
+ * \note If set to 0, the receiver will never retry a startup
+ * \var UBXCFG_PM2::gridOffset
+ * Grid offset relative to GPS start of week
+ * \var UBXCFG_PM2::onTime
+ * On time after first successful fix
+ * \var UBXCFG_PM2::minAcqTime
+ * Minimal search time
+ * \var UBXCFG_PM2::reserved4
+ * Reserved
+ * \var UBXCFG_PM2::reserved5
+ * Reserved
+ * \var UBXCFG_PM2::reserved6
+ * Reserved
+ * \var UBXCFG_PM2::reserved7
+ * Reserved
+ * \var UBXCFG_PM2::reserved8
+ * Reserved
+ * \var UBXCFG_PM2::reserved9
+ * Reserved
+ * \var UBXCFG_PM2::reserved10
+ * Reserved
+ * \var UBXCFG_PM2::reserved11
+ * Reserved
 */
 
 /*!
  * \struct UBXCFG_PRT_POLL
- * \brief The UBXCFG_PRT_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Polls the configuration of the used I/O Port
 */
 
 /*!
  * \struct UBXCFG_PRT_POLL_OPT
- * \brief The UBXCFG_PRT_POLL_OPT structure is
+ * \brief Polls the configuration for one I/O Port
  *
- * \var portId
- *
+ * \var UBXCFG_PRT_POLL_OPT::portId
+ * Port Identifier Number
+ * \see #UBXCFG_PRT for valid values
 */
 
 /*!
  * \struct UBXCFG_PRTTxReady
- * \var en:1
- *  //0 - disabled, 1 - enabled
- * \var pol:1
- *  //0 - High-active, 1 - Low-active
- * \var pin:5
- *
- * \var thres:9
- *  //Given value is multiplied by 8 bytes
+ * \brief This structure described TX ready PIN configuration for UBXCFG_PRT::txReady
+ * \var UBXCFG_PRTTxReady::en
+ * Enable TX ready feature for this port
+ * \note
+ *  - 0 - disable
+ *  - 1 - enabled
+ * \var UBXCFG_PRTTxReady::pol
+ * Polarity
+ *  - 0 - High-active
+ *  - 1 - Low-active
+ * \var UBXCFG_PRTTxReady::pin
+ * PIO to be used
+ * \note must not be in use already by another function
+ * \var UBXCFG_PRTTxReady::thres
+ * Threshold
+ * The TX ready PIN goes active after >= thres*8 bytes are pending for the port and going inactive after the last
+ * pending bytes have been written to hardware (0-4 bytes before end of stream).
+ * \note Given value is multiplied by 8 bytes
 */
 
 /*!
  * \struct UBXCFG_PRTUARTMode
- * \var blank0:4
- *
- * \var reserved1:1
- *
- * \var blank1:1
- *
- * \var charLen:2
- *
- * \note See #UBXPRTModeCharLen to fill this field
- * \var blank2:1
- *
- * \var parity:3
- *
- * \note See #UBXPRTModeParity to fill this field
- * \var nStopBits:2
- *
- * \note See #UBXPRTModeStopBits to fill this field
- * \var blank3:18
- *
+ * It is part of #UBXCFG_PRTMode union
+ * \brief This structure describes port settings for UART
+ * \var UBXCFG_PRTUARTMode::blank0
+ * Stub for gap
+ * \var UBXCFG_PRTUARTMode::reserved1
+ * Reserved
+ * \note Set to 1 for compatibility with A4
+ * \var UBXCFG_PRTUARTMode::blank1
+ * Stub for gap
+ * \var UBXCFG_PRTUARTMode::charLen
+ * Character Length
+ * \see #UBXPRTModeCharLen to fill this field
+ * \var UBXCFG_PRTUARTMode::blank2
+ * Stub for gap
+ * \var UBXCFG_PRTUARTMode::parity
+ * Parity
+ * \see #UBXPRTModeParity to fill this field
+ * \var UBXCFG_PRTUARTMode::nStopBits
+ * Number of Stop Bits
+ * \see #UBXPRTModeStopBits to fill this field
+ * \var UBXCFG_PRTUARTMode::blank3
+ * Stub for gap
 */
 
 /*!
  * \struct UBXCFG_PRTSPIMode
- * \var blank0:1
- *
- * \var spiMode:2
- *
- * \note See #UBXPRTSPIMode to fill this field
- * \var blank1:3
- *
- * \var flowControl:1
- *  //0 - disabled, 1 - enabled
- * \var blank2:1
- *
- * \var ffCnt:8
- *
- * \var blank3:16
- *
+ * It is part of #UBXCFG_PRTMode union
+ * \brief This structure describes port settings for SPI
+ * \var UBXCFG_PRTSPIMode::blank0
+ * Stub for gap
+ * \var UBXCFG_PRTSPIMode::spiMode
+ * Mode
+ * \see #UBXPRTSPIMode to fill this field
+ * \var UBXCFG_PRTSPIMode::blank1
+ * Stub for gap
+ * \var UBXCFG_PRTSPIMode::flowControl
+ * Flow control
+ * \note
+ * - 0 - disabled
+ * - 1 - enabled
+ * \var UBXCFG_PRTSPIMode::blank2
+ * Stub for gap
+ * \var UBXCFG_PRTSPIMode::ffCnt
+ * Number of bytes containing 0xFF to receive before switching off reception.
+ * \note Range: 0(mechanism off)-255
+ * \var UBXCFG_PRTSPIMode::blank3
+ * Stub for gap
 */
 
 /*!
  * \struct UBXCFG_PRTDDCMode
- * \var blank0:1
- *
- * \var slaveAddr:7
- *  //Range: 0x07 < slaveAddr < 0x78. Bit 0 shall be 0
- * \var blank1:24
- *
+ * It is part of #UBXCFG_PRTMode union
+ * \brief This structure describes port settings for DDC(I2C)
+ * \var UBXCFG_PRTDDCMode::blank0
+ * \var UBXCFG_PRTDDCMode::slaveAddr
+ * Slave address
+ * \note Range: 0x07 < slaveAddr < 0x78. Bit 0 shall be 0
+ * \var UBXCFG_PRTDDCMode::blank1
+ * Stub for gap
 */
 
 /*!
  * \union UBXCFG_PRTMode
-    struct UBXCFG_PRTUARTMode UART;
-    struct UBXCFG_PRTSPIMode SPI;
-    struct UBXCFG_PRTDDCMode DDC;
- * \var USB
- *  //reserved
+ * It is used to fill UBXCFG_PRT::mode field
+ * \brief This union contains mode settings for all ports
+ * \var UBXCFG_PRTMode::UART
+ * UART mode settings
+ * \var UBXCFG_PRTMode::SPI
+ * SPI mode settings
+ * \var UBXCFG_PRTMode::DDC
+ * DDC mode settings
+ * \var UBXCFG_PRTMode::USB
+ * Reserved
+ * \note for USB port there are no mode settings
 */
 
 /*!
-             * \union UBXCFG_PRT5Option
-{
- * \var UARTbaudRate
- *
- * \var OtherReserved
- *
+ * \union UBXCFG_PRT5Option
+ * \brief This union used as 5-th option of #UBXCFG_PRT
+ * \var UBXCFG_PRT5Option::UARTbaudRate
+ * Setup baudrate for UART ports
+ * \var UBXCFG_PRT5Option::OtherReserved
+ * Setting is reserved for all ports except UART
 */
 
 /*!
-             * \struct UBXCFG_PRT
-{
- * \var portID
- *
- * \var reserved0
- *
-    struct UBXCFG_PRTTxReady txReady;
-    union UBXCFG_PRTMode mode;
-    union UBXCFG_PRT5Option option;
- * \var inProtoMask
- *
- * \note See #UBXPRTInProtoMask to fill this field
- * \var outProtoMask
- *
- * \note See #UBXPRTOutProtoMask to fill this field
- * \var flags
- *
- * \note See #UBXPRTFlags to fill this field, shall be 0 for USB
- * \var reserved5
- *
+ * \struct UBXCFG_PRT
+ * For more detailed description please look at official u-blox documentation
+ * \brief Port Configuration message scope for all ports
+ * \var UBXCFG_PRT::portID
+ * Port Identifier Number
+ * \var UBXCFG_PRT::reserved0
+ * Reserved for all ports
+ * \var UBXCFG_PRT::txReady
+ * \see #UBXCFG_PRTTxReady to fill this field
+ * TX ready PIN configuration
+ * \var UBXCFG_PRT::mode;
+ * A bit mask describing port mode
+ * \see #UBXCFG_PRTMode to fille this field
+ * \var UBXCFG_PRT::option;
+ * Optional block
+ * \see #UBXCFG_PRT5Option to fill this field
+ * \var UBXCFG_PRT::inProtoMask
+ *  A mask describing which input protocols are
+ * active.
+ * Each bit of this mask is used for a protocol.
+ * \note Multiple protocols can be defined
+ * on a single port.
+ * \see #UBXPRTInProtoMask to fill this field
+ * \var UBXCFG_PRT::outProtoMask
+ * A mask describing which output protocols are
+ * active.
+ * Each bit of this mask is used for a protocol.
+ * \note Multiple protocols can be defined
+ * on a single port
+ * \see #UBXPRTOutProtoMask to fill this field
+ * \var UBXCFG_PRT::flags
+ * Flags bit mask
+ * \see #UBXPRTFlags to fill this field
+ * \note Shall be 0 for USB
+ * \var UBXCFG_PRT::reserved5
+ * Reserved
+ * \note Always set to 0
 */
 
 /*!
  * \struct UBXCFG_RATE_POLL
- * \brief The UBXCFG_RATE_POLL structure is
- *
-    //No payload
+ *  Sending this message to the receiver results in the receiver returning a message of type #UBXCFG_RATE
+ * \note No payload
+ * \brief Poll Navigation/Measurement Rate Settings
 */
 
 /*!
  * \struct UBXCFG_RATE
- * \brief The UBXCFG_RATE structure is
+ *  The u-blox positioning technology supports navigation update rates higher or lower than 1
+ * update per second. The calculation of the navigation solution will always be aligned to the
+ * top of a second.
+ * - The update rate has a direct influence on the power consumption. The more fixes that
+ * are required, the more CPU power and communication resources are required.
+ * - For most applications a 1 Hz update rate would be sufficient.
+ * - When using Power Save Mode, measurement and navigation rate can differ from the
+ * values configured here. See "Measurement and navigation rate with Power Save Mode" (u-blox official documentation)
+ * for details.
+ * \brief Navigation/Measurement Rate Settings
  *
- * \var measRate
- *
- * \var navRate
- *
- * \var timeRef
- *
+ * \var UBXCFG_RATE::measRate
+ * Measurement Rate, GPS measurements are
+ * taken every measRate milliseconds
+ * \var UBXCFG_RATE::navRate
+ *  Navigation Rate, in number of measurement
+ * cycles.
+ * \note This parameter cannot be changed, and
+ * must be set to 1.
+ * \var UBXCFG_RATE::timeRef
+ *  Alignment to reference time.
+ * \note
+ * - 0 - UTC time
+ * - 1 - GPS time
 */
 
 /*!
  * \struct UBXCFG_RINV_POLL
- * \brief The UBXCFG_RINV_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll contents of Remote Inventory
 */
 
 /*!
  * \struct UBXCFG_RINV
+ * \note This message has variable payload
+ * If size of variable payload is greater than 30, the excess bytes are discarded. In future firmware versions, this limit
+ * may change.
  * \brief The UBXCFG_RINV structure is
- *
- * \var flags
- *
- * \note See #UBXRINVFlags to fill this field
-    //Variable payload size
+ * \var UBXCFG_RINV::flags
+ * Flags
+ * \see #UBXRINVFlags to fill this field
 */
 
 /*!
  * \struct UBXCFG_RST
- * \brief The UBXCFG_RST structure is
+ * \brief Reset Receiver / Clear Backup Data Structures
  *
- * \var navBBRMask
- *
- * \var resetMode
- *
- * \var reserved1
- *
+ * \var UBXCFG_RST::navBBRMask
+ * BBR Sections to clear.
+ * \see #UBXBBRSpecialSets for special sets
+ * \see #UBXBBRMask to fill this field manually
+ * \var UBXCFG_RST::resetMode
+ * Reset Type
+ * \see #UBXResetMode to fill this field
+ * \var UBXCFG_RST::reserved1
+ * Reserved
 */
 
 /*!
  * \struct UBXCFG_RXM_POLL
- * \brief The UBXCFG_RXM_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll RXM configuration
 */
 
 /*!
  * \struct UBXCFG_RXM
- * \brief The UBXCFG_RXM structure is
+ * For a detailed description see section "Power Management"(u-blox official documentation)
+ * \note Power Save Mode cannot be selected when the receiver is configured to process
+ * GLONASS signals using #UBXCFG_GNSS.
+ * \brief RXM configuration
  *
  * \var reserved1
- *  //Shall be set to 8
+ * Reserved
+ * \note Shall be set to 8
  * \var lpMode
- *
- * \note See #UBXRXMLowPowerModes to fill this field
+ * Low power mode
+ * \see #UBXRXMLowPowerModes to fill this field
 */
 
 /*!
  * \struct UBXCFG_SBAS_POLL
- * \brief The UBXCFG_SBAS_POLL structure is
+ * \note No payload
+ * \brief Poll contents of SBAS Configuration
  *
-    //No payload
 */
 
 /*!
@@ -3561,18 +3889,18 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var mode
  *
- * \note See #UBXSBASModes to fill this field
+ * \see #UBXSBASModes to fill this field
  * \var usage
  *
- * \note See #UBXSBASUsage to fill this field
+ * \see #UBXSBASUsage to fill this field
  * \var maxSBAS
  *
  * \var scanmode2
  *
- * \note See #UBXSBASScanModes2 to fill this field
+ * \see #UBXSBASScanModes2 to fill this field
  * \var scanmode1
  *
- * \note See #UBXSBASScanModes1 to fill this field
+ * \see #UBXSBASScanModes1 to fill this field
 */
 
 /*!
@@ -3616,7 +3944,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var flags
  *
- * \note See #UBXCFGTimepulseFlags to fill this field
+ * \see #UBXCFGTimepulseFlags to fill this field
 */
 
 /*!
@@ -3804,7 +4132,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var status
  *
- * \note See #UBXLOGStatus to fill this field
+ * \see #UBXLOGStatus to fill this field
  * \var reserved6[3]
  *
 */
@@ -3831,7 +4159,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *  //Shall be 0
  * \var fixType
  *
- * \note See #UBXRETRIEVEPOSFixType to fill this field
+ * \see #UBXRETRIEVEPOSFixType to fill this field
  * \var year
  *
  * \var month
@@ -4046,7 +4374,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var flags
  *
- * \note See #UBXRXRFlags to fill this field
+ * \see #UBXRXRFlags to fill this field
 */
 
 /*!
@@ -4093,10 +4421,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var aopCfg
  *
- * \note See #UBXAOPCfg to fill this field
+ * \see #UBXAOPCfg to fill this field
  * \var status
  *
- * \note See #UBXAOPStatus to fill this field
+ * \see #UBXAOPStatus to fill this field
  * \var reserved0
  *
  * \var reserved1
@@ -4235,7 +4563,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var psmState:3
  *
- * \note See #UBXPVTPSMStates to fill this field
+ * \see #UBXPVTPSMStates to fill this field
 */
 
 /*!
@@ -4258,14 +4586,14 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var valid
  *
- * \note See #UBXPVTValid to fill this field
+ * \see #UBXPVTValid to fill this field
  * \var tAcc
  *
  * \var nano
  *
  * \var fixType
  *
- * \note See #UBXGPSFix to fill this field
+ * \see #UBXGPSFix to fill this field
     struct UBXPVTFlags flags;
  * \var reserved1
  *
@@ -4319,7 +4647,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var service
  *
- * \note See #UBXSBASService to fill this field
+ * \see #UBXSBASService to fill this field
  * \var cnt
  *
  * \var reserved0[3]
@@ -4363,10 +4691,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var gpsFix
  *
- * \note See #UBXGPSFix to fill this field
+ * \see #UBXGPSFix to fill this field
  * \var flags
  *
- * \note See #UBXSBASSOLFlags to fill this field
+ * \see #UBXSBASSOLFlags to fill this field
  * \var ecefX
  *
  * \var ecefY
@@ -4403,10 +4731,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var flags
  *
- * \note See #UBXGPSFix to fill this field
+ * \see #UBXGPSFix to fill this field
  * \var fixStat
  *
- * \note See #UBXSBASSOLFlags to fill this field
+ * \see #UBXSBASSOLFlags to fill this field
  * \var flags2
  *
  * \var ttff
@@ -4420,7 +4748,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 {
  * \var chipGen:3
  *
- * \note See #UBXSVINFOChipGen to fill this field
+ * \see #UBXSVINFOChipGen to fill this field
 */
 
 /*!
@@ -4442,7 +4770,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 {
  * \var qualityInd:4
  *
- * \note See #UBXSVINFOQualityId to fill this field
+ * \see #UBXSVINFOQualityId to fill this field
 */
 
 /*!
@@ -4455,7 +4783,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var flags
  *
- * \note See #UBXSVINFOFlags to fill this field
+ * \see #UBXSVINFOFlags to fill this field
  * \var quality
  *
  * \var cno
@@ -4482,7 +4810,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var valid
  *
- * \note See #UBXTIMEGPSValidityFlags to fill this field
+ * \see #UBXTIMEGPSValidityFlags to fill this field
  * \var tAcc
  *
 */
@@ -4511,7 +4839,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var valid
  *
- * \note See #UBXTIMEUTCValidityFlags to fill this field
+ * \see #UBXTIMEUTCValidityFlags to fill this field
 */
 
 /*!
@@ -4643,7 +4971,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  *
  * \var flags
  *
- * \note See #UBXPMREQFlags to fill this field
+ * \see #UBXPMREQFlags to fill this field
 */
 
 /*!
@@ -4747,21 +5075,21 @@ struct UBXSVSIAge age;
 * \struct UBXTM2Flags
 * \var mode:1
 *
-* \note See #UBXTM2FlagsMode to fill this field
+* \see #UBXTM2FlagsMode to fill this field
 * \var run:1
 *
-* \note See #UBXTM2FlagsRun to fill this field
+* \see #UBXTM2FlagsRun to fill this field
 * \var newFallingEdge:1
 *
 * \var timeBase:2
 *
-* \note See #UBXTM2FlagsTimeBase to fill this field
+* \see #UBXTM2FlagsTimeBase to fill this field
 * \var utc:1
 *
-* \note See #UBXTM2FlagsUTC to fill this field
+* \see #UBXTM2FlagsUTC to fill this field
 * \var time:1
 *
-* \note See #UBXTM2FlagsTime to fill this field
+* \see #UBXTM2FlagsTime to fill this field
 * \var newRisingEdge:1
 *
 */
@@ -4815,7 +5143,7 @@ struct UBXTM2Flags flags;
 *
 * \var UBXVRFYFlags::src
 * Blabla variable
-* \note See #UBXVRFYFlagsSource to fill this field
+* \see #UBXVRFYFlagsSource to fill this field
 */
 
 /*!
