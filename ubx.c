@@ -2235,7 +2235,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * u-blox 5
  * \var UBXSVINFOUBlox6Chip
  * u-blox 6
-};
+*/
 
 /*!
  * \enum UBXSVINFOFlags
@@ -2436,8 +2436,2411 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  */
 
 /*!
+ * \struct UBXAID_ALPSRV
+ * This message is sent by the ALP client to the ALP server in order to request data. The given
+ * identifier must be prepended to the requested data when submitting the data.
+ * \brief ALP client requests AlmanacPlus data from server
+ * \var UBXAID_ALPSRV::idSize
+ * Identifier size. This data, beginning at message start, must prepend the returned data.
+ * \var UBXAID_ALPSRV::type
+ * Requested data type. Must be different from 0xff, otherwise this is not a data request.
+ * \var UBXAID_ALPSRV::offset
+ * Requested data offset [16bit words]
+ * \var UBXAID_ALPSRV::size
+ * Requested data size [16bit words]
+ * \var UBXAID_ALPSRV::fileId
+ * Unused when requesting data, filled in when sending back the data
+ * \var UBXAID_ALPSRV::dataSize
+ * Actual data size. Unused when requesting data, filled in when sending back the data.
+ * \var UBXAID_ALPSRV::id1
+ * Identifier data
+ * \var UBXAID_ALPSRV::id2
+ * Identifier data
+ * \var UBXAID_ALPSRV::id3
+ * Identifier data
+*/
+
+/*!
+ * \struct UBXACK_ACK
+ * Output upon processing of an input message
+ * \brief Message acknowledged
+ * \var UBXACK_ACK::msgClass
+ * Class ID of the Acknowledged Message
+ * \note See #UBXMessageClass to fill this field
+ * \var UBXACK_ACK::msgId
+ * Message ID of the Acknowledged Message
+ * \note See #UBXMessageId to fill this field
+*/
+
+/*!
+ * \struct UBXACK_NACK
+ * Output upon processing of an input message
+ * \brief Message Not-Acknowledged
+ * \var UBXACK_NACK::msgClass
+ * Class ID of the Acknowledged Message
+ * \note See #UBXMessageClass to fill this field
+ * \var UBXACK_NACK::msgId
+ * Message ID of the Acknowledged Message
+ * \note See #UBXMessageId to fill this field
+*/
+
+/*!
+ * \struct UBXAID_ALM_POLL
+ * Poll GPS Aiding Data (Almanac) for all 32 SVs by sending this message to the receiver
+ * without any payload. The receiver will return 32 messages of type AID-ALM as defined
+ * below.
+ * \note No payload
+ * \brief Poll GPS Aiding Almanac Data
+*/
+
+/*!
+ * \struct UBXAID_ALM_POLL_OPT
+ * Poll GPS Aiding Data (Almanac) for an SV by sending this message to the receiver. The
+ * receiver will return one message of type AID-ALM as defined below.
+ * \brief Poll GPS Aiding Almanac Data for a SV
+ *
+ * \var UBXAID_ALM_POLL_OPT::svid
+ * SV ID for which the receiver shall return its
+ * Almanac Data (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+*/
+
+/*!
+ * \struct UBXAID_ALM
+ * - If the WEEK Value is 0, DWRD0 to DWRD7 are not sent as the Almanac is not available
+ * for the given SV. This may happen even if NAV-SVINFO and RXM-SVSI are indicating
+ * almanac availability as the internal data may not represent the content of an original
+ * broadcast almanac (or only parts thereof).
+ * - DWORD0 to DWORD7 contain the 8 words following the Hand-Over Word ( HOW )
+ * from the GPS navigation message, either pages 1 to 24 of sub-frame 5 or pages 2 to 10
+ * of subframe 4. See IS-GPS-200 for a full description of the contents of the Almanac
+ * pages.
+ * - In DWORD0 to DWORD7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - Example: Parameter e (Eccentricity) from Almanac Subframe 4/5, Word 3, Bits 69-84
+ * within the subframe can be found in DWRD0, Bits 15-0 whereas Bit 0 is the LSB.
+ * \brief GPS Aiding Almanac Input/Output Message
+ *
+ * \var UBXAID_ALM::svid
+ *  SV ID for which this
+ * Almanac Data is (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+ * \var UBXAID_ALM::week
+ * Issue Date of Almanac (GPS week number)
+*/
+
+/*!
+ * \struct UBXAID_ALM_OPT
+ * - If the WEEK Value is 0, DWRD0 to DWRD7 are not sent as the Almanac is not available
+ * for the given SV. This may happen even if NAV-SVINFO and RXM-SVSI are indicating
+ * almanac availability as the internal data may not represent the content of an original
+ * broadcast almanac (or only parts thereof).
+ * - DWORD0 to DWORD7 contain the 8 words following the Hand-Over Word ( HOW )
+ * from the GPS navigation message, either pages 1 to 24 of sub-frame 5 or pages 2 to 10
+ * of subframe 4. See IS-GPS-200 for a full description of the contents of the Almanac
+ * pages.
+ * - In DWORD0 to DWORD7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - Example: Parameter e (Eccentricity) from Almanac Subframe 4/5, Word 3, Bits 69-84
+ * within the subframe can be found in DWRD0, Bits 15-0 whereas Bit 0 is the LSB.
+ * \brief GPS Aiding Almanac Input/Output Message
+ *
+ * \var UBXAID_ALM_OPT::svid
+ *  SV ID for which this
+ * Almanac Data is (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+ * \var UBXAID_ALM_OPT::week
+ * Issue Date of Almanac (GPS week number)
+ * \var UBXAID_ALM_OPT::dwrd[8]
+ * Almanac Words
+*/
+
+/*!
+ * \struct UBXAID_ALP
+ * This message is used to transfer a chunk of data from the AlmanacPlus file to the receiver.
+ * Upon reception of this message, the receiver will write the payload data to its internal
+ * non-volatile memory, eventually also erasing that part of the memory first. Make sure that
+ * the payload size is even sized (i.e. always a multiple of 2). Do not use payloads larger than
+ * ~ 700 bytes, as this would exceed the receiver's internal buffering capabilities. The receiver
+ * will (not-) acknowledge this message using the message alternatives given below. The host
+ * shall wait for an acknowledge message before sending the next chunk.
+ * \note This structure contains variable payload:\n
+ * UBXU2_t alpData ALP file data
+ * \brief  ALP file data transfer to the receiver
+*/
+
+/*!
+ * \struct UBXAID_ALP_END
+ * This message is used to indicate that all chunks have been transferred, and normal receiver
+ * operation can resume. Upon reception of this message, the receiver will verify all chunks
+ * received so far, and enable AssistNow Offline and GPS receiver operation if successful. This
+ * message could also be sent to cancel an incomplete download.
+ * \brief Mark end of data transfer
+ * \var UBXAID_ALP_END::dummy
+ * - Value is ignored if it's end of data transfer
+ * - If value is set to 0x01 message acknowledges a data transfer
+ * - If value is set to 0x00 message indicates problems with a data transfer
+*/
+
+/*!
+ * \struct UBXAID_ALP_POLL
+ * \brief   Poll the AlmanacPlus status
+ *
+ * \var UBXAID_ALP_POLL::predTow
+ * Prediction start time of week
+ * \var UBXAID_ALP_POLL::predDur
+ * Prediction duration from start of first data set to
+ * end of last data set
+ * \var UBXAID_ALP_POLL::age
+ * Current age of ALP data
+ * \var UBXAID_ALP_POLL::predWno
+ * Prediction start week number
+ * \var UBXAID_ALP_POLL::almWno
+ * Truncated week number of reference almanac
+ * \var UBXAID_ALP_POLL::reserved1
+ * Reserved
+ * \var UBXAID_ALP_POLL::svs
+ * Number of satellite data sets contained in the
+ * ALP UBXAID_ALP_POLL::data
+ * \var UBXAID_ALP_POLL::reserved2
+ * Reserved
+ * \var UBXAID_ALP_POLL::reserved3
+ * Reserved
+*/
+
+/*!
+ * \struct UBXAID_AOP_POLL
+ * Poll AssistNow Autonomous aiding data for all satellits by sending this empty message. The
+ * receiver will return an AID-AOP message (see definition below) for each satellite for which
+ * data is available. For satellites for which no data is available it will return a corresponding
+ * AID-AOP poll request message.
+ * \note No payload
+ * \brief Poll AssistNow Autonomous data
+*/
+
+/*!
+ * \struct UBXAID_AOP_POLL_OPT
+ * Poll the AssistNow Autonomous data for the specified satellite. The receiver will return a
+ * AID-AOP message (see definition below) if data is available for the requested satellite. If no
+ * data is available it will return corresponding AID-AOP poll request message (i.e. this
+ * message).
+ * \brief Poll AssistNow Autonomous data for one satellite
+ * \var UBXAID_AOP_POLL_OPT::svid
+ * GPS SV id for which the data is requested (valid range: 1..32).
+*/
+
+/*!
+ * \struct UBXAID_AOP
+ * If enabled, this message is output at irregular intervals. It is output whenever AssistNow
+ * Autonomous has produced new data for a satellite. Depending on the availability of the
+ * optional data the receiver will output either version of the message. If this message is
+ * polled using one of the two poll requests described above the receiver will send this
+ * message if AOP data is available or the corresponding poll request message if no AOP data
+ * is available for each satellite (i.e. svid 1..32). At the user's choice the optional data may be
+ * chopped from the payload of a previously polled message when sending the message back
+ * to the receiver. Sending a valid AID-AOP message to the receiver will automatically enable
+ * the AssistNow Autonomous feature on the receiver. See the section AssistNow
+ * Autonomous in the receiver description for details on this feature.
+ * \brief AssistNow Autonomous data
+ * \var UBXAID_AOP::svid
+ * GPS SV id
+ * \var UBXAID_AOP::data[59]
+ * AssistNow Autonomous data
+*/
+
+/*!
+ * \struct UBXAID_AOP_OPT
+ * If enabled, this message is output at irregular intervals. It is output whenever AssistNow
+ * Autonomous has produced new data for a satellite. Depending on the availability of the
+ * optional data the receiver will output either version of the message. If this message is
+ * polled using one of the two poll requests described above the receiver will send this
+ * message if AOP data is available or the corresponding poll request message if no AOP data
+ * is available for each satellite (i.e. svid 1..32). At the user's choice the optional data may be
+ * chopped from the payload of a previously polled message when sending the message back
+ * to the receiver. Sending a valid AID-AOP message to the receiver will automatically enable
+ * the AssistNow Autonomous feature on the receiver. See the section AssistNow
+ * Autonomous in the receiver description for details on this feature.
+ * \brief AssistNow Autonomous data
+ * \var UBXAID_AOP_OPT::svid
+ * GPS SV id
+ * \var UBXAID_AOP_OPT::data[59]
+ * AssistNow Autonomous data
+ * \var UBXAID_AOP_OPT::optional0[48]
+ * Optional data chunk 1/3
+ * \var UBXAID_AOP_OPT::optional1[48]
+ * Optional data chunk 2/3
+ * \var UBXAID_AOP_OPT::optional2[48]
+ * Optional data chunk 3/3
+*/
+
+/*!
+ * \struct UBXAID_DATA_POLL
+ * If this poll is received, the messages AID-INI, AID-HUI, AID-EPH and AID-ALM are sent.
+ * \note No payload
+ * \brief Polls all GPS Initial Aiding Data
+*/
+
+/*!
+ * \struct UBXAID_EPH_POLL
+ * \note No payload
+ * \brief The UBXAID_EPH_POLL structure is
+ *
+*/
+
+/*!
+ * \struct UBXAID_EPH_POLL_OPT
+ * \brief The UBXAID_EPH_POLL_OPT structure is
+ *
+ * \var svid
+ *
+*/
+
+/*!
+ * \struct UBXAID_EPH
+ * \brief The UBXAID_EPH structure is
+ *
+ * \var svid
+ *
+ * \var how
+ *
+*/
+
+/*!
+ * \struct UBXAID_EPH_OPT
+ * \brief The UBXAID_EPH_OPT structure is
+ *
+ * \var svid
+ *
+ * \var how
+ *
+ * \var sf1d[8]
+ *
+ * \var sf2d[8]
+ *
+ * \var sf3d[8]
+ *
+*/
+
+/*!
+ * \struct UBXAID_HUI_POLL
+ * \note No payload
+ * \brief The UBXAID_HUI_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXAID_HUI
+ * \brief The UBXAID_HUI structure is
+ *
+ * \var health
+ *
+ * \var utcA0
+ *
+ * \var utcA1
+ *
+ * \var utcTOW
+ *
+ * \var utcWNT
+ *
+ * \var utcLS
+ *
+ * \var utcWNF
+ *
+ * \var utcDN
+ *
+ * \var utcLSF
+ *
+ * \var utcSpare
+ *
+ * \var klobA0
+ *
+ * \var klobA1
+ *
+ * \var klobA2
+ *
+ * \var klobA3
+ *
+ * \var klobB0
+ *
+ * \var klobB1
+ *
+ * \var klobB2
+ *
+ * \var klobB3
+ *
+ * \var flags
+ *
+*/
+
+/*!
+ * \struct UBXAID_INI_POLL
+ * \brief The UBXAID_INI_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXAID_INI
+ * \brief The UBXAID_INI structure is
+ *
+ * \var ecefXOrLat
+ *
+ * \var ecefYOrLat
+ *
+ * \var ecefZOrLat
+ *
+ * \var posAcc
+ *
+ * \var tmCfg
+ *
+ * \var wnoOrDate
+ *
+ * \var towOrDate
+ *
+ * \var towNs
+ *
+ * \var tAccMS
+ *
+ * \var tAccNS
+ *
+ * \var clkDOrFreq
+ *
+ * \var clkDAccOrFreqAcc
+ *
+ * \var flags
+ *
+*/
+
+/*!
+ * \struct UBXAID_REQ
+ * \brief The UBXAID_REQ structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_ANT_POLL
+ * \brief The UBXCFG_ANT_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXANTPins
+{
+ * \var UBXANTpinSwitch:5
+ *
+ * \var UBXANTpinSCD:5
+ *
+ * \var UBXANTpinOCD:5
+ *
+ * \var UBXANTreconfig:1
+ *
+*/
+
+/*!
+ * \struct UBXCFG_ANT
+ * \brief The UBXCFG_ANT structure is
+ *
+ * \var flags
+ *
+ * \note See #UBXANTFlags to fill this field
+    struct UBXANTPins pins;
+*/
+
+/*!
+ * \struct UBXCFG_CFG
+ * \brief The UBXCFG_CFG structure is
+ *
+ * \var clearMask
+ *
+ * \note See #UBXCFGMask to fill this field
+ * \var saveMask
+ *
+ * \note See #UBXCFGMask to fill this field
+ * \var loadMask
+ *
+ * \note See #UBXCFGMask to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_CFG_OPT
+ * \brief The UBXCFG_CFG_OPT structure is
+ *
+ * \var clearMask
+ *
+ * \note See #UBXCFGMask to fill this field
+ * \var saveMask
+ *
+ * \note See #UBXCFGMask to fill this field
+ * \var loadMask
+ *
+ * \note See #UBXCFGMask to fill this field
+ * \var deviceMask
+ *
+ * \note See #UBXCFGDeviceMask to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_DAT_POLL
+ * \brief The UBXCFG_DAT_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_DAT_IN
+ * \brief The UBXCFG_DAT_IN structure is
+ *
+ * \var majA
+ *
+ * \var flat
+ *
+ * \var dX
+ *
+ * \var dY
+ *
+ * \var dZ
+ *
+ * \var rotX
+ *
+ * \var rotY
+ *
+ * \var rotZ
+ *
+ * \var scale
+ *
+*/
+
+/*!
+ * \struct UBXCFG_DAT_OUT
+ * \brief The UBXCFG_DAT_OUT structure is
+ *
+ * \var datumNum
+ *
+ * \var datumName[6]
+ *
+ * \var majA
+ *
+ * \var flat
+ *
+ * \var dX
+ *
+ * \var dY
+ *
+ * \var dZ
+ *
+ * \var rotX
+ *
+ * \var rotY
+ *
+ * \var rotZ
+ *
+ * \var scale
+ *
+*/
+
+/*!
+ * \struct UBXCFG_GNSS_POLL
+ * \brief The UBXCFG_GNSS_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_GNSS
+ * \brief The UBXCFG_GNSS structure is
+ *
+ * \var msgVer
+ *
+ * \var numTrkChHw
+ *
+ * \var numTrkChUse
+ *
+ * \var numConfigBlocks
+ *
+    //Variable addition here
+    //See structure below
+*/
+
+/*!
+     * \struct  UBXCFG_GNSS_PART
+{
+ * \var gnssId
+ *
+ * \note See #UBXGNSSIds to fill this field
+ * \var resTrkCh
+ *
+ * \var maxTrkCh
+ *
+ * \var reserved1
+ *
+ * \var flags
+ *  //0 - disabled, 1 - enabled
+*/
+
+/*!
+ * \struct UBXCFG_INF_POLL
+ * \brief The UBXCFG_INF_POLL structure is
+ *
+ * \var protocolId
+ *
+*/
+
+/*!
+ * \struct UBXCFG_INF
+ * \brief The UBXCFG_INF structure is
+ *
+    //Variable payload
+    //See structure UBXCFG_INF_PART below
+*/
+
+/*!
+ * \struct UBXCFG_INF_PART
+ * \brief The UBXCFG_INF_PART structure is
+ *
+ * \var protocolId
+ *
+ * \var reserved0
+ *
+ * \var reserved1
+ *
+ * \var infMsgMask[6]
+ *
+ * \note See #UBXCFGInfMsgMask to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_ITFM_POLL
+ * \brief The UBXCFG_ITFM_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+             * \struct  UBXITFMConfig
+{
+ * \var bbThreshold:4
+ *
+ * \var cwThreshold:5
+ *
+ * \var reserved1:22
+ *  //Should be 0x16B156
+ * \var enbled:1
+ *
+*/
+
+/*!
+             * \struct  UBXITFMConfig2
+{
+ * \var reserved2:12
+ *  //Should be 0x31E
+ * \var antSetting:2
+ *
+ * \note See #UBXITFMAntSetting to fill this field
+ * \var reserved3:18
+ *  //Should be 0x00
+*/
+
+/*!
  * \struct UBXCFG_ITFM
- * \brief The UBXCFG_ITFM struct
- * \var struct UBXITFMConfig config;
- * \var struct UBXITFMConfig2 config2;
- */
+ * \brief The UBXCFG_ITFM structure is
+ *
+        struct UBXITFMConfig config;
+        struct UBXITFMConfig2 config2;
+    */
+
+/*!
+ * \struct UBXCFG_LOGFILTER_POLL
+ * \brief The UBXCFG_LOGFILTER_POLL structure is
+ *
+    //No payload data
+*/
+
+/*!
+ * \struct UBXCFG_LOGFILTER
+ * \brief The UBXCFG_LOGFILTER structure is
+ *
+ * \var version
+ *
+ * \var flags
+ *
+ * \note See #UBXLOGFILTERFlags to fill this field
+ * \var minIterval
+ *
+ * \var timeThreshold
+ *
+ * \var speedThreshold
+ *
+ * \var positionThreshold
+ *
+*/
+
+/*!
+ * \struct UBXCFG_MSG_POLL
+ * \brief The UBXCFG_MSG_POLL structure is
+ *
+ * \var msgClass
+ *
+ * \var msgId
+ *
+*/
+
+/*!
+ * \struct UBXCFG_MSG_RATES
+ * \brief The UBXCFG_MSG_RATES structure is
+ *
+ * \var msgClass
+ *
+ * \var msgId
+ *
+ * \var rate[6]
+ *
+*/
+
+/*!
+ * \struct UBXCFG_MSG_RATE
+ * \brief The UBXCFG_MSG_RATE structure is
+ *
+ * \var msgClass
+ *
+ * \var msgId
+ *
+ * \var rate
+ *
+*/
+
+/*!
+ * \struct UBXCFG_NAV5_POLL
+ * \brief The UBXCFG_NAV5_POLL structure is
+ *
+    //No payload data
+*/
+
+/*!
+ * \struct UBXCFG_NAV5
+ * \brief The UBXCFG_NAV5 structure is
+ *
+ * \var mask
+ *
+ * \note See #UBXNAV5Mask to fill this field
+ * \var dynModel
+ *
+ * \note See #UBXNAV5Model to fill this field
+ * \var fixMode
+ *
+ * \note See #UBXNAV5FixMode to fill this field
+ * \var fixedAlt
+ *
+ * \var fixedAltVar
+ *
+ * \var minElev
+ *
+ * \var drLimit
+ *
+ * \var pDop
+ *
+ * \var tDop
+ *
+ * \var pAcc
+ *
+ * \var tAcc
+ *
+ * \var staticHoldThresh
+ *
+ * \var dgpsTimeOut
+ *
+ * \var cnoThreshNumSVs
+ *
+ * \var cnoThresh
+ *
+ * \var reserved2
+ *  //Set to 0
+ * \var reserved3
+ *  //Set to 0
+ * \var reserved4
+ *  //Set to 0
+*/
+
+/*!
+ * \struct UBXCFG_NAVX5_POLL
+ * \brief The UBXCFG_NAVX5_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_NAVX5
+ * \brief The UBXCFG_NAVX5 structure is
+ *
+ * \var version
+ *
+ * \var mask1
+ *
+ * \note See #UBXNAVX5Mask to fill this field
+ * \var reserved0
+ *  //Set 0
+ * \var reserved1
+ *  //Set 0
+ * \var reserved2
+ *  //Set 0
+ * \var minSVs
+ *
+ * \var maxSVs
+ *
+ * \var minCNO
+ *
+ * \var reserved5
+ *  //Set 0
+ * \var iniFix3D
+ *
+ * \var reserved6
+ *  //Set 0
+ * \var reserved7
+ *  //Set 0
+ * \var reserved8
+ *  //Set 0
+ * \var wknRollover
+ *
+ * \var reserved9
+ *  //Set 0
+ * \var reserved10
+ *  //Set 0
+ * \var reserved11
+ *  //Set 0
+ * \var usePPP
+ *
+ * \var aopCFG
+ *  // 0-disabled, 1 - enabled
+ * \var reserved12
+ *  //Set 0
+ * \var reserved13
+ *  //Set 0
+ * \var aopOrbMaxErr
+ *
+ * \var reserved14
+ *  //Set 0
+ * \var reserved15
+ *  //Set 0
+ * \var reserved3
+ *  //Set 0
+ * \var reserved4
+ *  //Set 0
+*/
+
+/*!
+ * \struct UBXCFG_NMEA_POLL
+ * \brief The UBXCFG_NMEA_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_NMEA
+ * \brief The UBXCFG_NMEA structure is
+ *
+ * \var filter
+ *
+ * \note See #UBXNMEAFilter to fill this field
+ * \var nmeaVersion
+ *
+ * \var numSV
+ *
+ * \var flags
+ *
+ * \note See #UBXNMEAFlags to fill this field
+ * \var gnssToFilter
+ *
+ * \note See #UBXNMEAGNSSToFilter to fill this field
+ * \var svNumbering
+ *
+ * \var mainTalkerId
+ *
+ * \var gsvTalkerId
+ *
+ * \var reserved
+ *
+*/
+
+/*!
+ * \struct UBXCFG_NVS
+ * \brief The UBXCFG_NVS structure is
+ *
+ * \var clearMask
+ *
+ * \note See #UBXCFGMask CFG_NVS section to fill this field
+ * \var saveMask
+ *
+ * \note See #UBXCFGMask CFG_NVS section to fill this field
+ * \var loadMask
+ *
+ * \note See #UBXCFGMask CFG_NVS section to fill this field
+ * \var deviceMask
+ *
+ * \note See #UBXCFGDeviceMask to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_PM2_POLL
+ * \brief The UBXCFG_PM2_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+             * \struct UBXCFG_PM2Flags
+{
+ * \var blank1:1
+ *
+ * \var reserved:3
+ *
+ * \var extIntSelect:1
+ *
+ * \var extIntWake:1
+ *
+ * \var extIntBackup:1
+ *
+ * \var blank2:1
+ *
+ * \var limitPeakCurr:2
+ *
+ * \note See #UBXPM2LimitPeakCurrent to fill this field
+ * \var waitTimeFix:1
+ *
+ * \var updateRTC:1
+ *
+ * \var updateEPH:1
+ *
+ * \var blank3:3
+ *
+ * \var doNotEnterOff:1
+ *
+ * \var mode:2
+ *
+ * \note See #UBXPM2Mode to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_PM2
+ * \brief The UBXCFG_PM2 structure is
+ *
+ * \var version
+ *
+ * \var reserved1
+ *
+ * \var reserved2
+ *
+ * \var reserved3
+ *
+    struct UBXCFG_PM2Flags flags;
+ * \var updatePeriod
+ *
+ * \var searchPeriod
+ *
+ * \var gridOffset
+ *
+ * \var onTime
+ *
+ * \var minAcqTime
+ *
+ * \var reserved4
+ *
+ * \var reserved5
+ *
+ * \var reserved6
+ *
+ * \var reserved7
+ *
+ * \var reserved8
+ *
+ * \var reserved9
+ *
+ * \var reserved10
+ *
+ * \var reserved11
+ *
+*/
+
+/*!
+ * \struct UBXCFG_PRT_POLL
+ * \brief The UBXCFG_PRT_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_PRT_POLL_OPT
+ * \brief The UBXCFG_PRT_POLL_OPT structure is
+ *
+ * \var portId
+ *
+*/
+
+/*!
+ * \struct UBXCFG_PRTTxReady
+ * \var en:1
+ *  //0 - disabled, 1 - enabled
+ * \var pol:1
+ *  //0 - High-active, 1 - Low-active
+ * \var pin:5
+ *
+ * \var thres:9
+ *  //Given value is multiplied by 8 bytes
+*/
+
+/*!
+ * \struct UBXCFG_PRTUARTMode
+ * \var blank0:4
+ *
+ * \var reserved1:1
+ *
+ * \var blank1:1
+ *
+ * \var charLen:2
+ *
+ * \note See #UBXPRTModeCharLen to fill this field
+ * \var blank2:1
+ *
+ * \var parity:3
+ *
+ * \note See #UBXPRTModeParity to fill this field
+ * \var nStopBits:2
+ *
+ * \note See #UBXPRTModeStopBits to fill this field
+ * \var blank3:18
+ *
+*/
+
+/*!
+ * \struct UBXCFG_PRTSPIMode
+ * \var blank0:1
+ *
+ * \var spiMode:2
+ *
+ * \note See #UBXPRTSPIMode to fill this field
+ * \var blank1:3
+ *
+ * \var flowControl:1
+ *  //0 - disabled, 1 - enabled
+ * \var blank2:1
+ *
+ * \var ffCnt:8
+ *
+ * \var blank3:16
+ *
+*/
+
+/*!
+ * \struct UBXCFG_PRTDDCMode
+ * \var blank0:1
+ *
+ * \var slaveAddr:7
+ *  //Range: 0x07 < slaveAddr < 0x78. Bit 0 shall be 0
+ * \var blank1:24
+ *
+*/
+
+/*!
+ * \union UBXCFG_PRTMode
+    struct UBXCFG_PRTUARTMode UART;
+    struct UBXCFG_PRTSPIMode SPI;
+    struct UBXCFG_PRTDDCMode DDC;
+ * \var USB
+ *  //reserved
+*/
+
+/*!
+             * \union UBXCFG_PRT5Option
+{
+ * \var UARTbaudRate
+ *
+ * \var OtherReserved
+ *
+*/
+
+/*!
+             * \struct UBXCFG_PRT
+{
+ * \var portID
+ *
+ * \var reserved0
+ *
+    struct UBXCFG_PRTTxReady txReady;
+    union UBXCFG_PRTMode mode;
+    union UBXCFG_PRT5Option option;
+ * \var inProtoMask
+ *
+ * \note See #UBXPRTInProtoMask to fill this field
+ * \var outProtoMask
+ *
+ * \note See #UBXPRTOutProtoMask to fill this field
+ * \var flags
+ *
+ * \note See #UBXPRTFlags to fill this field, shall be 0 for USB
+ * \var reserved5
+ *
+*/
+
+/*!
+ * \struct UBXCFG_RATE_POLL
+ * \brief The UBXCFG_RATE_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_RATE
+ * \brief The UBXCFG_RATE structure is
+ *
+ * \var measRate
+ *
+ * \var navRate
+ *
+ * \var timeRef
+ *
+*/
+
+/*!
+ * \struct UBXCFG_RINV_POLL
+ * \brief The UBXCFG_RINV_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_RINV
+ * \brief The UBXCFG_RINV structure is
+ *
+ * \var flags
+ *
+ * \note See #UBXRINVFlags to fill this field
+    //Variable payload size
+*/
+
+/*!
+ * \struct UBXCFG_RST
+ * \brief The UBXCFG_RST structure is
+ *
+ * \var navBBRMask
+ *
+ * \var resetMode
+ *
+ * \var reserved1
+ *
+*/
+
+/*!
+ * \struct UBXCFG_RXM_POLL
+ * \brief The UBXCFG_RXM_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_RXM
+ * \brief The UBXCFG_RXM structure is
+ *
+ * \var reserved1
+ *  //Shall be set to 8
+ * \var lpMode
+ *
+ * \note See #UBXRXMLowPowerModes to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_SBAS_POLL
+ * \brief The UBXCFG_SBAS_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_SBAS
+ * \brief The UBXCFG_SBAS structure is
+ *
+ * \var mode
+ *
+ * \note See #UBXSBASModes to fill this field
+ * \var usage
+ *
+ * \note See #UBXSBASUsage to fill this field
+ * \var maxSBAS
+ *
+ * \var scanmode2
+ *
+ * \note See #UBXSBASScanModes2 to fill this field
+ * \var scanmode1
+ *
+ * \note See #UBXSBASScanModes1 to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_TP5_POLL
+ * \brief The UBXCFG_TP5_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_TP5_POLL_OPT
+ * \brief The UBXCFG_TP5_POLL_OPT structure is
+ *
+ * \var tpIdx
+ *
+*/
+
+/*!
+ * \struct UBXCFG_TP5
+ * \brief The UBXCFG_TP5 structure is
+ *
+ * \var tpIdx
+ *
+ * \var reserved0
+ *
+ * \var reserved1
+ *
+ * \var antCableDelay
+ *
+ * \var rfGroupDelay
+ *
+ * \var freqPeriod
+ *
+ * \var freqPeriodLock
+ *
+ * \var pulseLenRatio
+ *
+ * \var pulseLenRatioLock
+ *
+ * \var userConfigDelay
+ *
+ * \var flags
+ *
+ * \note See #UBXCFGTimepulseFlags to fill this field
+*/
+
+/*!
+ * \struct UBXCFG_USB_POLL
+ * \brief The UBXCFG_USB_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXCFG_USB
+ * \brief The UBXCFG_USB structure is
+ *
+ * \var vendorId
+ *
+ * \var productId
+ *
+ * \var reserved1
+ * //Set to 0
+ * \var reserved2
+ * //Set to 1
+ * \var powerConsumption
+ *
+ * \var flags
+ *
+ * \var vendorString[32]
+ *
+ * \var productString[32]
+ *
+ * \var serialNumber[32]
+ *
+*/
+
+/*!
+ * \struct UBXINF_DEBUG
+ * \brief The UBXINF_DEBUG structure is
+ *
+    //Variable payload of UBXCH_t
+*/
+
+/*!
+ * \struct UBXINF_ERROR
+ * \brief The UBXINF_ERROR structure is
+ *
+    //Variable payload of UBXCH_t
+*/
+
+/*!
+ * \struct UBXINF_NOTICE
+ * \brief The UBXINF_NOTICE structure is
+ *
+    //Variable payload of UBXCH_t
+*/
+
+/*!
+ * \struct UBXINF_TEST
+ * \brief The UBXINF_TEST structure is
+ *
+    //Variable payload of UBXCH_t
+*/
+
+/*!
+ * \struct UBXINF_WARNING
+ * \brief The UBXINF_WARNING structure is
+ *
+    //Variable payload of UBXCH_t
+*/
+
+/*!
+ * \struct UBXLOG_CREATE
+ * \brief The UBXLOG_CREATE structure is
+ *
+ * \var version
+ *
+ * \var logCfg
+ *  //See UBXLOGCfg
+ * \var reserved
+ *  //Set to 0
+ * \var logSize
+ *
+ * \var userDefinedSize
+ *
+*/
+
+/*!
+ * \struct UBXLOG_ERASE
+ * \brief The UBXLOG_ERASE structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXLOG_FINDTIME_IN
+ * \brief The UBXLOG_FINDTIME_IN structure is
+ *
+ * \var version
+ *  //Shall be 0
+ * \var type
+ *  //Shall be 0
+ * \var reserved1
+ *
+ * \var year
+ *
+ * \var month
+ *
+ * \var day
+ *
+ * \var hour
+ *
+ * \var minute
+ *
+ * \var second
+ *
+ * \var reserved2
+ *
+*/
+
+/*!
+ * \struct UBXLOG_FINDTIME_OUT
+ * \brief The UBXLOG_FINDTIME_OUT structure is
+ *
+ * \var version
+ *  //Shall be 1
+ * \var type
+ *  //Shall be 1
+ * \var reserved1
+ *
+ * \var entryNumber
+ *
+*/
+
+/*!
+ * \struct UBXLOG_INFO_POLL
+ * \brief The UBXLOG_INFO_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+             * \struct UBXLOG_INFO
+{
+ * \var version
+ *
+ * \var reserved1[3]
+ *
+ * \var filestoreCapacity
+ *
+ * \var reserved2
+ *
+ * \var reserved3
+ *
+ * \var currentMaxLogSize
+ *
+ * \var currentLogSize
+ *
+ * \var entryCount
+ *
+ * \var oldestYear
+ *
+ * \var oldestMonth
+ *
+ * \var oldestDay
+ *
+ * \var oldestHour
+ *
+ * \var oldestMinute
+ *
+ * \var oldestSecond
+ *
+ * \var reserved4
+ *
+ * \var newestYear
+ *
+ * \var newestMonth
+ *
+ * \var newestDay
+ *
+ * \var newestHour
+ *
+ * \var newestMinute
+ *
+ * \var newestSecond
+ *
+ * \var reserved5
+ *
+ * \var status
+ *
+ * \note See #UBXLOGStatus to fill this field
+ * \var reserved6[3]
+ *
+*/
+
+/*!
+ * \struct UBXLOG_RETRIEVEPOS
+ * \brief The UBXLOG_RETRIEVEPOS structure is
+ *
+ * \var entryIndex
+ *
+ * \var lon
+ *
+ * \var lat
+ *
+ * \var hMSL
+ *
+ * \var hAcc
+ *
+ * \var gSpeed
+ *
+ * \var heading
+ *
+ * \var version
+ *  //Shall be 0
+ * \var fixType
+ *
+ * \note See #UBXRETRIEVEPOSFixType to fill this field
+ * \var year
+ *
+ * \var month
+ *
+ * \var day
+ *
+ * \var hour
+ *
+ * \var minute
+ *
+ * \var second
+ *
+ * \var reserved1
+ *
+ * \var numSV
+ *
+ * \var reserved2
+ *
+*/
+
+/*!
+ * \struct UBXLOG_RETRIEVESTRING
+ * \brief The UBXLOG_RETRIEVESTRING structure is
+ *
+ * \var entryIndex
+ *
+ * \var version
+ *  //Shall be 0
+ * \var reserved1
+ *
+ * \var year
+ *
+ * \var month
+ *
+ * \var day
+ *
+ * \var hour
+ *
+ * \var minute
+ *
+ * \var second
+ *
+ * \var reserved2
+ *
+ * \var byteCount
+ *
+    //Variable payload according byteCount
+*/
+
+/*!
+ * \struct UBXLOG_RETRIEVE
+ * \brief The UBXLOG_RETRIEVE structure is
+ *
+ * \var startNumber
+ *
+ * \var entryCount
+ *
+ * \var version
+ *
+ * \var reserved[3]
+ *
+*/
+
+/*!
+ * \struct UBXLOG_STRING
+ * \brief The UBXLOG_STRING structure is
+ *
+    //Variable payload UBXU1_t
+*/
+
+/*!
+ * \struct UBXMON_HW2
+ * \brief The UBXMON_HW2 structure is
+ *
+ * \var ofsI
+ *
+ * \var magI
+ *
+ * \var ofsQ
+ *
+ * \var magQ
+ *
+ * \var cfgSource
+ *
+ * \var reserved0[3]
+ *
+ * \var lowLevCfg
+ *
+ * \var reserved1[2]
+ *
+ * \var postStatus
+ *
+ * \var reserved2
+ *
+*/
+
+/*!
+             * \struct UBXHWFlags
+{
+ * \var UBXHWFlagsRTCCalib:1
+ *
+ * \var UBXHWFlagsSafeBoot:1
+ *
+ * \var UBXHWFlagsJammingState:2
+ *
+*/
+
+/*!
+ * \struct UBXMON_HW
+ * \brief The UBXMON_HW structure is
+ *
+ * \var pinSel
+ *
+ * \var pinBank
+ *
+ * \var pinDir
+ *
+ * \var pinVal
+ *
+ * \var noisePerMS
+ *
+ * \var agcCnt
+ *
+ * \var aStatus
+ *
+ * \var aPower
+ *
+    struct UBXHWFlags flags;
+ * \var reserved1
+ *
+ * \var usedMask
+ *
+ * \var VP[17]
+ *
+ * \var jamInd
+ *
+ * \var reserved3
+ *
+ * \var pinIrq
+ *
+ * \var pullH
+ *
+ * \var pullL
+ *
+*/
+
+/*!
+             * \struct UBXMON_IO_PART
+{
+ * \var rxBytes
+ *
+ * \var txBytes
+ *
+ * \var parityErrs
+ *
+ * \var framingErrs
+ *
+ * \var overrunErrs
+ *
+ * \var breakCond
+ *
+ * \var rxBusy
+ *
+ * \var txBusy
+ *
+ * \var reserved1
+ *
+*/
+
+/*!
+ * \struct UBXMON_IO
+ * \brief The UBXMON_IO structure is
+ *
+    struct UBXMON_IO_PART ioPortInfo[UBX_IO_PORTS_NUM];
+*/
+
+/*!
+ * \struct UBXMON_MSGPP
+ * \brief The UBXMON_MSGPP structure is
+ *
+ * \var msg1[8]
+ *
+ * \var msg2[8]
+ *
+ * \var msg3[8]
+ *
+ * \var msg4[8]
+ *
+ * \var msg5[8]
+ *
+ * \var msg6[8]
+ *
+ * \var skipped[6]
+ *
+*/
+
+/*!
+ * \struct UBXMON_RXBUF
+ * \brief The UBXMON_RXBUF structure is
+ *
+ * \var pending[6]
+ *
+ * \var usage[6]
+ *
+ * \var peakUsage[6]
+ *
+*/
+
+/*!
+ * \struct UBXMON_RXR
+ * \brief The UBXMON_RXR structure is
+ *
+ * \var flags
+ *
+ * \note See #UBXRXRFlags to fill this field
+*/
+
+/*!
+ * \struct UBXMON_TXBUF
+ * \brief The UBXMON_TXBUF structure is
+ *
+ * \var pending[6]
+ *
+ * \var usage[6]
+ *
+ * \var peakUsage[6]
+ *
+*/
+
+/*!
+ * \struct UBXMON_VER_POLL
+ * \brief The UBXMON_VER_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXMON_VER
+ * \brief The UBXMON_VER structure is
+ *
+ * \var swVersion[30]
+ *
+ * \var hwVersion[10]
+ *
+    //Variable payload of UBXMON_VER_PART type
+*/
+/*!
+             * \struct UBXMON_VER_PART
+{
+ * \var extension[30]
+ *
+*/
+
+/*!
+ * \struct UBXNAV_AOPSTATUS
+ * \brief The UBXNAV_AOPSTATUS structure is
+ *
+ * \var iTOW
+ *
+ * \var aopCfg
+ *
+ * \note See #UBXAOPCfg to fill this field
+ * \var status
+ *
+ * \note See #UBXAOPStatus to fill this field
+ * \var reserved0
+ *
+ * \var reserved1
+ *
+ * \var availGPS
+ *
+ * \var reserved2
+ *
+ * \var reserved3
+ *
+*/
+
+/*!
+ * \struct UBXNAV_CLOCK
+ * \brief The UBXNAV_CLOCK structure is
+ *
+ * \var iTOW
+ *
+ * \var clkB
+ *
+ * \var clkD
+ *
+ * \var tAcc
+ *
+ * \var fAcc
+ *
+*/
+
+/*!
+ * \struct UBXNAV_DGPS
+ * \brief The UBXNAV_DGPS structure is
+ *
+ * \var iTOW
+ *
+ * \var age
+ *
+ * \var baseId
+ *
+ * \var baseHealth
+ *
+ * \var numCh
+ *
+ * \var status
+ *
+ * \var reserved1
+ *
+*/
+/*!
+             * \struct UBXDGPSFlags
+{
+ * \var channel:4
+ *
+ * \var dgpsUsed:1
+ *
+*/
+
+/*!
+ * \struct UBXNAV_DGPS_PART
+ * \brief The UBXNAV_DGPS_PART structure is
+ *
+ * \var svid
+ *
+    struct UBXDGPSFlags flags;
+ * \var ageC
+ *
+ * \var prc
+ *
+ * \var prrc
+ *
+*/
+
+/*!
+ * \struct UBXNAV_DOP
+ * \brief The UBXNAV_DOP structure is
+ *
+ * \var iTOW
+ *
+ * \var gDOP
+ *
+ * \var pDOP
+ *
+ * \var tDOP
+ *
+ * \var vDOP
+ *
+ * \var hDOP
+ *
+ * \var nDOP
+ *
+ * \var eDOP
+ *
+*/
+
+/*!
+ * \struct UBXNAV_POSECEF
+ * \brief The UBXNAV_POSECEF structure is
+ *
+ * \var iTOW
+ *
+ * \var ecefX
+ *
+ * \var ecefY
+ *
+ * \var ecefZ
+ *
+ * \var pAcc
+ *
+*/
+
+/*!
+ * \struct UBXNAV_POSLLH
+ * \brief The UBXNAV_POSLLH structure is
+ *
+ * \var iTOW
+ *
+ * \var lon
+ *
+ * \var lat
+ *
+ * \var height
+ *
+ * \var hMSL
+ *
+ * \var hAcc
+ *
+ * \var vAcc
+ *
+*/
+
+/*!
+             * \struct UBXPVTFlags
+{
+ * \var gnssFixOk:1
+ *
+ * \var diffSoln:1
+ *
+ * \var psmState:3
+ *
+ * \note See #UBXPVTPSMStates to fill this field
+*/
+
+/*!
+ * \struct UBXNAV_PVT
+ * \brief The UBXNAV_PVT structure is
+ *
+ * \var iTOW
+ *
+ * \var year
+ *
+ * \var month
+ *
+ * \var day
+ *
+ * \var hour
+ *
+ * \var min
+ *
+ * \var sec
+ *
+ * \var valid
+ *
+ * \note See #UBXPVTValid to fill this field
+ * \var tAcc
+ *
+ * \var nano
+ *
+ * \var fixType
+ *
+ * \note See #UBXGPSFix to fill this field
+    struct UBXPVTFlags flags;
+ * \var reserved1
+ *
+ * \var numSV
+ *
+ * \var lon
+ *
+ * \var lat
+ *
+ * \var height
+ *
+ * \var hMSL
+ *
+ * \var hAcc
+ *
+ * \var vAcc
+ *
+ * \var velN
+ *
+ * \var velE
+ *
+ * \var velD
+ *
+ * \var gSpeed
+ *
+ * \var heading
+ *
+ * \var sAcc
+ *
+ * \var headingAcc
+ *
+ * \var pDOP
+ *
+ * \var reserved2
+ *
+ * \var reserved3
+ *
+*/
+
+/*!
+ * \struct UBXNAV_SBAS
+ * \brief The UBXNAV_SBAS structure is
+ *
+ * \var iTOW
+ *
+ * \var geo
+ *
+ * \var mode
+ *
+ * \var sys
+ *
+ * \var service
+ *
+ * \note See #UBXSBASService to fill this field
+ * \var cnt
+ *
+ * \var reserved0[3]
+ *
+    //Variable payload of UBXNAV_SBAS_PART type
+*/
+
+/*!
+ * \struct UBXNAV_SBAS_PART
+ * \brief The UBXNAV_SBAS_PART structure is
+ *
+ * \var svid
+ *
+ * \var flags
+ *
+ * \var udre
+ *
+ * \var svSys
+ *
+ * \var svService
+ *
+ * \var reserved1
+ *
+ * \var prc
+ *
+ * \var reserved2
+ *
+ * \var ic
+ *
+*/
+
+/*!
+ * \struct UBXNAV_SOL
+ * \brief The UBXNAV_SOL structure is
+ *
+ * \var iTOW
+ *
+ * \var fTOW
+ *
+ * \var week
+ *
+ * \var gpsFix
+ *
+ * \note See #UBXGPSFix to fill this field
+ * \var flags
+ *
+ * \note See #UBXSBASSOLFlags to fill this field
+ * \var ecefX
+ *
+ * \var ecefY
+ *
+ * \var ecefZ
+ *
+ * \var pAcc
+ *
+ * \var ecefVX
+ *
+ * \var ecefVY
+ *
+ * \var ecefVZ
+ *
+ * \var sAcc
+ *
+ * \var pDOP
+ *
+ * \var reserved1
+ *
+ * \var numSV
+ *
+ * \var reserved2
+ *
+*/
+
+/*!
+ * \struct UBXNAV_STATUS
+ * \brief The UBXNAV_STATUS structure is
+ *
+ * \var iTOW
+ *
+ * \var gpsFix
+ *
+ * \var flags
+ *
+ * \note See #UBXGPSFix to fill this field
+ * \var fixStat
+ *
+ * \note See #UBXSBASSOLFlags to fill this field
+ * \var flags2
+ *
+ * \var ttff
+ *
+ * \var msss
+ *
+*/
+
+/*!
+             * \struct UBXSVINFOGlobalFlags
+{
+ * \var chipGen:3
+ *
+ * \note See #UBXSVINFOChipGen to fill this field
+*/
+
+/*!
+ * \struct UBXNAV_SVINFO
+ * \brief The UBXNAV_SVINFO structure is
+ *
+ * \var iTOW
+ *
+ * \var numCh
+ *
+    struct UBXSVINFOGlobalFlags globalFlags;
+ * \var reserved2
+ *
+    //Variable payload of UBXNAV_SVINFO_PART type
+*/
+
+/*!
+             * \struct UBXSVINFOQuality
+{
+ * \var qualityInd:4
+ *
+ * \note See #UBXSVINFOQualityId to fill this field
+*/
+
+/*!
+ * \struct UBXNAV_SVINFO_PART
+ * \brief The UBXNAV_SVINFO_PART structure is
+ *
+ * \var chn
+ *
+ * \var svid
+ *
+ * \var flags
+ *
+ * \note See #UBXSVINFOFlags to fill this field
+ * \var quality
+ *
+ * \var cno
+ *
+ * \var elev
+ *
+ * \var azim
+ *
+ * \var prRes
+ *
+*/
+
+/*!
+ * \struct UBXNAV_TIMEGPS
+ * \brief The UBXNAV_TIMEGPS structure is
+ *
+ * \var iTOW
+ *
+ * \var fTOW
+ *
+ * \var week
+ *
+ * \var leapS
+ *
+ * \var valid
+ *
+ * \note See #UBXTIMEGPSValidityFlags to fill this field
+ * \var tAcc
+ *
+*/
+
+/*!
+ * \struct UBXNAV_TIMEUTC
+ * \brief The UBXNAV_TIMEUTC structure is
+ *
+ * \var iTOW
+ *
+ * \var tAcc
+ *
+ * \var nano
+ *
+ * \var year
+ *
+ * \var month
+ *
+ * \var day
+ *
+ * \var hour
+ *
+ * \var min
+ *
+ * \var sec
+ *
+ * \var valid
+ *
+ * \note See #UBXTIMEUTCValidityFlags to fill this field
+*/
+
+/*!
+ * \struct UBXNAV_VELECEF
+ * \brief The UBXNAV_VELECEF structure is
+ *
+ * \var iTOW
+ *
+ * \var ecefVX
+ *
+ * \var ecefVY
+ *
+ * \var ecefVZ
+ *
+ * \var sAcc
+ *
+*/
+
+/*!
+ * \struct UBXNAV_VELNED
+ * \brief The UBXNAV_VELNED structure is
+ *
+ * \var iTOW
+ *
+ * \var velN
+ *
+ * \var velE
+ *
+ * \var velD
+ *
+ * \var speed
+ *
+ * \var gSpeed
+ *
+ * \var heading
+ *
+ * \var sAcc
+ *
+ * \var cAcc
+ *
+*/
+
+/*!
+ * \struct UBXRXM_ALM_POLL
+ * \brief The UBXRXM_ALM_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXRXM_ALM_POLL_OPT
+ * \brief The UBXRXM_ALM_POLL_OPT structure is
+ *
+ * \var svid
+ *
+*/
+
+/*!
+ * \struct UBXRXM_ALM
+ * \brief The UBXRXM_ALM structure is
+ *
+ * \note This RMX messages marked as obsolete API use AID instead
+ * \var svid
+ *
+ * \var week
+ *
+*/
+
+/*!
+ * \struct UBXRXM_ALM_OPT
+ * \brief The UBXRXM_ALM_OPT structure is
+ * \note This RMX messages marked as obsolete API use AID instead
+ * \var svid
+ *
+ * \var week
+ *
+ * \var dwrd[8]
+ *
+*/
+
+/*!
+ * \struct UBXRXM_EPH_POLL
+ * \brief The UBXRXM_EPH_POLL structure is
+ *
+    //No payload
+*/
+
+/*!
+ * \struct UBXRXM_EPH_POLL_OPT
+ * \brief The UBXRXM_EPH_POLL_OPT structure is
+ *
+ * \var svid
+ *
+*/
+
+/*!
+ * \struct UBXRXM_EPH
+ * \brief The UBXRXM_EPH structure is
+ *
+ * \note This RMX messages marked as obsolete API use AID instead
+ * \var svid
+ *
+ * \var how
+ *
+*/
+
+/*!
+ * \struct UBXRXM_EPH_OPT
+ * \brief The UBXRXM_EPH_OPT structure is
+ *
+ * \note This RMX messages marked as obsolete API use AID instead
+ * \var svid
+ *
+ * \var how
+ *
+ * \var sf1d[8]
+ *
+ * \var sf2d[8]
+ *
+ * \var sf3d[8]
+ *
+*/
+
+/*!
+ * \struct UBXRXM_PMREQ
+ * \brief The UBXRXM_PMREQ structure is
+ *
+ * \var duration
+ *
+ * \var flags
+ *
+ * \note See #UBXPMREQFlags to fill this field
+*/
+
+/*!
+ * \struct UBXRXM_RAW
+ * \brief The UBXRXM_RAW structure is
+ *
+ * \var rcvTow
+ *
+ * \var week
+ *
+ * \var numSV
+ *
+ * \var reserved1
+ *
+ //Variable payload of UBXRXM_RAW_PART type
+*/
+
+/*!
+ * \struct UBXRXM_RAW_PART
+ * \brief The UBXRXM_RAW_PART structure is
+ * \var cpMes
+ *
+ * \var prMes
+ *
+ * \var doMes
+ *
+ * \var sv
+ *
+ * \var mesQI
+ *
+ * \var cno
+ *
+ * \var lli
+ *
+*/
+
+/*!
+ * \struct UBXRXM_SFRB
+ * \brief The UBXRXM_SFRB structure is
+ *
+ * \var chn
+ *
+ * \var svid
+ *
+ * \var dwrd[10]
+ *
+*/
+
+/*!
+ * \struct UBXRXM_SVSI
+ * \brief The UBXRXM_SVSI structure is
+ *
+ * \var iTOW
+ *
+ * \var week
+ *
+ * \var numVis
+ *
+ * \var numSV
+ *
+ * Variable payload of UBXRXM_SVSI_PART type
+*/
+
+/*!
+ * \struct UBXSVSISVFlags
+{
+ * \var ura:4
+ *
+ * \var healthy:1
+ *
+ * \var ephVal:1
+ *
+ * \var almVal:1
+ *
+ * \var notAvail:1
+ *
+*/
+
+/*!
+* \struct UBXSVSIAge
+* \var almAge:4
+*
+* \var ephAge:4
+*
+*/
+
+/*!
+* \struct UBXRXM_SVSI_PART
+* \var svid
+*
+struct UBXSVSISVFlags svFlag;
+* \var azim
+*
+* \var elev
+*
+struct UBXSVSIAge age;
+*/
+
+
+/*!
+* \struct UBXTM2Flags
+* \var mode:1
+*
+* \note See #UBXTM2FlagsMode to fill this field
+* \var run:1
+*
+* \note See #UBXTM2FlagsRun to fill this field
+* \var newFallingEdge:1
+*
+* \var timeBase:2
+*
+* \note See #UBXTM2FlagsTimeBase to fill this field
+* \var utc:1
+*
+* \note See #UBXTM2FlagsUTC to fill this field
+* \var time:1
+*
+* \note See #UBXTM2FlagsTime to fill this field
+* \var newRisingEdge:1
+*
+*/
+
+/*!
+* \struct UBXTIM_TM2
+* \brief The UBXTIM_TM2 structure is
+*
+* \var ch
+*
+struct UBXTM2Flags flags;
+* \var count
+*
+* \var wnR
+*
+* \var wnF
+*
+* \var towMsR
+*
+* \var towSubMsR
+*
+* \var towMsF
+*
+* \var towSubMsF
+*
+* \var accEst
+*
+*/
+
+/*!
+* \struct UBXTIM_TP
+* \brief The UBXTIM_TP structure is
+*
+* \var towMS
+*
+* \var towSubMS
+*
+* \var qErr
+*
+* \var week
+*
+* \var flags
+*
+* \var reserved1
+*
+*/
+
+/*!
+* \struct UBXVRFYFlags
+* \brief The UBXVRFYFlags structure is
+*
+* \var UBXVRFYFlags::src
+* Blabla variable
+* \note See #UBXVRFYFlagsSource to fill this field
+*/
+
+/*!
+* \struct UBXTIM_VRFY
+* \brief The UBXTIM_VRFY structure is
+*
+* \var itow
+*
+* \var frac
+*
+* \var deltaMs
+*
+* \var deltaNs
+*
+* \var wno
+*
+* \var flags;
+*
+* \var reserved1
+*
+*/
+
+
+
+
+
+
+
