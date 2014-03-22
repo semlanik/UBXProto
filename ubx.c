@@ -3506,8 +3506,12 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_NVS
- * \brief The UBXCFG_NVS structure is
- *
+ * Three masks are made up of individual bits that indicate which data is to be cleared, saved
+ * and/or loaded. The fourth mask defines on which devices the corresponding action shall be
+ * carried out. Please note that only one command should be flagged at once. Otherwise all
+ * commands are processed in the order Clear, Save, and Load. All reserved bits must be set
+ * to zero.
+ * \brief Clear, Save and Load non-volatile storage data
  * \var UBXCFG_NVS::clearMask
  * Mask of data to be cleared
  * \see #UBXCFGMask CFG_NVS section to fill this field
@@ -3834,7 +3838,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \note This message has variable payload
  * If size of variable payload is greater than 30, the excess bytes are discarded. In future firmware versions, this limit
  * may change.
- * \brief The UBXCFG_RINV structure is
+ * \brief Contents of Remote Inventory
  * \var UBXCFG_RINV::flags
  * Flags
  * \see #UBXRINVFlags to fill this field
@@ -3868,10 +3872,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * GLONASS signals using #UBXCFG_GNSS.
  * \brief RXM configuration
  *
- * \var reserved1
+ * \var UBXCFG_RXM::reserved1
  * Reserved
  * \note Shall be set to 8
- * \var lpMode
+ * \var UBXCFG_RXM::lpMode
  * Low power mode
  * \see #UBXRXMLowPowerModes to fill this field
 */
@@ -3887,18 +3891,18 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \struct UBXCFG_SBAS
  * \brief The UBXCFG_SBAS structure is
  *
- * \var mode
+ * \var UBXCFG_SBAS::mode
  *
  * \see #UBXSBASModes to fill this field
- * \var usage
+ * \var UBXCFG_SBAS::usage
  *
  * \see #UBXSBASUsage to fill this field
- * \var maxSBAS
+ * \var UBXCFG_SBAS::maxSBAS
  *
- * \var scanmode2
+ * \var UBXCFG_SBAS::scanmode2
  *
  * \see #UBXSBASScanModes2 to fill this field
- * \var scanmode1
+ * \var UBXCFG_SBAS::scanmode1
  *
  * \see #UBXSBASScanModes1 to fill this field
 */
