@@ -1555,6 +1555,10 @@ struct UBXMON_TXBUF {
     UBXU2_t pending[6];
     UBXU1_t usage[6];
     UBXU1_t peakUsage[6];
+    UBXU1_t tUsage;
+    UBXU1_t tPeakusage;
+    UBXX1_t errors;
+    UBXU1_t reserved1;
 };
 
 struct UBXMON_VER_POLL {

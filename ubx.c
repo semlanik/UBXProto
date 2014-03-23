@@ -2232,9 +2232,9 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \var UBXSVINFOAntarisChip
  * Antaris, Antaris 4
  * \var UBXSVINFOUBlox5Chip
- * u-blox 5
+ * u-blox© 5
  * \var UBXSVINFOUBlox6Chip
- * u-blox 6
+ * u-blox© 6
 */
 
 /*!
@@ -2714,7 +2714,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
  * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
  * - When polled, the data contained in this message does not represent the full original
- * ephemeris broadcast. Some fields that are irrelevant to u-blox receivers may be missing.
+ * ephemeris broadcast. Some fields that are irrelevant to u-blox© receivers may be missing.
  * The week number in Subframe 1 has already been modified to match the Time Of
  * Ephemeris (TOE).
  * \brief GPS Aiding Ephemeris Input/Output Message
@@ -2740,7 +2740,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
  * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
  * - When polled, the data contained in this message does not represent the full original
- * ephemeris broadcast. Some fields that are irrelevant to u-blox receivers may be missing.
+ * ephemeris broadcast. Some fields that are irrelevant to u-blox© receivers may be missing.
  * The week number in Subframe 1 has already been modified to match the Time Of
  * Ephemeris (TOE).
  * \brief GPS Aiding Ephemeris Input/Output Message
@@ -2906,11 +2906,11 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_CFG
- * See the Receiver Configuration chapter(u-blox official documentation) for a detailed description on how Receiver
+ * See the Receiver Configuration chapter(u-blox© official documentation) for a detailed description on how Receiver
  * Configuration should be used. The three masks are made up of individual bits, each bit
  * indicating the sub-section of all configurations on which the corresponding action shall be
  * carried out. The reserved bits in the masks must be set to '0'. For detailed information
- * please refer to the Organization of the Configuration Sections (u-blox official documentation). Please note that commands
+ * please refer to the Organization of the Configuration Sections (u-blox© official documentation). Please note that commands
  * can be combined. The sequence of execution is Clear, Save, Load
  * \brief Clear, Save and Load configurations
  *
@@ -2934,11 +2934,11 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_CFG_OPT
- * See the Receiver Configuration chapter(u-blox official documentation) for a detailed description on how Receiver
+ * See the Receiver Configuration chapter(u-blox© official documentation) for a detailed description on how Receiver
  * Configuration should be used. The three masks are made up of individual bits, each bit
  * indicating the sub-section of all configurations on which the corresponding action shall be
  * carried out. The reserved bits in the masks must be set to '0'. For detailed information
- * please refer to the Organization of the Configuration Sections (u-blox official documentation). Please note that commands
+ * please refer to the Organization of the Configuration Sections (u-blox© official documentation). Please note that commands
  * can be combined. The sequence of execution is Clear, Save, Load
  * \brief Clear, Save and Load configurations
  *
@@ -3257,10 +3257,10 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXCFG_MSG_RATES
  * Set/Get message rate configurations to/from the receiver. See also section "How to change
- * between protocols" (u-blox official documentation).
+ * between protocols" (u-blox© official documentation).
  * - Send rate is relative to the event a message is registered on. For example, if the rate of a
  * navigation message is set to 2, the message is sent every second navigation solution. For
- * configuring NMEA messages, the section "NMEA Messages Overview" (u-blox official documentation describes Class and
+ * configuring NMEA messages, the section "NMEA Messages Overview" (u-blox© official documentation describes Class and
  * Identifier numbers used.
  * \brief Set Message Rates
  * \var UBXCFG_MSG_RATES::msgClass
@@ -3276,7 +3276,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXCFG_MSG_RATE
  * Set/Get message rate configurations to/from the receiver. See also section "How to change
- * between protocols" (u-blox official documentation).
+ * between protocols" (u-blox© official documentation).
  * \brief Set Message Rate
  * \var UBXCFG_MSG_RATE::msgClass
  * Message Class
@@ -3296,7 +3296,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_NAV5
- * See the Navigation "Configuration Settings Description" (u-blox official documentation) for a detailed description of how
+ * See the Navigation "Configuration Settings Description" (u-blox© official documentation) for a detailed description of how
  * these settings affect receiver operation.
  * \brief Navigation Engine Settings
  *
@@ -3456,7 +3456,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_NMEA
- * Set/Get the NMEA protocol configuration. See section "NMEA Protocol Configuration" (u-blox official documentation) for a
+ * Set/Get the NMEA protocol configuration. See section "NMEA Protocol Configuration" (u-blox© official documentation) for a
  * detailed description of the configuration effects on NMEA output.
  * \brief NMEA protocol configuration
  *
@@ -3754,7 +3754,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_PRT
- * For more detailed description please look at official u-blox documentation
+ * For more detailed description please look at official u-blox© documentation
  * \brief Port Configuration message scope for all ports
  * \var UBXCFG_PRT::portID
  * Port Identifier Number
@@ -3801,14 +3801,14 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_RATE
- *  The u-blox positioning technology supports navigation update rates higher or lower than 1
+ *  The u-blox© positioning technology supports navigation update rates higher or lower than 1
  * update per second. The calculation of the navigation solution will always be aligned to the
  * top of a second.
  * - The update rate has a direct influence on the power consumption. The more fixes that
  * are required, the more CPU power and communication resources are required.
  * - For most applications a 1 Hz update rate would be sufficient.
  * - When using Power Save Mode, measurement and navigation rate can differ from the
- * values configured here. See "Measurement and navigation rate with Power Save Mode" (u-blox official documentation)
+ * values configured here. See "Measurement and navigation rate with Power Save Mode" (u-blox© official documentation)
  * for details.
  * \brief Navigation/Measurement Rate Settings
  *
@@ -3867,7 +3867,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_RXM
- * For a detailed description see section "Power Management"(u-blox official documentation)
+ * For a detailed description see section "Power Management"(u-blox© official documentation)
  * \note Power Save Mode cannot be selected when the receiver is configured to process
  * GLONASS signals using #UBXCFG_GNSS.
  * \brief RXM configuration
@@ -3889,891 +3889,1162 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXCFG_SBAS
- * \brief The UBXCFG_SBAS structure is
+ * This message configures the SBAS receiver subsystem (i.e. WAAS, EGNOS, MSAS)
+ * \see "SBAS Configuration Settings Description" (u-blox© official documentation)
+ * for a detailed description of how these settings affect receiver operation.
+ * \brief SBAS Configuration
  *
  * \var UBXCFG_SBAS::mode
- *
+ * SBAS Mode
  * \see #UBXSBASModes to fill this field
  * \var UBXCFG_SBAS::usage
- *
+ * SBAS Usage
  * \see #UBXSBASUsage to fill this field
  * \var UBXCFG_SBAS::maxSBAS
- *
+ * Maximum Number of SBAS prioritized tracking
+ * channels to use
+ * \note valid range: 0 - 3
+ * \deprecated obsolete and superseeded by #UBXCFG_GNSS in protocol
+ * versions 14.00+.
  * \var UBXCFG_SBAS::scanmode2
- *
+ * Continuation of scanmode bitmask below
  * \see #UBXSBASScanModes2 to fill this field
  * \var UBXCFG_SBAS::scanmode1
- *
+ *  Which SBAS PRN numbers to search for (Bitmask)
+ * If all Bits are set to zero, auto-scan (i.e. all valid
+ * PRNs) are searched.
+ * Every bit corresponds to a PRN number
  * \see #UBXSBASScanModes1 to fill this field
 */
 
 /*!
  * \struct UBXCFG_TP5_POLL
- * \brief The UBXCFG_TP5_POLL structure is
- *
-    //No payload
+ * Sending this message to the receiver results in the receiver returning a
+ * message of type #UBXCFG_TP5 with a payload for timepulse 0.
+ * \note No payload
+ * \brief Poll Time Pulse Parameters
 */
 
 /*!
  * \struct UBXCFG_TP5_POLL_OPT
- * \brief The UBXCFG_TP5_POLL_OPT structure is
- *
- * \var tpIdx
- *
+ * Sending this message to the receiver results in the receiver returning a message of type
+ * #UBXCFG_TP5 with a payload for the specified time pulse.
+ * \brief Poll Time Pulse Parameters
+ * \var UBXCFG_TP5_POLL_OPT::tpIdx
+ * Time pulse selection
+ * \see #UBXCFGTimepulses to fill this field
 */
 
 /*!
  * \struct UBXCFG_TP5
+ *  This message is used to get/set time pulse parameters. For more information see section
+ * "Time pulse" (u-blox© official documentation).
  * \brief The UBXCFG_TP5 structure is
  *
- * \var tpIdx
- *
- * \var reserved0
- *
- * \var reserved1
- *
- * \var antCableDelay
- *
- * \var rfGroupDelay
- *
- * \var freqPeriod
- *
- * \var freqPeriodLock
- *
- * \var pulseLenRatio
- *
- * \var pulseLenRatioLock
- *
- * \var userConfigDelay
- *
- * \var flags
- *
+ * \var UBXCFG_TP5::tpIdx
+ * Time pulse selection
+ * \see #UBXCFGTimepulses to fill this field
+ * \var UBXCFG_TP5::reserved0
+ * Reserved
+ * \var UBXCFG_TP5::reserved1
+ * Reserved
+ * \var UBXCFG_TP5::antCableDelay
+ * Antenna cable delay
+ * \var UBXCFG_TP5::rfGroupDelay
+ * RF group delay
+ * \var UBXCFG_TP5::freqPeriod
+ * Frequency or period time
+ * \note Depending on setting of bit 'isFreq'
+ * \var UBXCFG_TP5::freqPeriodLock
+ * Frequency or period time when locked to GPS
+ * time
+ * \note Only used if 'lockedOtherSet' is set
+ * \var UBXCFG_TP5::pulseLenRatio
+ * Pulse length or duty cycle
+ * \note Depending on 'isLength'
+ * \var UBXCFG_TP5::pulseLenRatioLock
+ * Pulse length or duty cycle when locked to GPS
+ * time
+ * \note only used if 'lockedOtherSet' is set
+ * \var UBXCFG_TP5::userConfigDelay
+ * User configurable time pulse delay
+ * \var UBXCFG_TP5::flags
+ * Configuration flags
  * \see #UBXCFGTimepulseFlags to fill this field
 */
 
 /*!
  * \struct UBXCFG_USB_POLL
- * \brief The UBXCFG_USB_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll a USB configuration
 */
 
 /*!
  * \struct UBXCFG_USB
- * \brief The UBXCFG_USB structure is
+ * \brief USB Configuration
  *
- * \var vendorId
- *
- * \var productId
- *
- * \var reserved1
- * //Set to 0
- * \var reserved2
- * //Set to 1
- * \var powerConsumption
- *
- * \var flags
- *
- * \var vendorString[32]
- *
- * \var productString[32]
- *
- * \var serialNumber[32]
- *
+ * \var UBXCFG_USB::vendorId
+ * Vendor ID. This field shall only be set to
+ * registered Vendor IDs.
+ * \note Changing this field
+ * requires special Host drivers.
+ * \var UBXCFG_USB::productId
+ * Product ID.
+ * \note Changing this field requires special
+ * Host drivers.
+ * \var UBXCFG_USB::reserved1
+ * Reserved
+ * \note Set to 0
+ * \var UBXCFG_USB::reserved2
+ * Reserved
+ * \note Set to 1
+ * \var UBXCFG_USB::powerConsumption
+ * Power consumed by the device
+ * \var UBXCFG_USB::flags
+ * Various configuration flags
+ * \see #UBXUSBFlags to fill this field
+ * \var UBXCFG_USB::vendorString[32]
+ * String containing the vendor name. 32 ASCII bytes
+ * including 0-termination.
+ * \var UBXCFG_USB::productString[32]
+ * String containing the product name. 32 ASCI bytes
+ * including 0-termination.
+ * \var UBXCFG_USB::serialNumber[32]
+ * String containing the serial number. 32 ASCII
+ * bytes including 0-termination.
+ * \note Changing the String fields requires special Host
+ * drivers.
 */
 
 /*!
  * \struct UBXINF_DEBUG
- * \brief The UBXINF_DEBUG structure is
- *
-    //Variable payload of UBXCH_t
+ * This message has a variable length payload, representing an ASCII string.
+ * \note This message has a variable length payload
+ * \brief ASCII String output, indicating debug output
 */
 
 /*!
  * \struct UBXINF_ERROR
- * \brief The UBXINF_ERROR structure is
- *
-    //Variable payload of UBXCH_t
+ * This message has a variable length payload, representing an ASCII string.
+ * \note This message has a variable length payload
+ * \brief ASCII String output, indicating an error
 */
 
 /*!
  * \struct UBXINF_NOTICE
- * \brief The UBXINF_NOTICE structure is
- *
-    //Variable payload of UBXCH_t
+ * This message has a variable length payload, representing an ASCII string.
+ * \note This message has a variable length payload
+ * \brief ASCII String output, with informational contents
 */
 
 /*!
  * \struct UBXINF_TEST
- * \brief The UBXINF_TEST structure is
- *
-    //Variable payload of UBXCH_t
+ * This message has a variable length payload, representing an ASCII string.
+ * \note This message has a variable length payload
+ * \brief ASCII String output, indicating test output
 */
 
 /*!
  * \struct UBXINF_WARNING
- * \brief The UBXINF_WARNING structure is
- *
-    //Variable payload of UBXCH_t
+ * This message has a variable length payload, representing an ASCII string.
+ * \note This message has a variable length payload
+ * \brief ASCII String output, indicating a warning
 */
 
 /*!
  * \struct UBXLOG_CREATE
- * \brief The UBXLOG_CREATE structure is
- *
- * \var version
- *
- * \var logCfg
- *  //See UBXLOGCfg
- * \var reserved
- *  //Set to 0
- * \var logSize
- *
- * \var userDefinedSize
- *
+ * This message is used to create an initial logging file and activate the logging subsystem.
+ * #UBXACK_ACK or #UBXACK_NAK are returned to indicate success or failure.
+ * This message does not handle activation of recording or filtering of log entries
+ * \see #UBXCFG_LOGFILTER
+ * \brief Create Log File
+ * \var UBXLOG_CREATE::version
+ * The version of this message.
+ * \note Set to 0
+ * \var UBXLOG_CREATE::logCfg
+ * Config flags
+ * \see #UBXLOGCfg to fill this field
+ * \var UBXLOG_CREATE::reserved
+ * Reserved
+ * \note Set to 0
+ * \var UBXLOG_CREATE::logSize
+ * Indicates the size of the log
+ * \see #UBXLOGSize to fill this field
+ * \var UBXLOG_CREATE::userDefinedSize
+ * Sets the maximum amount of space in the
+ * filestore that can be used by the logging task
+ * \note This field is only applicable if logSize is set to user defined.
 */
 
 /*!
  * \struct UBXLOG_ERASE
- * \brief The UBXLOG_ERASE structure is
- *
-    //No payload
+ * This message deactivates the logging system and erases all logged data.
+ * #UBXACK_ACK or #UBXACK_NAK are returned to indicate success or failure.
+ * \note No payload
+ * \brief Erase Logged Data
 */
 
 /*!
  * \struct UBXLOG_FINDTIME_IN
- * \brief The UBXLOG_FINDTIME_IN structure is
+ * This message can be used to search a log for the index of the first entry less than or equal
+ * to the given time. This index can then be used with the #UBXLOG_RETRIEVE message to
+ * provide time-based retrieval of log entries.
+ * \brief Finds the index of the first log entry <= given time
  *
- * \var version
- *  //Shall be 0
- * \var type
- *  //Shall be 0
- * \var reserved1
- *
- * \var year
- *
- * \var month
- *
- * \var day
- *
- * \var hour
- *
- * \var minute
- *
- * \var second
- *
- * \var reserved2
- *
+ * \var UBXLOG_FINDTIME_IN::version
+ * Message version
+ * \note Set to 0
+ * \var UBXLOG_FINDTIME_IN::type
+ * Message type
+ * \note 0 for request
+ * \var UBXLOG_FINDTIME_IN::reserved1
+ * Reserved
+ * \var UBXLOG_FINDTIME_IN::year
+ * Year of UTC time
+ * \note Range 1-65635
+ * \var UBXLOG_FINDTIME_IN::month
+ * Month of UTC time
+ * \note Range 1-12
+ * \var UBXLOG_FINDTIME_IN::day
+ * Day of UTC time
+ * \note Range 1-31
+ * \var UBXLOG_FINDTIME_IN::hour
+ * Hour of UTC time
+ * \note Range 0-23
+ * \var UBXLOG_FINDTIME_IN::minute
+ * Minute of UTC time
+ * \note Range 0-59
+ * \var UBXLOG_FINDTIME_IN::second
+ * Second of UTC time
+ * \note Range 0-60 - looks like mistake in official documentation
+ * \var UBXLOG_FINDTIME_IN::reserved2
+ * Reserved
 */
 
 /*!
  * \struct UBXLOG_FINDTIME_OUT
- * \brief The UBXLOG_FINDTIME_OUT structure is
+ * \brief This message is the response to FINDTIME request.
  *
- * \var version
- *  //Shall be 1
- * \var type
- *  //Shall be 1
- * \var reserved1
- *
- * \var entryNumber
- *
+ * \var UBXLOG_FINDTIME_OUT::version
+ * Message version
+ * \note Set to 1
+ * \var UBXLOG_FINDTIME_OUT::type
+ * \note Is set to 1 for response
+ * \var UBXLOG_FINDTIME_OUT::reserved1
+ * Reserved
+ * \var UBXLOG_FINDTIME_OUT::entryNumber
+ * Index of the most recent entry with time <= specified
 */
 
 /*!
  * \struct UBXLOG_INFO_POLL
- * \brief The UBXLOG_INFO_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll for log information
 */
 
 /*!
-             * \struct UBXLOG_INFO
-{
- * \var version
- *
- * \var reserved1[3]
- *
- * \var filestoreCapacity
- *
- * \var reserved2
- *
- * \var reserved3
- *
- * \var currentMaxLogSize
- *
- * \var currentLogSize
- *
- * \var entryCount
- *
- * \var oldestYear
- *
- * \var oldestMonth
- *
- * \var oldestDay
- *
- * \var oldestHour
- *
- * \var oldestMinute
- *
- * \var oldestSecond
- *
- * \var reserved4
- *
- * \var newestYear
- *
- * \var newestMonth
- *
- * \var newestDay
- *
- * \var newestHour
- *
- * \var newestMinute
- *
- * \var newestSecond
- *
- * \var reserved5
- *
- * \var status
- *
+ * \struct UBXLOG_INFO
+ * This message is used to report information about the logging subsystem.
+ * \note
+ * - The reported maximum log size will be smaller than that originally specified in
+ * LOG-CREATE due to logging and filestore implementation overheads.
+ * - Log entries are compressed in a variable length fashion, so it may be difficult to predict
+ * log space usage with any precision.
+ * - There may be times when the receiver does not have an accurate time (e.g. if the week
+ * number is not yet known), in which case some entries will not have a timestamp - this
+ * may result in the oldest/newest entry time values not taking account of these entries.
+ * \brief Log information
+ * \var UBXLOG_INFO::version
+ * The version of this message
+ * \note Set to 1
+ * \var UBXLOG_INFO::reserved1[3]
+ * Reserved
+ * \var UBXLOG_INFO::filestoreCapacity
+ * The capacity of the filestore
+ * \var UBXLOG_INFO::reserved2
+ * Reserved
+ * \var UBXLOG_INFO::reserved3
+ * Reserved
+ * \var UBXLOG_INFO::currentMaxLogSize
+ * The maximum size the current log is allowed to grow to
+ * \var UBXLOG_INFO::currentLogSize
+ * Approximate amount of space in log currently occupied
+ * \var UBXLOG_INFO::entryCount
+ * Number of entries in the log.
+ * \note For circular logs this value will decrease
+ * when a group of entries is deleted to make
+ * space for new ones.
+ * \var UBXLOG_INFO::oldestYear
+ * Oldest entry UTC year.
+ * \note Range 1-65635 or zero if
+ * there are no entries with known time
+ * \var UBXLOG_INFO::oldestMonth
+ * Oldest month
+ * \note Range 1-12
+ * \var UBXLOG_INFO::oldestDay
+ * Oldest day
+ * \note Range 1-31
+ * \var UBXLOG_INFO::oldestHour
+ * Oldest hour
+ * \note Range 0-23
+ * \var UBXLOG_INFO::oldestMinute
+ * Oldest minute
+ * \note Range 0-59
+ * \var UBXLOG_INFO::oldestSecond
+ * Oldest second
+ * \note Range 0-60
+ * \var UBXLOG_INFO::reserved4
+ * Reserved
+ * \var UBXLOG_INFO::newestYear
+ * Newest entry UTC year year.
+ * \note Range 1-65635 or zero if
+ * there are no entries with known time
+ * \var UBXLOG_INFO::newestMonth
+ * Newest month
+ * \note Range 1-12
+ * \var UBXLOG_INFO::newestDay
+ * Newest day
+ * \note Range 1-31
+ * \var UBXLOG_INFO::newestHour
+ * Newest hour
+ * \note Range 0-23
+ * \var UBXLOG_INFO::newestMinute
+ * Newest minute
+ * \note Range 0-59
+ * \var UBXLOG_INFO::newestSecond
+ * Newest second
+ * \note Range 0-60
+ * \var UBXLOG_INFO::reserved5
+ * Reserved
+ * \var UBXLOG_INFO::status
+ * Log status flags
  * \see #UBXLOGStatus to fill this field
- * \var reserved6[3]
- *
+ * \var UBXLOG_INFO::reserved6[3]
+ * Reserved
 */
 
 /*!
  * \struct UBXLOG_RETRIEVEPOS
- * \brief The UBXLOG_RETRIEVEPOS structure is
- *
- * \var entryIndex
- *
- * \var lon
- *
- * \var lat
- *
- * \var hMSL
- *
- * \var hAcc
- *
- * \var gSpeed
- *
- * \var heading
- *
- * \var version
- *  //Shall be 0
- * \var fixType
- *
+ * This message is used to report a position fix log entry
+ * \brief Position fix log entry
+ * \var UBXLOG_RETRIEVEPOS::entryIndex
+ * The index of this log entry
+ * \var UBXLOG_RETRIEVEPOS::lon
+ * Longitude
+ * \var UBXLOG_RETRIEVEPOS::lat
+ * Latitude
+ * \var UBXLOG_RETRIEVEPOS::hMSL
+ * Height above mean sea level
+ * \var UBXLOG_RETRIEVEPOS::hAcc
+ * Horizontal accuracy estimate
+ * \var UBXLOG_RETRIEVEPOS::gSpeed
+ * Ground speed (2-D)
+ * \var UBXLOG_RETRIEVEPOS::heading
+ * Heading
+ * \var UBXLOG_RETRIEVEPOS::version
+ * The version of this message.
+ * \note Set to 0
+ * \var UBXLOG_RETRIEVEPOS::fixType
+ * Fix type
  * \see #UBXRETRIEVEPOSFixType to fill this field
- * \var year
- *
- * \var month
- *
- * \var day
- *
- * \var hour
- *
- * \var minute
- *
- * \var second
- *
- * \var reserved1
- *
- * \var numSV
- *
- * \var reserved2
- *
+ * \var UBXLOG_RETRIEVEPOS::year
+ * Year
+ * \note Range 1-65635
+ * \var UBXLOG_RETRIEVEPOS::month
+ * Month
+ * \note Range 1-12
+ * \var UBXLOG_RETRIEVEPOS::day
+ * Day
+ * \note Range 1-31
+ * \var UBXLOG_RETRIEVEPOS::hour
+ * Hour
+ * \note Range 0-23
+ * \var UBXLOG_RETRIEVEPOS::minute
+ * Minute
+ * \note Range 0-59
+ * \var UBXLOG_RETRIEVEPOS::second
+ * Second
+ * \note Range 0-60
+ * \var UBXLOG_RETRIEVEPOS::reserved1
+ * Reserved
+ * \var UBXLOG_RETRIEVEPOS::numSV
+ * Number of satellites used in the position fix
+ * \var UBXLOG_RETRIEVEPOS::reserved2
+ * Reserved
 */
 
 /*!
  * \struct UBXLOG_RETRIEVESTRING
- * \brief The UBXLOG_RETRIEVESTRING structure is
- *
- * \var entryIndex
- *
- * \var version
- *  //Shall be 0
- * \var reserved1
- *
- * \var year
- *
- * \var month
- *
- * \var day
- *
- * \var hour
- *
- * \var minute
- *
- * \var second
- *
- * \var reserved2
- *
- * \var byteCount
- *
-    //Variable payload according byteCount
+ * This message is used to report a byte string log entry
+ * \note this message contains variable payload of UBXLOG_RETRIEVESTRING::byteCount size
+ * \brief Byte string log entry
+ * \var UBXLOG_RETRIEVESTRING::entryIndex
+ * The index of this log entry
+ * \var UBXLOG_RETRIEVESTRING::version
+ * \note Set to 0
+ * \var UBXLOG_RETRIEVESTRING::reserved1
+ * Reserved
+ * \var UBXLOG_RETRIEVESTRING::year
+ * Year
+ * \note Range 1-65635
+ * \var UBXLOG_RETRIEVESTRING::month
+ * Month
+ * \note Range 1-12
+ * \var UBXLOG_RETRIEVESTRING::day
+ * Day
+ * \note Range 1-31
+ * \var UBXLOG_RETRIEVESTRING::hour
+ * Hour
+ * \note Range 0-23
+ * \var UBXLOG_RETRIEVESTRING::minute
+ * Minute
+ * \note Range 0-59
+ * \var UBXLOG_RETRIEVESTRING::second
+ * Second
+ * \note Range 0-60
+ * \var UBXLOG_RETRIEVESTRING::reserved2
+ * Reserved
+ * \var UBXLOG_RETRIEVESTRING::byteCount
+ * Size of string in bytes
 */
 
 /*!
  * \struct UBXLOG_RETRIEVE
- * \brief The UBXLOG_RETRIEVE structure is
- *
- * \var startNumber
- *
- * \var entryCount
- *
- * \var version
- *
- * \var reserved[3]
- *
+ * This message is used to request logged data.
+ * Log entries are returned in chronological order, using the messages
+ * #UBXLOG_RETRIEVEPOS and #UBXLOG_RETRIEVESTRING. The maximum number of
+ * entries that can be returned in response to a single UBX-LOG-RETRIEVE message is 256. If
+ * more entries than this are required the mesage will need to be sent multiple times with
+ * different startNumbers. The retrieve will be stopped if any UBX-LOG message is received.
+ * \note The speed of transfer can be maximised by using a high data rate and temporarily stopping
+ * the GPS processing see #UBXCFG_RST
+ * \note log recording must first be disabled see #UBXCFG_LOGFILTER
+ * \brief Request log data
+ * \var UBXLOG_RETRIEVE::startNumber
+ * Index of first entry to be transferred
+ * \var UBXLOG_RETRIEVE::entryCount
+ * Number of log entries to transfer. The maximum
+ * is 256
+ * \var UBXLOG_RETRIEVE::version
+ * The version of this message
+ * \note Set to 0
+ * \var UBXLOG_RETRIEVE::reserved[3]
+ * Reserved
 */
 
 /*!
  * \struct UBXLOG_STRING
- * \brief The UBXLOG_STRING structure is
- *
-    //Variable payload UBXU1_t
+ * This message can be used to store an arbitrary byte string in the on-board flash memory.
+ * The maximum length that can be stored is 256 bytes.
+ * \note this message has variable payload
+ * \brief Store arbitrary string in on-board Flash memory
 */
 
 /*!
  * \struct UBXMON_HW2
- * \brief The UBXMON_HW2 structure is
+ *  Status of different aspects of the hardware such as Imbalance, Low-Level Configuration
+ * and POST Results.
+ * The first four parameters of this message represent the complex signal from the RF front
+ * end. The following rules of thumb apply:
+ * - The smaller the absolute value of the variable ofsI and ofsQ respectively, the better.
+ * - Ideally, the magnitude of the I-part (UBXMON_HW2::magI) and the Q-part (UBXMON_HW2::magQ) of the complex signal
+ * should be the same.
+ * \brief Extended Hardware Status
  *
- * \var ofsI
- *
- * \var magI
- *
- * \var ofsQ
- *
- * \var magQ
- *
- * \var cfgSource
- *
- * \var reserved0[3]
- *
- * \var lowLevCfg
- *
- * \var reserved1[2]
- *
- * \var postStatus
- *
- * \var reserved2
- *
+ * \var UBXMON_HW2::ofsI
+ *  Imbalance of I-part of complex signal, scaled.
+ * \note
+ * - -128 - max. negative imbalance
+ * - 127 - max. positive imbalance
+ * \var UBXMON_HW2::magI
+ * Magnitude of I-part of complex signal, scaled
+ * \note
+ * - 0 - no signal
+ * - 255 = max. magnitude
+ * \var UBXMON_HW2::ofsQ
+ * Imbalance of Q-part of complex signal, scaled.
+ * \note
+ * - -128 = max. negative imbalance
+ * - 127 = max. positive imbalance
+ * \var UBXMON_HW2::magQ
+ *  Magnitude of Q-part of complex signal, scaled
+ * \note
+ * - 0 - no signal
+ * - 255 = max. magnitude
+ * \var UBXMON_HW2::cfgSource
+ * Source of low-level configuration
+ * \todo Following values will be covered with enum in future
+ * - 114 - ROM
+ * - 111 - OTP
+ * - 112 - config pins
+ * - 102 - flash image)
+ * \var UBXMON_HW2::reserved0[3]
+ * Reserved
+ * \var UBXMON_HW2::lowLevCfg
+ * Low-level configuration
+ * \var UBXMON_HW2::reserved1[2]
+ * Reserved
+ * \var UBXMON_HW2::postStatus
+ * POST status word
+ * \var UBXMON_HW2::reserved2
+ * Reserved
 */
 
 /*!
-             * \struct UBXHWFlags
-{
- * \var UBXHWFlagsRTCCalib:1
- *
- * \var UBXHWFlagsSafeBoot:1
- *
- * \var UBXHWFlagsJammingState:2
- *
+ * \struct UBXHWFlags
+ * \brief This structure describes UBXMON_HW::flags value
+ * \var UBXHWFlags::UBXHWFlagsRTCCalib
+ * RTC is calibrated
+ * \var UBXHWFlags::UBXHWFlagsSafeBoot
+ * SafeBoot mode
+ * - 0 - inactive
+ * - 1 - active
+ * \var UBXHWFlags::UBXHWFlagsJammingState
+ * Output from Jamming/Interference Monitor
+ * \todo Following values will be covered with enum in future
+ * - 0 - unknown or feature disabled
+ * - 1 - ok - no significant jamming
+ * - 2 - warning - interference visible but fix OK
+ * - 3 - critical - interference visible and no fix
 */
 
 /*!
  * \struct UBXMON_HW
- * \brief The UBXMON_HW structure is
+ * Status of different aspect of the hardware, such as Antenna, PIO/Peripheral Pins, Noise
+ * Level, Automatic Gain Control (AGC)
+ * \brief Hardware Status
  *
- * \var pinSel
- *
- * \var pinBank
- *
- * \var pinDir
- *
- * \var pinVal
- *
- * \var noisePerMS
- *
- * \var agcCnt
- *
- * \var aStatus
- *
- * \var aPower
- *
-    struct UBXHWFlags flags;
- * \var reserved1
- *
- * \var usedMask
- *
- * \var VP[17]
- *
- * \var jamInd
- *
- * \var reserved3
- *
- * \var pinIrq
- *
- * \var pullH
- *
- * \var pullL
- *
+ * \var UBXMON_HW::pinSel
+ * Mask of Pins Set as Peripheral/PIO
+ * \var UBXMON_HW::pinBank
+ * Mask of Pins Set as Bank A/B
+ * \var UBXMON_HW::pinDir
+ * Mask of Pins Set as Input/Output
+ * \var UBXMON_HW::pinVal
+ * Mask of Pins Value Low/High
+ * \var UBXMON_HW::noisePerMS
+ * Noise Level as measured by the GPS Core
+ * \var UBXMON_HW::agcCnt
+ * AGC Monitor
+ * \note counts SIGHI xor SIGLO
+ * \note Range 0 to 8191
+ * \var UBXMON_HW::aStatus
+ * Status of the Antenna Supervisor State Machine
+ * \todo Following values will be covered with enum in future
+ * - 0 - INIT
+ * - 1 - DONTKNOW
+ * - 2 - OK
+ * - 3 - SHORT
+ * - 4 - OPEN
+ * \var UBXMON_HW::aPower
+ * Current PowerStatus of Antenna
+ * \todo Following values will be covered with enum in future
+ * - 0 - OFF
+ * - 1 - ON
+ * - 2 - DONTKNOW
+ * \var UBXMON_HW::flags
+ * Flags
+ * \see #UBXHWFlags to fill this field
+ * \var UBXMON_HW::reserved1
+ * Reserved
+ * \var UBXMON_HW::usedMask
+ * Mask of Pins that are used by the Virtual Pin
+ * Manager
+ * \var UBXMON_HW::VP[17]
+ * Array of Pin Mappings for each of the 17
+ * Physical Pins
+ * \var UBXMON_HW::jamInd
+ * CW Jamming indicator, scaled
+ * \todo Following values will be covered with enum in future
+ * - 0 - no CW jamming
+ * - 255 - strong CW jamming)
+ * \var UBXMON_HW::reserved3
+ * Reserved
+ * \var UBXMON_HW::pinIrq
+ * Mask of Pins Value using the PIO Irq
+ * \var UBXMON_HW::pullH
+ * Mask of Pins Value using the PIO Pull High Resistor
+ * \var UBXMON_HW::pullL
+ * Mask of Pins Value using the PIO Pull Low Resistor
 */
 
 /*!
-             * \struct UBXMON_IO_PART
-{
- * \var rxBytes
- *
- * \var txBytes
- *
- * \var parityErrs
- *
- * \var framingErrs
- *
- * \var overrunErrs
- *
- * \var breakCond
- *
- * \var rxBusy
- *
- * \var txBusy
- *
- * \var reserved1
- *
+ * \struct UBXMON_IO_PART
+ * This message is part of #UBXMON_IO
+ * \brief I/O port status
+ * \var UBXMON_IO_PART::rxBytes
+ * Number of bytes ever received
+ * \var UBXMON_IO_PART::txBytes
+ * Number of bytes ever sent
+ * \var UBXMON_IO_PART::parityErrs
+ * Number of 100ms timeslots with parity errors
+ * \var UBXMON_IO_PART::framingErrs
+ * Number of 100ms timeslots with framing errors
+ * \var UBXMON_IO_PART::overrunErrs
+ *  Number of 100ms timeslots with overrun errors
+ * \var UBXMON_IO_PART::breakCond
+ * Number of 100ms timeslots with break conditions
+ * \var UBXMON_IO_PART::rxBusy
+ * Flag is receiver is busy
+ * \var UBXMON_IO_PART::txBusy
+ * Flag is transmitter is busy
+ * \var UBXMON_IO_PART::reserved1
+ * Reserved
 */
 
 /*!
  * \struct UBXMON_IO
- * \brief The UBXMON_IO structure is
- *
-    struct UBXMON_IO_PART ioPortInfo[UBX_IO_PORTS_NUM];
+ * \note The size of the message is determined by the number of ports 'N' the receiver supports, i.e.
+ * on u-blox 5 the number of ports is 6.
+ * \note this message has variable payload of #UBXMON_IO_PART type.
+ * It depends of UBX_IO_PORTS_NUM macro that is 6 by default.
+ * Redefine this macro otherwise.
+ * \brief I/O Subsystem Status
+ * \var UBXMON_IO::ioPortInfo
+ * I/O ports information scope
+ * \see #UBXMON_IO_PART to fill this filed
 */
 
 /*!
  * \struct UBXMON_MSGPP
- * \brief The UBXMON_MSGPP structure is
+ * \brief Message Parse and Process Status
  *
- * \var msg1[8]
- *
- * \var msg2[8]
- *
- * \var msg3[8]
- *
- * \var msg4[8]
- *
- * \var msg5[8]
- *
- * \var msg6[8]
- *
- * \var skipped[6]
- *
+ * \var UBXMON_MSGPP::msg1[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 0
+ * \var UBXMON_MSGPP::msg2[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 1
+ * \var UBXMON_MSGPP::msg3[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 2
+ * \var UBXMON_MSGPP::msg4[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 3
+ * \var UBXMON_MSGPP::msg5[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 4
+ * \var UBXMON_MSGPP::msg6[8]
+ * Number of successfully parsed messages for
+ * each protocol on port 5
+ * \var UBXMON_MSGPP::skipped[6]
+ * Number skipped bytes for each port
 */
 
 /*!
  * \struct UBXMON_RXBUF
- * \brief The UBXMON_RXBUF structure is
+ * \brief Receiver Buffer Status
  *
- * \var pending[6]
- *
- * \var usage[6]
- *
- * \var peakUsage[6]
- *
+ * \var UBXMON_RXBUF::pending[6]
+ * Number of bytes pending in receiver buffer for each target
+ * \var UBXMON_RXBUF::usage[6]
+ * Maximum usage receiver buffer during the last sysmon period for each target
+ * \note Units %
+ * \var UBXMON_RXBUF::peakUsage[6]
+ * Maximum usage receiver buffer for each target
+ * \note Units %
 */
 
 /*!
  * \struct UBXMON_RXR
- * \brief The UBXMON_RXR structure is
+ * The receiver ready message is sent when the receiver changes from or to backup mode.
+ * \brief Receiver Status Information
  *
- * \var flags
- *
+ * \var UBXMON_RXR::flags
+ * Receiver status flags
  * \see #UBXRXRFlags to fill this field
 */
 
 /*!
  * \struct UBXMON_TXBUF
- * \brief The UBXMON_TXBUF structure is
+ * \brief  Transmitter Buffer Status
  *
- * \var pending[6]
- *
- * \var usage[6]
- *
- * \var peakUsage[6]
- *
+ * \var UBXMON_TXBUF::pending[6]
+ * Number of bytes pending in transmitter buffefor each target
+ * \var UBXMON_TXBUF::usage[6]
+ * Maximum usage transmitter buffer during the
+ * last sysmon period for each target
+ * \note Units %
+ * \var UBXMON_TXBUF::peakUsage[6]
+ * Maximum usage transmitter buffer for each
+ * target
+ * \note Units %
+ * \var UBXMON_TXBUF::tUsage
+ * Maximum usage of transmitter buffer during
+ * the last sysmon period for all targets
+ * \note Units %
+ * \var UBXMON_TXBUF::tPeakusage
+ * Maximum usage of transmitter buffer for all
+ * targets
+ * \var UBXMON_TXBUF::errors
+ * Error bitmask
+ * \todo Bitmask will be implemented in future
+ * \var UBXMON_TXBUF::reserved1
+ * Reserved
 */
 
 /*!
  * \struct UBXMON_VER_POLL
- * \brief The UBXMON_VER_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll Receiver/Software Version
 */
 
 /*!
  * \struct UBXMON_VER
- * \brief The UBXMON_VER structure is
- *
- * \var swVersion[30]
- *
- * \var hwVersion[10]
- *
-    //Variable payload of UBXMON_VER_PART type
+ * \brief Receiver Software Version
+ * \note Variable payload of #UBXMON_VER_PART type
+ * \var UBXMON_VER::swVersion[30]
+ * Zero-terminated Software Version String
+ * \var UBXMON_VER::hwVersion[10]
+ * Zero-terminated Hardware Version String
 */
 /*!
-             * \struct UBXMON_VER_PART
-{
- * \var extension[30]
- *
+ * \struct UBXMON_VER_PART
+ * Extended receiver/software information.
+ * If the receiver's firmware is running from flash,
+ * the first extension field will contain the Software
+ * Version String of the underlying ROM.
+ * Additional fields may also indicate the
+ * supported protocol version and any product
+ * variants, capabilities or extensions.
+ * \brief This structure is variable payload for #UBXMON_VER
+ * \var UBXMON_VER_PART::extension[30]
+ * See structure descruption
 */
 
 /*!
  * \struct UBXNAV_AOPSTATUS
- * \brief The UBXNAV_AOPSTATUS structure is
- *
- * \var iTOW
- *
- * \var aopCfg
- *
+ * This message provides information on the current availability of AssistNow Autonomous
+ * data and the current state of the subsystem on the receiver. For example, a host application
+ * can determine the optimal time to shut down the receiver by monitoring the status field
+ * for a steady 0. See the chapter "AssistNow Autonomous"(u-blox© official documentation) in the receiver description for
+ * details on this feature.
+ * \brief AssistNow Autonomous Status
+ * \var UBXNAV_AOPSTATUS::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_AOPSTATUS::aopCfg
+ * AssistNow Autonomous configuration
  * \see #UBXAOPCfg to fill this field
- * \var status
- *
+ * \var UBXNAV_AOPSTATUS::status
+ * AssistNow Autonomous subsystem is idle or running
  * \see #UBXAOPStatus to fill this field
- * \var reserved0
- *
- * \var reserved1
- *
- * \var availGPS
- *
- * \var reserved2
- *
- * \var reserved3
- *
+ * \var UBXNAV_AOPSTATUS::reserved0
+ * Reserved
+ * \note Set to 0
+ * \var UBXNAV_AOPSTATUS::reserved1
+ * Reserved
+ * \note Set to 0
+ * \var UBXNAV_AOPSTATUS::availGPS
+ *  data availability mask for GPS SVs
+ * \note bits 0-31 correspond to GPS PRN 1-32
+ * \var UBXNAV_AOPSTATUS::reserved2
+ * Reserved
+ * \note Set to 0
+ * \var UBXNAV_AOPSTATUS::reserved3
+ * Reserved
+ * \note Set to 0
 */
 
 /*!
  * \struct UBXNAV_CLOCK
- * \brief The UBXNAV_CLOCK structure is
+ * \brief Clock Solution
  *
- * \var iTOW
- *
- * \var clkB
- *
- * \var clkD
- *
- * \var tAcc
- *
- * \var fAcc
- *
+ * \var UBXNAV_CLOCK::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_CLOCK::clkB
+ * Clock bias
+ * \var UBXNAV_CLOCK::clkD
+ * Clock drift
+ * \var UBXNAV_CLOCK::tAcc
+ * Time accuracy estimate
+ * \var UBXNAV_CLOCK::fAcc
+ * Frequency accuracy estimate
 */
 
 /*!
  * \struct UBXNAV_DGPS
- * \brief The UBXNAV_DGPS structure is
+ * This message outputs the DGPS correction data that has been applied to the current NAV
+ * Solution. See also the notes on the "RTCM protocol"(u-blox© official documentation).
+ * \note This message has variable payload of #UBXNAV_DGPS_PART type
+ * \brief DGPS Data Used for NAV
  *
- * \var iTOW
- *
- * \var age
- *
- * \var baseId
- *
- * \var baseHealth
- *
- * \var numCh
- *
- * \var status
- *
- * \var reserved1
- *
+ * \var UBXNAV_DGPS::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_DGPS::age
+ * Age of newest correction data
+ * \var UBXNAV_DGPS::baseId
+ * DGPS basestation identifier
+ * \var UBXNAV_DGPS::baseHealth
+ * DGPS basestation health status
+ * \var UBXNAV_DGPS::numCh
+ * Number of channels for which correction data is following
+ * \var UBXNAV_DGPS::status
+ * DGPS correction type status
+ * \todo Following values will be covered with enum in future
+ *  - 0x00 - none
+ *  - 0x01 - PR+PRR correction
+ * \var UBXNAV_DGPS::reserved1
+ * Reserved
 */
+
 /*!
-             * \struct UBXDGPSFlags
-{
- * \var channel:4
- *
- * \var dgpsUsed:1
- *
+ * \struct UBXDGPSFlags
+ * This structure implemets UBXNAV_DGPS_PART::flags
+ * \brief #UBXNAV_DGPS_PART flags
+ * \var UBXDGPSFlags::channel
+ * GPS channel number this SV is on
+ * \var UBXDGPSFlags::dgpsUsed
+ * DGPS used for this SV
 */
 
 /*!
  * \struct UBXNAV_DGPS_PART
- * \brief The UBXNAV_DGPS_PART structure is
+ * \brief This sturcture implements variable payload for #UBXNAV_DGPS
  *
- * \var svid
- *
-    struct UBXDGPSFlags flags;
- * \var ageC
- *
- * \var prc
- *
- * \var prrc
- *
+ * \var UBXNAV_DGPS_PART::svid
+ * Satellite ID
+ * \var UBXNAV_DGPS_PART::flags
+ * Channel number and usage
+ * \var UBXNAV_DGPS_PART::ageC
+ * Age of latest correction data
+ * \var UBXNAV_DGPS_PART::prc
+ * Pseudorange correction
+ * \var UBXNAV_DGPS_PART::prrc
+ * Pseudorange rate correction
 */
 
 /*!
  * \struct UBXNAV_DOP
- * \brief The UBXNAV_DOP structure is
+ * - DOP values are dimensionless.
+ * - All DOP values are scaled by a factor of 100. If the unit transmits a value of e.g. 156, the
+ * DOP value is 1.56.
+ * \brief Dilution of precision
  *
- * \var iTOW
- *
- * \var gDOP
- *
- * \var pDOP
- *
- * \var tDOP
- *
- * \var vDOP
- *
- * \var hDOP
- *
- * \var nDOP
- *
- * \var eDOP
- *
+ * \var UBXNAV_DOP::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_DOP::gDOP
+ * Geometric DOP
+ * \var UBXNAV_DOP::pDOP
+ * Position DOP
+ * \var UBXNAV_DOP::tDOP
+ * Time DOP
+ * \var UBXNAV_DOP::vDOP
+ * Vertical DOP
+ * \var UBXNAV_DOP::hDOP
+ * Horizontal DOP
+ * \var UBXNAV_DOP::nDOP
+ * Northing DOP
+ * \var UBXNAV_DOP::eDOP
+ * Easting DOP
 */
 
 /*!
  * \struct UBXNAV_POSECEF
  * \brief The UBXNAV_POSECEF structure is
- *
- * \var iTOW
- *
- * \var ecefX
- *
- * \var ecefY
- *
- * \var ecefZ
- *
- * \var pAcc
- *
+ * Position Solution in ECEF
+ * \var UBXNAV_POSECEF::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_POSECEF::ecefX
+ * ECEF X coordinate
+ * \var UBXNAV_POSECEF::ecefY
+ * ECEF Y coordinate
+ * \var UBXNAV_POSECEF::ecefZ
+ * ECEF Z coordinate
+ * \var UBXNAV_POSECEF::pAcc
+ * Position Accuracy Estimate
 */
 
 /*!
  * \struct UBXNAV_POSLLH
- * \brief The UBXNAV_POSLLH structure is
- *
- * \var iTOW
- *
- * \var lon
- *
- * \var lat
- *
- * \var height
- *
- * \var hMSL
- *
- * \var hAcc
- *
- * \var vAcc
- *
+ * This message outputs the Geodetic position in the currently selected ellipsoid. The default is
+ * the WGS84 Ellipsoid, but can be changed with the message CFG-DAT.
+ * \warning  See important comments concerning validity of position given in section
+ * Navigation Output Filters(u-blox© official documentation).
+ * \brief Geodetic Position Solution
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_POSLLH::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_POSLLH::lon
+ * Longitude
+ * \var UBXNAV_POSLLH::lat
+ * Latitude
+ * \var UBXNAV_POSLLH::height
+ * Height above ellipsoid
+ * \var UBXNAV_POSLLH::hMSL
+ * Height above mean sea level
+ * \var UBXNAV_POSLLH::hAcc
+ * Horizontal accuracy estimate
+ * \var UBXNAV_POSLLH::vAcc
+ * Vertical accuracy estimate
 */
 
 /*!
-             * \struct UBXPVTFlags
-{
- * \var gnssFixOk:1
- *
+ * \struct UBXPVTFlags
+ * \brief this structure implements UBXNAV_PVT::flags
+ * \var gnssFixOk
+ * A valid fix (i.e within DOP & accuracy masks)
  * \var diffSoln:1
- *
+ * 1 if differential corrections were applied
  * \var psmState:3
- *
+ * Power Save Mode state
  * \see #UBXPVTPSMStates to fill this field
 */
 
 /*!
  * \struct UBXNAV_PVT
- * \brief The UBXNAV_PVT structure is
- *
- * \var iTOW
- *
- * \var year
- *
- * \var month
- *
- * \var day
- *
- * \var hour
- *
- * \var min
- *
- * \var sec
- *
- * \var valid
- *
+ * This message combines position, velocity and time solution, including accuracy figures
+ * \brief Navigation Position Velocity Time Solution
+ * \note that during a leap second there may be more (or less) than 60 seconds in a
+ * minute.\n
+ * See the description of leap seconds(u-blox© official documentation) for details.
+ * \var UBXNAV_PVT::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_PVT::year
+ * Year (UTC)
+ * \note Range 1-65635
+ * \var UBXNAV_PVT::month
+ * Month
+ * \note Range 1-12
+ * \var UBXNAV_PVT::day
+ * Day
+ * \note Range 1-31
+ * \var UBXNAV_PVT::hour
+ * Hour
+ * \note Range 0-23
+ * \var UBXNAV_PVT::minute
+ * Minute
+ * \note Range 0-59
+ * \var UBXNAV_PVT::second
+ * Second
+ * \note Range 0-60
+ * \var UBXNAV_PVT::valid
+ * Validity Flags
  * \see #UBXPVTValid to fill this field
- * \var tAcc
- *
- * \var nano
- *
- * \var fixType
- *
+ * \var UBXNAV_PVT::tAcc
+ * Time accuracy estimate
+ * \var UBXNAV_PVT::nano
+ * Fraction of second
+ * \note Range -1e9 .. 1e9
+ * \var UBXNAV_PVT::fixType
+ * GNSSfix Type
  * \see #UBXGPSFix to fill this field
-    struct UBXPVTFlags flags;
- * \var reserved1
- *
- * \var numSV
- *
- * \var lon
- *
- * \var lat
- *
- * \var height
- *
- * \var hMSL
- *
- * \var hAcc
- *
- * \var vAcc
- *
- * \var velN
- *
- * \var velE
- *
- * \var velD
- *
- * \var gSpeed
- *
- * \var heading
- *
- * \var sAcc
- *
- * \var headingAcc
- *
- * \var pDOP
- *
- * \var reserved2
- *
- * \var reserved3
- *
+ * \var UBXNAV_PVT::flags
+ * Fix Status Flags
+ * \see #UBXPVTFlags to fill this field
+ * \var UBXNAV_PVT::reserved1
+ * Reserved
+ * \var UBXNAV_PVT::numSV
+ * Number of satellites used in Nav Solution
+ * \var UBXNAV_PVT::lon
+ * Longitude
+ * \var UBXNAV_PVT::lat
+ * Latitude
+ * \var UBXNAV_PVT::height
+ * Height above Ellipsoid
+ * \var UBXNAV_PVT::hMSL
+ * Height above mean sea level
+ * \var UBXNAV_PVT::hAcc
+ * Horizontal Accuracy Estimate
+ * \var UBXNAV_PVT::vAcc
+ * Vertical Accuracy Estimate
+ * \var UBXNAV_PVT::velN
+ * NED north velocity
+ * \var UBXNAV_PVT::velE
+ * NED east velocity
+ * \var UBXNAV_PVT::velD
+ * NED down velocity
+ * \var UBXNAV_PVT::gSpeed
+ * Ground Speed (2-D)
+ * \var UBXNAV_PVT::heading
+ * Heading of motion 2-D
+ * \var UBXNAV_PVT::sAcc
+ * Speed Accuracy Estimate
+ * \var UBXNAV_PVT::headingAcc
+ * Heading Accuracy Estimate
+ * \var UBXNAV_PVT::pDOP
+ * Position DOP
+ * \var UBXNAV_PVT::reserved2
+ * Reserved
+ * \var UBXNAV_PVT::reserved3
+ * Reserved
 */
 
 /*!
  * \struct UBXNAV_SBAS
- * \brief The UBXNAV_SBAS structure is
+ * This message outputs the status of the SBAS sub system
+ * \note this message has variable payload of #UBXNAV_SBAS_PART type
+ * \brief SBAS Status Data
  *
- * \var iTOW
- *
- * \var geo
- *
- * \var mode
- *
- * \var sys
- *
- * \var service
- *
+ * \var UBXNAV_SBAS::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_SBAS::geo
+ * PRN Number of the GEO where correction and
+ * integrity data is used from
+ * \var UBXNAV_SBAS::mode
+ * SBAS Mode
+ * \todo Following values will be covered with enum in future
+ * - 0 Disabled
+ * - 1 Enabled Integrity
+ * - 3 Enabled Testmode
+ * \var UBXNAV_SBAS::sys
+ * SBAS System (WAAS/EGNOS/...)
+ * \todo Following values will be covered with enum in future
+ * - -1 Unknown
+ * - 0 WAAS
+ * - 1 EGNOS
+ * - 2 MSAS
+ * - 16 GPS
+ * \var UBXNAV_SBAS::service
+ * SBAS Services available
  * \see #UBXSBASService to fill this field
- * \var cnt
- *
- * \var reserved0[3]
- *
-    //Variable payload of UBXNAV_SBAS_PART type
-*/
+ * \var UBXNAV_SBAS::cnt
+ * Number of SV data following
+ * \var UBXNAV_SBAS::reserved0[3]
+ * Reserved
+ */
 
 /*!
  * \struct UBXNAV_SBAS_PART
- * \brief The UBXNAV_SBAS_PART structure is
+ * \brief Variable payload for #UBXNAV_SBAS
  *
- * \var svid
- *
- * \var flags
- *
- * \var udre
- *
- * \var svSys
- *
- * \var svService
- *
- * \var reserved1
- *
- * \var prc
- *
- * \var reserved2
- *
- * \var ic
- *
-*/
+ * \var UBXNAV_SBAS_PART::svid
+ * SV Id
+ * \var UBXNAV_SBAS_PART::flags
+ * Flags for this SV
+ * \var UBXNAV_SBAS_PART::udre
+ * Monitoring status
+ * \var UBXNAV_SBAS_PART::svSys
+ * System (WAAS/EGNOS/...) same as UBXNAV_SBAS::sys
+ * \var UBXNAV_SBAS_PART::svService
+ * Services available same as UBXNAV_SBAS::service
+ * \var UBXNAV_SBAS_PART::reserved1
+ * Reserved
+ * \var UBXNAV_SBAS_PART::prc
+ * Pseudo Range correction
+ * \var UBXNAV_SBAS_PART::reserved2
+ * Reserved
+ * \var UBXNAV_SBAS_PART::ic
+ * Ionosphere correction
+ */
 
 /*!
  * \struct UBXNAV_SOL
- * \brief The UBXNAV_SOL structure is
+ * This message combines position, velocity and time solution in ECEF, including accuracy figures.
+ * This message has only been retained for backwards compatibility; users are recommended
+ * to use the UBX-NAV-PVT message in preference.
+ * \brief Navigation Solution Information
  *
- * \var iTOW
- *
- * \var fTOW
- *
- * \var week
- *
- * \var gpsFix
- *
+ * \var UBXNAV_SOL::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_SOL::fTOW
+ * Fractional part of iTOW
+ * The precise GPS time of week in seconds is:
+ * (UBXNAV_SOL::iTOW * 1e-3) + (UBXNAV_SOL::fTOW * 1e-9)
+ * \note Range +/-500000
+ * \var UBXNAV_SOL::week
+ * GPS week number of the navigation epoch
+ * \var UBXNAV_SOL::gpsFix
+ * GPS fix type
  * \see #UBXGPSFix to fill this field
- * \var flags
- *
+ * \var UBXNAV_SOL::flags
+ * Fix Status Flags
  * \see #UBXSBASSOLFlags to fill this field
- * \var ecefX
- *
- * \var ecefY
- *
- * \var ecefZ
- *
- * \var pAcc
- *
- * \var ecefVX
- *
- * \var ecefVY
- *
- * \var ecefVZ
- *
- * \var sAcc
- *
- * \var pDOP
- *
- * \var reserved1
- *
- * \var numSV
- *
- * \var reserved2
- *
+ * \var UBXNAV_SOL::ecefX
+ * ECEF X coordinate
+ * \var UBXNAV_SOL::ecefY
+ * ECEF Y coordinate
+ * \var UBXNAV_SOL::ecefZ
+ * ECEF Z coordinate
+ * \var UBXNAV_SOL::pAcc
+ * 3D Position Accuracy Estimate
+ * \var UBXNAV_SOL::ecefVX
+ * ECEF X velocity
+ * \var UBXNAV_SOL::ecefVY
+ * ECEF Y velocity
+ * \var UBXNAV_SOL::ecefVZ
+ * ECEF Z velocity
+ * \var UBXNAV_SOL::sAcc
+ * Speed Accuracy Estimate
+ * \var UBXNAV_SOL::pDOP
+ * Position DOP
+ * \var UBXNAV_SOL::reserved1
+ * Reserved
+ * \var UBXNAV_SOL::numSV
+ * Number of SVs used in Nav Solution
+ * \var UBXNAV_SOL::reserved2
+ * Reserved
 */
 
 /*!
  * \struct UBXNAV_STATUS
- * \brief The UBXNAV_STATUS structure is
- *
- * \var iTOW
- *
- * \var gpsFix
- *
- * \var flags
- *
+ * Validity of position and velocity given in.
+ * \warning See important comments concerningsection Navigation Output Filters(u-blox© official documentation).
+ * \brief Receiver Navigation Status
+ * \var UBXNAV_STATUS::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_STATUS::gpsFix
+ * GPSfix Type, this value does not qualify a fix as
+ * valid and within the limits
  * \see #UBXGPSFix to fill this field
- * \var fixStat
- *
+ * \var UBXNAV_STATUS::flags
+ * Navigation Status Flags
+ * \see #UBXGPSFix to fill this field
+ * \var UBXNAV_STATUS::fixStat
+ * Fix Status Information
  * \see #UBXSBASSOLFlags to fill this field
- * \var flags2
- *
- * \var ttff
- *
- * \var msss
- *
+ * \var UBXNAV_STATUS::flags2
+ * Further information about navigation output
+ * \todo Structure to fill this field will be implemtened in future
+ * - 0 -ACQUISITION [or when psm disabled]
+ * - 1 - TRACKING
+ * - 2 - POWER OPTIMIZED TRACKING
+ * - 3 - INACTIVE
+ * \var UBXNAV_STATUS::ttff
+ * Time to first fix (millisecond time tag)
+ * \var UBXNAV_STATUS::msss
+ * Milliseconds since Startup / Reset
 */
 
 /*!
-             * \struct UBXSVINFOGlobalFlags
-{
- * \var chipGen:3
- *
+ * \struct UBXSVINFOGlobalFlags
+ * \brief Implements UBXNAV_SVINFO::globalFlags
+ * \var UBXSVINFOGlobalFlags::chipGen:3
+ * Chip hardware generation
  * \see #UBXSVINFOChipGen to fill this field
 */
 
 /*!
  * \struct UBXNAV_SVINFO
- * \brief The UBXNAV_SVINFO structure is
+ * \note this message has variable payload of #UBXNAV_SVINFO_PART type
+ * \brief Space Vehicle Information
  *
- * \var iTOW
- *
- * \var numCh
- *
-    struct UBXSVINFOGlobalFlags globalFlags;
- * \var reserved2
- *
-    //Variable payload of UBXNAV_SVINFO_PART type
+ * \var UBXNAV_SVINFO::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_SVINFO::numCh
+ * Number of channels
+ * \var UBXNAV_SVINFO::globalFlags
+ * Bitmask
+ * \var UBXNAV_SVINFO::reserved2
+ * Reserved
 */
 
 /*!
-             * \struct UBXSVINFOQuality
-{
- * \var qualityInd:4
- *
+ * \struct UBXSVINFOQuality
+ * \brief Implements UBXNAV_SVINFO_PART::quality
+ * \var UBXSVINFOQuality::qualityInd
+ * Signal Quality indicator
  * \see #UBXSVINFOQualityId to fill this field
 */
 
@@ -4781,41 +5052,46 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \struct UBXNAV_SVINFO_PART
  * \brief The UBXNAV_SVINFO_PART structure is
  *
- * \var chn
- *
- * \var svid
- *
- * \var flags
- *
+ * \var UBXNAV_SVINFO_PART::chn
+ * Channel number, 255 for SVs not assigned to a channel
+ * \var UBXNAV_SVINFO_PART::svid
+ * Satellite ID, see Satellite numbering(u-blox© official documentation) for
+ * assignment
+ * \var UBXNAV_SVINFO_PART::flags
+ * Bitmask
  * \see #UBXSVINFOFlags to fill this field
- * \var quality
- *
- * \var cno
- *
- * \var elev
- *
- * \var azim
- *
- * \var prRes
- *
+ * \var UBXNAV_SVINFO_PART::quality
+ * Bitfield
+ * \see #UBXSVINFOQuality to fill this field
+ * \var UBXNAV_SVINFO_PART::cno
+ * Carrier to Noise Ratio (Signal Strength)
+ * \var UBXNAV_SVINFO_PART::elev
+ * Elevation in integer degrees
+ * \var UBXNAV_SVINFO_PART::azim
+ * Azimuth in integer degrees
+ * \var UBXNAV_SVINFO_PART::prRes
+ * Pseudo range residual in centimetres
 */
 
 /*!
  * \struct UBXNAV_TIMEGPS
  * \brief The UBXNAV_TIMEGPS structure is
  *
- * \var iTOW
+ * \var UBXNAV_TIMEGPS::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_TIMEGPS::fTOW
+ * Fractional part of iTOW
+ * The precise GPS time of week in seconds is:
+ * (UBXNAV_SOL::iTOW * 1e-3) + (UBXNAV_SOL::fTOW * 1e-9)
+ * \var UBXNAV_TIMEGPS::week
  *
- * \var fTOW
+ * \var UBXNAV_TIMEGPS::leapS
  *
- * \var week
- *
- * \var leapS
- *
- * \var valid
+ * \var UBXNAV_TIMEGPS::valid
  *
  * \see #UBXTIMEGPSValidityFlags to fill this field
- * \var tAcc
+ * \var UBXNAV_TIMEGPS::tAcc
  *
 */
 
@@ -4905,7 +5181,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \struct UBXRXM_ALM
  * \brief The UBXRXM_ALM structure is
  *
- * \note This RMX messages marked as obsolete API use AID instead
+ * \deprecated This RMX messages marked as obsolete API use AID instead
  * \var svid
  *
  * \var week
@@ -4915,7 +5191,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXRXM_ALM_OPT
  * \brief The UBXRXM_ALM_OPT structure is
- * \note This RMX messages marked as obsolete API use AID instead
+ * \deprecated This RMX messages marked as obsolete API use AID instead
  * \var svid
  *
  * \var week
@@ -4943,7 +5219,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \struct UBXRXM_EPH
  * \brief The UBXRXM_EPH structure is
  *
- * \note This RMX messages marked as obsolete API use AID instead
+ * \deprecated This RMX messages marked as obsolete API use AID instead
  * \var svid
  *
  * \var how
@@ -4954,7 +5230,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * \struct UBXRXM_EPH_OPT
  * \brief The UBXRXM_EPH_OPT structure is
  *
- * \note This RMX messages marked as obsolete API use AID instead
+ * \deprecated This RMX messages marked as obsolete API use AID instead
  * \var svid
  *
  * \var how
