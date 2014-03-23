@@ -3534,7 +3534,8 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 */
 
 /*!
-* \struct UBXCFG_PM2Flags
+ * \struct UBXCFG_PM2Flags
+ * \brief Implements bitmask for UBXCFG_PM2::flags
  * \var UBXCFG_PM2Flags::blank1
  * Stub to make gap
  * \var UBXCFG_PM2Flags::reserved
@@ -4744,8 +4745,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXNAV_POSECEF
- * \brief The UBXNAV_POSECEF structure is
- * Position Solution in ECEF
+ * \brief Position Solution in ECEF
  * \var UBXNAV_POSECEF::iTOW
  * GPS time of week of the navigation epoch.
  * See the description of iTOW (u-blox© official documentation) for details.
@@ -5050,7 +5050,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXNAV_SVINFO_PART
- * \brief The UBXNAV_SVINFO_PART structure is
+ * \brief Variable payload for #UBXNAV_SVINFO
  *
  * \var UBXNAV_SVINFO_PART::chn
  * Channel number, 255 for SVs not assigned to a channel
@@ -5075,7 +5075,9 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 
 /*!
  * \struct UBXNAV_TIMEGPS
- * \brief The UBXNAV_TIMEGPS structure is
+ * This message reports the precise GPS time of the most recent navigation solution including
+ * validity falgs and an accuracy estimate.
+ * \brief GPS Time Solution
  *
  * \var UBXNAV_TIMEGPS::iTOW
  * GPS time of week of the navigation epoch.
@@ -5085,365 +5087,470 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * The precise GPS time of week in seconds is:
  * (UBXNAV_SOL::iTOW * 1e-3) + (UBXNAV_SOL::fTOW * 1e-9)
  * \var UBXNAV_TIMEGPS::week
- *
+ * GPS week number of the navigation epoch
  * \var UBXNAV_TIMEGPS::leapS
- *
+ * GPS leap seconds
  * \var UBXNAV_TIMEGPS::valid
- *
+ * Validity Flags
  * \see #UBXTIMEGPSValidityFlags to fill this field
  * \var UBXNAV_TIMEGPS::tAcc
- *
+ * Time Accuracy Estimate
 */
 
 /*!
  * \struct UBXNAV_TIMEUTC
- * \brief The UBXNAV_TIMEUTC structure is
- *
- * \var iTOW
- *
- * \var tAcc
- *
- * \var nano
- *
- * \var year
- *
- * \var month
- *
- * \var day
- *
- * \var hour
- *
- * \var min
- *
- * \var sec
- *
+ * Note that during a leap second there may be more (or less) than 60 seconds in a
+ * minute; see the description of leap seconds(u-blox© official documentation) for details.
+ * \brief UTC Time Solution
+ * \var UBXNAV_TIMEUTC::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_TIMEUTC::tAcc
+ * Time accuracy estimate (UTC)
+ * \var UBXNAV_TIMEUTC::nano
+ * Fraction of second
+ * \note Range -1e9 .. 1e9 (UTC)
+ * \var UBXNAV_TIMEUTC::year
+ * Year (UTC)
+ * \note Range 1-65635
+ * \var UBXNAV_TIMEUTC::month
+ * Month
+ * \note Range 1-12
+ * \var UBXNAV_TIMEUTC::day
+ * Day
+ * \note Range 1-31
+ * \var UBXNAV_TIMEUTC::hour
+ * Hour
+ * \note Range 0-23
+ * \var UBXNAV_TIMEUTC::minute
+ * Minute
+ * \note Range 0-59
+ * \var UBXNAV_TIMEUTC::second
+ * Second
  * \var valid
- *
+ * Validity Flags
  * \see #UBXTIMEUTCValidityFlags to fill this field
 */
 
 /*!
  * \struct UBXNAV_VELECEF
- * \brief The UBXNAV_VELECEF structure is
- *
- * \var iTOW
- *
- * \var ecefVX
- *
- * \var ecefVY
- *
- * \var ecefVZ
- *
- * \var sAcc
- *
+ * See important comments concerning validity of velocity given in section
+ * Navigation Output Filters(u-blox© official documentation).
+ * \brief Velocity Solution in ECEF
+ * \var UBXNAV_VELECEF::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_VELECEF::ecefVX
+ * ECEF X velocity
+ * \var UBXNAV_VELECEF::ecefVY
+ * ECEF Y velocity
+ * \var UBXNAV_VELECEF::ecefVZ
+ * ECEF Z velocity
+ * \var UBXNAV_VELECEF::sAcc
+ * Speed accuracy estimate
 */
 
 /*!
  * \struct UBXNAV_VELNED
- * \brief The UBXNAV_VELNED structure is
+ * See important comments concerning validity of velocity given in section
+ * Navigation Output Filters(u-blox© official documentation).
+ * \brief Velocity Solution in NED
  *
- * \var iTOW
- *
- * \var velN
- *
- * \var velE
- *
- * \var velD
- *
- * \var speed
- *
- * \var gSpeed
- *
- * \var heading
- *
- * \var sAcc
- *
- * \var cAcc
- *
+ * \var UBXNAV_VELNED::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXNAV_VELNED::velN
+ * North velocity component
+ * \var UBXNAV_VELNED::velE
+ * East velocity component
+ * \var UBXNAV_VELNED::velD
+ * Down velocity component
+ * \var UBXNAV_VELNED::speed
+ * Speed (3-D)
+ * \var UBXNAV_VELNED::gSpeed
+ * Ground speed (2-D)
+ * \var UBXNAV_VELNED::heading
+ * Heading of motion 2-D
+ * \var UBXNAV_VELNED::sAcc
+ * Speed accuracy Estimate
+ * \var UBXNAV_VELNED::cAcc
+ * Course / Heading accuracy estimate
 */
 
 /*!
  * \struct UBXRXM_ALM_POLL
- * \brief The UBXRXM_ALM_POLL structure is
- *
-    //No payload
+ * \note No payload
+ * \brief Poll GPS Constellation Almanac Data
 */
 
 /*!
  * \struct UBXRXM_ALM_POLL_OPT
- * \brief The UBXRXM_ALM_POLL_OPT structure is
+ * \brief Poll GPS Constellation Almanac Data for a SV
  *
- * \var svid
- *
+ * \var UBXRXM_ALM_POLL_OPT::svid
+ * SV ID for which the receiver shall return its Almanac Data
+ * \note Valid Range: 1..32
 */
 
 /*!
  * \struct UBXRXM_ALM
- * \brief The UBXRXM_ALM structure is
+ * - If the WEEK Value is 0, DWRD0 to DWRD7 are not sent as the Almanac is not available
+ * for the given SV.
+ * - DWORD0 to DWORD7 contain the 8 words following the Hand-Over Word ( HOW )
+ * from the GPS navigation message, either pages 1 to 24 of sub-frame 5 or pages 2 to 10
+ * of subframe 4. See IS-GPS-200 for a full description of the contents of the Almanac
+ * pages.
+ * - In DWORD0 to DWORD7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - Example: Parameter e (Eccentricity) from Almanac Subframe 4/5, Word 3, Bits 69-84
+ * within the subframe can be found in DWRD0, Bits 15-0 whereas Bit 0 is the LSB.
+ * \brief GPS Aiding Almanac Input/Output Message
  *
  * \deprecated This RMX messages marked as obsolete API use AID instead
- * \var svid
- *
- * \var week
- *
+ * \var UBXRXM_ALM::svid
+ * SV ID for which this Almanac Data
+ * \note Valid Range: 1 .. 32 or 51, 56, 63.
+ * \var UBXRXM_ALM::week
+ * Issue Date of Almanac (GPS week number)
 */
 
 /*!
  * \struct UBXRXM_ALM_OPT
- * \brief The UBXRXM_ALM_OPT structure is
+ * - If the WEEK Value is 0, DWRD0 to DWRD7 are not sent as the Almanac is not available
+ * for the given SV.
+ * - DWORD0 to DWORD7 contain the 8 words following the Hand-Over Word ( HOW )
+ * from the GPS navigation message, either pages 1 to 24 of sub-frame 5 or pages 2 to 10
+ * of subframe 4. See IS-GPS-200 for a full description of the contents of the Almanac
+ * pages.
+ * - In DWORD0 to DWORD7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * - Example: Parameter e (Eccentricity) from Almanac Subframe 4/5, Word 3, Bits 69-84
+ * within the subframe can be found in DWRD0, Bits 15-0 whereas Bit 0 is the LSB.
+ * \brief GPS Aiding Almanac Input/Output Message
  * \deprecated This RMX messages marked as obsolete API use AID instead
- * \var svid
- *
- * \var week
- *
- * \var dwrd[8]
- *
+ * \var UBXRXM_ALM_OPT::svid
+ * SV ID for which this Almanac Data
+ * \note Valid Range: 1 .. 32 or 51, 56, 63.
+ * \var UBXRXM_ALM_OPT::week
+ * Issue Date of Almanac (GPS week number)
+ * \var UBXRXM_ALM_OPT::dwrd[8]
+ * Almanac Words
 */
 
 /*!
  * \struct UBXRXM_EPH_POLL
- * \brief The UBXRXM_EPH_POLL structure is
- *
-    //No payload
+ * Poll GPS Constellation Data (Ephemeris) for all 32 SVs by sending this message to the
+ * receiver without any payload.
+ * \note No payload
+ * \brief Poll GPS Constellation Ephemeris Data
 */
 
 /*!
  * \struct UBXRXM_EPH_POLL_OPT
- * \brief The UBXRXM_EPH_POLL_OPT structure is
+ * Poll GPS Constellation Data (Ephemeris) for an SV by sending this message to the receiver.
+ * \brief Poll GPS Constellation Ephemeris Data for a SV
  *
- * \var svid
- *
+ * \var UBXRXM_EPH_POLL_OPT::svid
+ * SV ID for which this Almanac Data
+ * \note Valid Range: 1 .. 32 or 51, 56, 63.
 */
 
 /*!
  * \struct UBXRXM_EPH
- * \brief The UBXRXM_EPH structure is
+ * - SF1D0 to SF3D7 is only sent if ephemeris is available for this SV. If not, the payload may
+ * be reduced to 8 Bytes, or all bytes are set to zero, indicating that this SV Number does
+ * not have valid ephemeris for the moment.
+ * - SF1D0 to SF3D7 contain the 24 words following the Hand-Over Word ( HOW ) from the
+ * GPS navigation message, subframes 1 to 3. See IS-GPS-200 for a full description of the
+ * contents of the Subframes.
+ * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * \brief GPS Aiding Ephemeris Input/Output Message
  *
  * \deprecated This RMX messages marked as obsolete API use AID instead
- * \var svid
- *
- * \var how
- *
+ * \var UBXRXM_EPH::svid
+ * SV ID for which this Almanac Data
+ * \var UBXRXM_EPH::how
+ * Hand-Over Word of first Subframe. This is
+ * required if data is sent to the receiver.
+ * 0 indicates that no Ephemeris Data is following.
 */
 
 /*!
  * \struct UBXRXM_EPH_OPT
- * \brief The UBXRXM_EPH_OPT structure is
+ * - SF1D0 to SF3D7 is only sent if ephemeris is available for this SV. If not, the payload may
+ * be reduced to 8 Bytes, or all bytes are set to zero, indicating that this SV Number does
+ * not have valid ephemeris for the moment.
+ * - SF1D0 to SF3D7 contain the 24 words following the Hand-Over Word ( HOW ) from the
+ * GPS navigation message, subframes 1 to 3. See IS-GPS-200 for a full description of the
+ * contents of the Subframes.
+ * - In SF1D0 to SF3D7, the parity bits have been removed, and the 24 bits of data are
+ * located in Bits 0 to 23. Bits 24 to 31 shall be ignored.
+ * \brief GPS Aiding Ephemeris Input/Output Message
  *
  * \deprecated This RMX messages marked as obsolete API use AID instead
- * \var svid
- *
- * \var how
- *
- * \var sf1d[8]
- *
- * \var sf2d[8]
- *
- * \var sf3d[8]
- *
+ * \var UBXRXM_EPH_OPT::svid
+ * SV ID for which this Almanac Data
+ * \var UBXRXM_EPH_OPT::how
+ * \var UBXRXM_EPH_OPT::sf1d[8]
+ * Subframe 1 Words 3..10 (SF1D0..SF1D7)
+ * \var UBXRXM_EPH_OPT::sf2d[8]
+ * Subframe 2 Words 3..10 (SF2D0..SF2D7)
+ * \var UBXRXM_EPH_OPT::sf3d[8]
+ * Subframe 3 Words 3..10 (SF3D0..SF3D7)
 */
 
 /*!
  * \struct UBXRXM_PMREQ
- * \brief The UBXRXM_PMREQ structure is
- *
- * \var duration
- *
- * \var flags
- *
+ * Request of a Power Management related task of the receiver.
+ * \brief Requests a Power Management task
+ * \var UBXRXM_PMREQ::duration
+ * Duration of the requested task
+ * \note Set to 0 for infinite duration
+ * \var UBXRXM_PMREQ::flags
+ * Task flags
  * \see #UBXPMREQFlags to fill this field
 */
 
 /*!
  * \struct UBXRXM_RAW
- * \brief The UBXRXM_RAW structure is
+ * This message contains all information needed to be able to generate a RINEX observation
+ * file.
+ * This message outputs pseudorange, doppler and carrier phase measurements for GPS
+ * satellites once signals have been synchronised. No other GNSS types are currently
+ * supported.
+ * \note This message has variable payload of #UBXRXM_RAW_PART type
+ * \brief Raw Measurement Data
  *
- * \var rcvTow
- *
- * \var week
- *
- * \var numSV
- *
- * \var reserved1
- *
- //Variable payload of UBXRXM_RAW_PART type
+ * \var UBXRXM_RAW::rcvTow
+ * Measurement time of week in receiver local
+ * time
+ * \var UBXRXM_RAW::week
+ * Measurement week number in receiver local
+ * time
+ * \var UBXRXM_RAW::numSV
+ * Number of satellites following
+ * \var UBXRXM_RAW::reserved1
+ * Reserved
 */
 
 /*!
  * \struct UBXRXM_RAW_PART
- * \brief The UBXRXM_RAW_PART structure is
- * \var cpMes
- *
- * \var prMes
- *
- * \var doMes
- *
- * \var sv
- *
- * \var mesQI
- *
- * \var cno
- *
- * \var lli
- *
+ * \brief Variable payload for #UBXRXM_RAW
+ * \var UBXRXM_RAW_PART::cpMes
+ * Carrier phase measurement
+ * \var UBXRXM_RAW_PART::prMes
+ * Pseudorange measurement
+ * \var UBXRXM_RAW_PART::doMes
+ * Doppler measurement (positive sign for approaching satellites)
+ * \var UBXRXM_RAW_PART::sv
+ * Space Vehicle number
+ * \var UBXRXM_RAW_PART::mesQI
+ * Nav Measurements Quality Indicator:
+ * \note
+ * - >=4 - PR+DO OK
+ * - >=5 - PR+DO+CP OK
+ * - <6 - likely loss of carrier lock in previous interval
+ * \var UBXRXM_RAW_PART::cno
+ * Signal strength C/No
+ * \var UBXRXM_RAW_PART::lli
+ * Loss of lock indicator (RINEX definition)
 */
 
 /*!
  * \struct UBXRXM_SFRB
- * \brief The UBXRXM_SFRB structure is
- *
- * \var chn
- *
- * \var svid
- *
- * \var dwrd[10]
- *
+ * The content of one single subframe buffer
+ * For GPS satellites, the 10 dwrd values contain the parity checked subframe data for 10
+ * Words. Each dwrd has 24 Bits with valid data (Bits 23 to 0). The remaining 8 bits (31 to 24)
+ * have an undefined value. The direction within the Word is that the higher order bits are
+ * received from the SV first. Example: The Preamble can be found in dwrd[0], at bit position
+ * 23 down to 16. For more details on the data format please refer to the ICD-GPS-200C
+ * Interface document.
+ * For SBAS satellites, the 250 Bit message block can be found in dwrd[0] to dwrd[6] for the
+ * first 224 bits. The remaining 26 bits are in dwrd[7], whereas Bits 25 and 24 are the last two
+ * data bits, and Bits 23 down to 0 are the parity bits. For more information on SBAS data
+ * format, please refer to RTCA/DO-229C (MOPS), Appendix A.
+ * No other GNSS types are currently supported.
+ * \brief Subframe Buffer
+ * \var UBXRXM_SFRB::chn
+ * Channel Number
+ * \var UBXRXM_SFRB::svid
+ * ID of Satellite transmitting Subframe
+ * \var UBXRXM_SFRB::dwrd[10]
+ * Words of Data
 */
 
 /*!
  * \struct UBXRXM_SVSI
- * \brief The UBXRXM_SVSI structure is
+ * Status of the receiver manager knowledge about GPS Orbit Validity
+ * \note This message has variable payload of #UBXRXM_SVSI_PART type
+ * \brief SV Status Info
  *
- * \var iTOW
- *
- * \var week
- *
- * \var numVis
- *
- * \var numSV
- *
- * Variable payload of UBXRXM_SVSI_PART type
+ * \var UBXRXM_SVSI::iTOW
+ * GPS time of week of the navigation epoch.
+ * See the description of iTOW (u-blox© official documentation) for details.
+ * \var UBXRXM_SVSI::week
+ * GPS week number of the navigation epoch
+ * \var UBXRXM_SVSI::numVis
+ * Number of visible satellites
+ * \var UBXRXM_SVSI::numSV
+ * Number of per-SV data blocks following
 */
 
 /*!
  * \struct UBXSVSISVFlags
-{
- * \var ura:4
- *
- * \var healthy:1
- *
- * \var ephVal:1
- *
- * \var almVal:1
- *
- * \var notAvail:1
- *
+ * \brief Implements UBXRXM_SVSI_PART::svFlag
+ * \var UBXSVSISVFlags::ura
+ * Figure of Merit (URA)
+ * \note Range 0..15
+ * \var UBXSVSISVFlags::healthy
+ * SV healthy flag
+ * \var UBXSVSISVFlags::ephVal
+ * Ephemeris valid
+ * \var UBXSVSISVFlags::almVal
+ * Almanac valid
+ * \var UBXSVSISVFlags::notAvail
+ * SV not available
 */
 
 /*!
 * \struct UBXSVSIAge
-* \var almAge:4
-*
-* \var ephAge:4
-*
+* \brief Implements UBXRXM_SVSI_PART::age
+* \var UBXSVSIAge::almAge
+* Age of ALM in days offset by 4
+* i.e. the reference time may be in the future:
+* ageOfAlm = (age & 0x0f) - 4
+* \var UBXSVSIAge::ephAge
+* Age of EPH in hours offset by 4.
+* i.e. the reference time may be in the future:
+* ageOfEph = ((age & 0xf0) >> 4) - 4
 */
 
 /*!
 * \struct UBXRXM_SVSI_PART
-* \var svid
-*
-struct UBXSVSISVFlags svFlag;
-* \var azim
-*
-* \var elev
-*
-struct UBXSVSIAge age;
+* \brief Variable payload for #UBXRXM_SVSI
+* \var UBXRXM_SVSI_PART::svid
+* Satellite ID
+* \var UBXRXM_SVSI_PART::svFlag
+* Information Flags
+* \see #UBXSVSISVFlags to fill this field
+* \var UBXRXM_SVSI_PART::azim
+* Azimuth
+* \var UBXRXM_SVSI_PART::elev
+* Elevation
+* \var UBXRXM_SVSI_PART::age
+* Age of Almanac and Ephemeris
+* \see UBXSVSIAge to fill this field
 */
 
 
 /*!
 * \struct UBXTM2Flags
-* \var mode:1
-*
+* \brief Implements UBXTIM_TM2::flags
+* \var UBXTM2Flags::mode
+* Mode bitmask
 * \see #UBXTM2FlagsMode to fill this field
-* \var run:1
-*
+* \var UBXTM2Flags::run
+* Run state
 * \see #UBXTM2FlagsRun to fill this field
-* \var newFallingEdge:1
-*
-* \var timeBase:2
-*
+* \var UBXTM2Flags::newFallingEdge
+* New falling edge detected
+* \var UBXTM2Flags::timeBase
+* Time base
 * \see #UBXTM2FlagsTimeBase to fill this field
-* \var utc:1
-*
+* \var UBXTM2Flags::utc
+* UTC availability
 * \see #UBXTM2FlagsUTC to fill this field
-* \var time:1
-*
+* \var UBXTM2Flags::time
+* Time is valid
 * \see #UBXTM2FlagsTime to fill this field
-* \var newRisingEdge:1
-*
+* \var UBXTM2Flags::newRisingEdge
+* New rising edge detected
 */
 
 /*!
 * \struct UBXTIM_TM2
-* \brief The UBXTIM_TM2 structure is
+* This message contains information for high precision time stamping / pulse counting.
+* The delay figures and timebase given in UBXCFG_TP5 are also applied to the time results
+* output in this message.
+* \brief Time mark data
 *
-* \var ch
-*
-struct UBXTM2Flags flags;
-* \var count
-*
-* \var wnR
-*
-* \var wnF
-*
-* \var towMsR
-*
-* \var towSubMsR
-*
-* \var towMsF
-*
-* \var towSubMsF
-*
-* \var accEst
-*
+* \var UBXTIM_TM2::ch
+* Marker channel 0 or 1
+* \var UBXTIM_TM2::flags
+* Flags
+* \see #UBXTM2Flags to fill this field
+* \var UBXTIM_TM2::count
+* Rising edge counter
+* \var UBXTIM_TM2::wnR
+* week number of last rising edge
+* \var UBXTIM_TM2::wnF
+* week number of last falling edge
+* \var UBXTIM_TM2::towMsR
+* tow of rising edge
+* \var UBXTIM_TM2::towSubMsR
+* millisecond fraction of tow of rising edge in
+* nanoseconds
+* \var UBXTIM_TM2::towMsF
+* tow of falling edge
+* \var UBXTIM_TM2::towSubMsF
+* millisecond fraction of tow of falling edge in
+* nanoseconds
+* \var UBXTIM_TM2::accEst
+* Accuracy estimate
 */
 
 /*!
 * \struct UBXTIM_TP
-* \brief The UBXTIM_TP structure is
+* This message contains information for high precision timing. The recommended
+* configuration when using this message is to set both the measurement rate (CFG-RATE)
+* and the timepulse frequency (CFG-TP5) to 1Hz. For more information see section Time
+* pulse.
+* \brief Time Pulse Timedata
 *
-* \var towMS
-*
-* \var towSubMS
-*
-* \var qErr
-*
-* \var week
-*
-* \var flags
-*
-* \var reserved1
-*
+* \var UBXTIM_TP::towMS
+* Time pulse time of week according to time base
+* \var UBXTIM_TP::towSubMS
+* Submillisecond part of TOWMS
+* \var UBXTIM_TP::qErr
+* Quantization error of time pulse.
+* \var UBXTIM_TP::week
+* Time pulse week number according to time
+* base
+* \var UBXTIM_TP::flags
+* \see UBXTPFlags to fill this field
+* \var UBXTIM_TP::reserved1
+* Reserved
 */
 
 /*!
 * \struct UBXVRFYFlags
-* \brief The UBXVRFYFlags structure is
+* \brief Implements UBXTIM_VRFY::flags
 *
 * \var UBXVRFYFlags::src
-* Blabla variable
+* Aiding time source
 * \see #UBXVRFYFlagsSource to fill this field
 */
 
 /*!
 * \struct UBXTIM_VRFY
-* \brief The UBXTIM_VRFY structure is
+* \brief Sourced Time Verification
 *
-* \var itow
-*
-* \var frac
-*
-* \var deltaMs
-*
-* \var deltaNs
-*
-* \var wno
-*
-* \var flags;
-*
-* \var reserved1
-*
+* \var UBXTIM_VRFY::itow
+* Integer millisecond tow received by source
+* \var UBXTIM_VRFY::frac
+* Sub-millisecond part of tow
+* \var UBXTIM_VRFY::deltaMs
+* Integer milliseconds of delta time (current time minus sourced time)
+* \var UBXTIM_VRFY::deltaNs
+* Sub-millisecond part of delta time
+* \var UBXTIM_VRFY::wno
+* Week number
+* \var UBXTIM_VRFY::flags
+* Information flags
+* \see #UBXVRFYFlags to fill this field
+* \var UBXTIM_VRFY::reserved1
+* Reserved
 */
 
 
