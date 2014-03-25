@@ -23,7 +23,7 @@
  *
  * File: ubxaid.h
  */
-
+/*! \file */
 #ifndef UBLOXAID_H
 #define UBLOXAID_H
 

@@ -23,7 +23,7 @@
  *
  * File: ubxcfg.h
  */
-
+/*! \file */
 #ifndef UBLOXCFG_H
 #define UBLOXCFG_H
 
@@ -103,7 +103,6 @@ extern struct UBXMsgBuffer getCFG_NAVX5(UBXU2_t version,
                                         UBXU1_t usePPP,
                                         UBXU1_t aopCFG,// 0-disabled, 1 - enabled
                                         UBXU1_t aopOrbMaxErr);
-
 extern struct UBXMsgBuffer getCFG_NMEA_POLL();
 extern struct UBXMsgBuffer getCFG_NMEA(UBXX1_t filter, //See UBXNMEAFilter to fill this field
                                        UBXU1_t nmeaVersion,
@@ -127,18 +126,16 @@ extern struct UBXMsgBuffer getCFG_PM2(struct UBXCFG_PM2Flags flags,
                                       UBXU2_t minAcqTime);
 extern struct UBXMsgBuffer getCFG_PRT_POLL();
 extern struct UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId);
-
 extern struct UBXMsgBuffer getCFG_PRT_UART();
 extern struct UBXMsgBuffer getCFG_PRT_USB();
 extern struct UBXMsgBuffer getCFG_PRT_SPI();
 extern struct UBXMsgBuffer getCFG_PRT_DDC();
-
 extern struct UBXMsgBuffer getCFG_RATE_POLL();
 extern struct UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeRef);
 extern struct UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t *data, int dataSize);
 extern struct UBXMsgBuffer getCFG_RINV_POLL();
 extern struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask);
-extern struct UBXMsgBuffer getCFG_RST_OPT(enum UBXBBRSpecialSets special, UBXU2_t mask);
+extern struct UBXMsgBuffer getCFG_RST_OPT(int mode, enum UBXBBRSpecialSets special);
 extern struct UBXMsgBuffer getCFG_RXM(UBXU1_t lpMode //See UBXRXMLowPowerModes to fill this field
                                       );
 extern struct UBXMsgBuffer getCFG_RXM_POLL();
@@ -147,19 +144,13 @@ extern struct UBXMsgBuffer getCFG_SBAS(UBXX1_t mode, //See UBXSBASModes to fill 
                                        UBXX1_t usage, //See UBXSBASUsage to fill this field
                                        UBXU1_t maxSBAS,
                                        UBXX1_t scanmode2, //See UBXSBASScanModes2 to fill this field
-                                       UBXX4_t scanmode1 //See UBXSBASScanModes1 to fill this field
+                                       UBXX4_t scanmode1 //See UBXSBASScanModes1 to fill this fields
                                        );
 extern struct UBXMsgBuffer getCFG_TP5_POLL();
 extern struct UBXMsgBuffer getCFG_TP5_POLL_OPT(enum UBXCFGTimepulses tpIdx);
-extern struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx,
-                                      int16_t antCableDelay,
-                                      int16_t rfGroupDelay,
-                                      u_int32_t freqPeriod,
-                                      u_int32_t freqPeriodLock,
-                                      u_int32_t pulseLenRatio,
-                                      u_int32_t pulseLenRatioLock,
-                                      int32_t userConfigDelay,
-                                      int32_t flags);
+extern struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx, UBXI2_t antCableDelay,  UBXI2_t rfGroupDelay,
+                                      UBXU4_t freqPeriod, UBXU4_t freqPeriodLock, UBXU4_t pulseLenRatio,
+                                      UBXU4_t pulseLenRatioLock, UBXU4_t userConfigDelay, UBXU4_t flags);
 extern struct UBXMsgBuffer getCFG_USB_POLL();
 extern struct UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
                                       UBXU2_t productId,

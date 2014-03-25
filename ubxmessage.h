@@ -70,7 +70,7 @@ typedef u_int32_t UBXX4_t;
 typedef float     UBXR4_t;
 typedef double    UBXR8_t;
 typedef char      UBXCH_t;
-#elif defined (_WIN32)
+#else
 typedef unsigned char  UBXU1_t;
 typedef char           UBXI1_t;
 typedef unsigned char  UBXX1_t;

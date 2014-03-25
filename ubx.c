@@ -64,7 +64,16 @@ struct UBXMsgBuffer createBuffer(int payloadSize)
     memset(buffer.data, 0, buffer.size);
     return buffer;
 }
-
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALPSRV(struct UBXMsg* clientMgs, const struct UBXAlpFileInfo *fileInfo)
+ * \brief Getter for #UBXAID_ALPSRV message
+ * \param clientMgs
+ * u-blox module original request
+ * \param fileInfo
+ * full ALP file data
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALPSRV(struct UBXMsg* clientMgs, const struct UBXAlpFileInfo *fileInfo)
 {
     int requestedAlpSize = (clientMgs->payload.AID_ALPSRV.size << 1);
@@ -97,6 +106,19 @@ struct UBXMsgBuffer getAID_ALPSRV(struct UBXMsg* clientMgs, const struct UBXAlpF
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_MSG_POLL(enum UBXMessageClass msgClass, enum UBXMessageId msgId)
+ * This function construct full buffer for #UBXCFG_MSG_POLL message.
+ * \brief Getter for #UBXCFG_MSG_POLL
+ * \param msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \param msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_MSG_POLL(enum UBXMessageClass msgClass, enum UBXMessageId msgId)
 {
     int payloadSize = sizeof(struct UBXCFG_MSG_POLL);
@@ -109,6 +131,21 @@ struct UBXMsgBuffer getCFG_MSG_POLL(enum UBXMessageClass msgClass, enum UBXMessa
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate)
+ * This function construct full buffer for #UBXCFG_MSG_RATE message.
+ * \brief Getter for #UBXCFG_MSG_RATE
+ * \param msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \param msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
+ * \param rate
+ * Send rate on current Port
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate)
 {
     int payloadSize = sizeof(struct UBXCFG_MSG_RATE);
@@ -122,6 +159,21 @@ struct UBXMsgBuffer getCFG_MSG_RATE(enum UBXMessageClass msgClass, enum UBXMessa
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate[])
+ * This function construct full buffer for #UBXCFG_MSG_RATES message.
+ * \brief Getter for #UBXCFG_MSG_RATES
+ * \param msgClass
+ * Message Class
+ * \see #UBXMessageClass to fill this field
+ * \param msgId
+ * Message Id
+ * \see #UBXMessageId to fill this field
+ * \param rate
+ * Send rate on I/O Port (6 Ports)
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMessageId msgId, UBXU1_t rate[])
 {
     int payloadSize = sizeof(struct UBXCFG_MSG_RATES);
@@ -135,6 +187,19 @@ struct UBXMsgBuffer getCFG_MSG_RATES(enum UBXMessageClass msgClass, enum UBXMess
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
+ * This function construct full buffer for #UBXCFG_RST message.
+ * \brief Getter for #UBXCFG_RST
+ * \param mode
+ * Mode bitmask
+ * \see UBXResetMode to fill this field
+ * \param mask
+ * BBR Sections to clear.
+ * \see #UBXBBRMask to fill this field manually
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
 {
     int payloadSize = sizeof(struct UBXCFG_RST);
@@ -147,19 +212,41 @@ struct UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_RST_OPT(enum UBXBBRSpecialSets special, UBXU2_t mask)
+/*!
+ * \fn struct UBXMsgBuffer getCFG_RST_OPT(int mode, enum UBXBBRSpecialSets special)
+ * This function construct full buffer for #UBXCFG_RST_OPT message.
+ * \brief Getter for #UBXCFG_RST_OPT
+ * \param mode
+ * Mode bitmask
+ * \see UBXResetMode to fill this field
+ * \param special
+ * BBR Sections to clear.
+ * \see #UBXBBRSpecialSets for special sets
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
+struct UBXMsgBuffer getCFG_RST_OPT(int mode, enum UBXBBRSpecialSets special)
 {
     int payloadSize = sizeof(struct UBXCFG_RST);
     struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
     struct UBXMsg* msg = (struct UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RST);
-    msg->payload.CFG_RST.resetMode = special;
-    msg->payload.CFG_RST.navBBRMask = mask;
+    msg->payload.CFG_RST.resetMode = mode;
+    msg->payload.CFG_RST.navBBRMask = special;
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
 
-
+/*!
+ * \fn struct UBXMsgBuffer getCFG_TP5_POLL_OPT(enum UBXCFGTimepulses tpIdx)
+ * This function construct full buffer for #UBXCFG_TP5_POLL_OPT message.
+ * \brief Getter for #UBXCFG_TP5_POLL_OPT
+ * \param tpIdx
+ * Time pulse selection
+ * \see #UBXCFGTimepulses to fill this field
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_TP5_POLL_OPT(enum UBXCFGTimepulses tpIdx)
 {
     int payloadSize = sizeof(struct UBXCFG_TP5_POLL_OPT);
@@ -171,15 +258,43 @@ struct UBXMsgBuffer getCFG_TP5_POLL_OPT(enum UBXCFGTimepulses tpIdx)
     return buffer;
 }
 
-struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx,
-                               int16_t antCableDelay,
-                               int16_t rfGroupDelay,
-                               u_int32_t freqPeriod,
-                               u_int32_t freqPeriodLock,
-                               u_int32_t pulseLenRatio,
-                               u_int32_t pulseLenRatioLock,
-                               int32_t userConfigDelay,
-                               int32_t flags)
+/*!
+ * \fn struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx, int16_t antCableDelay, int16_t rfGroupDelay,
+                               u_int32_t freqPeriod, u_int32_t freqPeriodLock, u_int32_t pulseLenRatio,
+                               u_int32_t pulseLenRatioLock, int32_t userConfigDelay, int32_t flags)
+ * This function construct full buffer for #UBXCFG_TP5 message.
+ * \brief Getter for #UBXCFG_TP5
+ * \param tpIdx
+ * Time pulse selection
+ * \see #UBXCFGTimepulses to fill this field
+ * \param antCableDelay
+ * Antenna cable delay
+ * \param rfGroupDelay
+ * RF group delay
+ * \param freqPeriod
+ * Frequency or period time
+ * \note Depending on setting of bit 'isFreq'
+ * \param freqPeriodLock
+ * Frequency or period time when locked to GPS
+ * time
+ * \note Only used if 'lockedOtherSet' is set
+ * \param pulseLenRatio
+ * Pulse length or duty cycle
+ * \note Depending on 'isLength'
+ * \param pulseLenRatioLock
+ * Pulse length or duty cycle when locked to GPS
+ * time
+ * \note only used if 'lockedOtherSet' is set
+ * \param userConfigDelay
+ * User configurable time pulse delay
+ * \param flags
+ * Configuration flags
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
+struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx, UBXI2_t antCableDelay, UBXI2_t rfGroupDelay,
+                               UBXU4_t freqPeriod, UBXU4_t freqPeriodLock, UBXU4_t pulseLenRatio,
+                               UBXU4_t pulseLenRatioLock, UBXU4_t userConfigDelay, UBXU4_t flags)
 {
     int payloadSize = sizeof(struct UBXCFG_TP5);
     struct UBXMsgBuffer buffer  = createBuffer(payloadSize);
@@ -198,6 +313,13 @@ struct UBXMsgBuffer getCFG_TP5(enum UBXCFGTimepulses tpIdx,
     return buffer;
 }
 
+/*!
+ * \fn getAID_ALM_POLL
+ * This function construct full buffer for #UBXAID_ALM_POLL message.
+ * \brief Getter for #UBXAID_ALM_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALM_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_ALM_POLL);
@@ -208,6 +330,17 @@ struct UBXMsgBuffer getAID_ALM_POLL()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid)
+ * This function construct full buffer for #UBXAID_ALM_POLL_OPT message.
+ * \brief Getter for #UBXAID_ALM_POLL_OPT
+ * \param svid
+ * SV ID for which the receiver shall return its
+ * Almanac Data (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(struct UBXAID_ALM_POLL_OPT);
@@ -219,6 +352,19 @@ struct UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALM(UBXU4_t svid, UBXU4_t week)
+ * This function construct full buffer for #UBXAID_ALM message.
+ * \brief Getter for #UBXAID_ALM
+ * \param svid
+ * SV ID for which the receiver shall return its
+ * Almanac Data (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+ * \param week
+ * Issue Date of Almanac (GPS week number)
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALM(UBXU4_t svid, UBXU4_t week)
 {
     int payloadSize = sizeof(struct UBXAID_ALM);
@@ -231,6 +377,21 @@ struct UBXMsgBuffer getAID_ALM(UBXU4_t svid, UBXU4_t week)
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8])
+ * This function construct full buffer for #UBXAID_ALM_OPT message.
+ * \brief Getter for #UBXAID_ALM_OPT
+ * \param svid
+ * SV ID for which the receiver shall return its
+ * Almanac Data (Valid Range: 1 .. 32 or 51, 56,
+ * 63).
+ * \param week
+ * Issue Date of Almanac (GPS week number)
+ * \param dwrd
+ * Almanac Words
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8])
 {
     int payloadSize = sizeof(struct UBXAID_ALM_OPT);
@@ -244,6 +405,32 @@ struct UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8])
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALP_POLL(UBXU4_t predTow,
+                                    UBXU4_t predDur,
+                                    UBXI4_t age,
+                                    UBXU2_t predWno,
+                                    UBXU2_t almWno,
+                                    UBXU1_t svs)
+ * This function construct full buffer for #UBXAID_ALP_POLL message.
+ * \brief Getter for #UBXAID_ALP_POLL
+ * \param predTow
+ * Prediction start time of week
+ * \param predDur
+ * Prediction duration from start of first data set to
+ * end of last data set
+ * \param age
+ * Current age of ALP data
+ * \param predWno
+ * Prediction start week number
+ * \param almWno
+ * Truncated week number of reference almanac
+ * \param svs
+ * Number of satellite data sets contained in the
+ * ALP UBXAID_ALP_POLL::data
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALP_POLL(UBXU4_t predTow,
                                     UBXU4_t predDur,
                                     UBXI4_t age,
@@ -265,6 +452,13 @@ struct UBXMsgBuffer getAID_ALP_POLL(UBXU4_t predTow,
     return buffer;
 }
 
+/*!
+ * \fn getAID_ALP_END
+ * This function construct full buffer for #UBXAID_ALP_END message.
+ * \brief Getter for #UBXAID_ALP_END
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALP_END()
 {
     int payloadSize = sizeof(struct UBXAID_ALP_END);
@@ -276,6 +470,17 @@ struct UBXMsgBuffer getAID_ALP_END()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_ALP(UBXU2_t* chunk, int chunkSize)
+ * This function construct full buffer for #UBXAID_ALP message.
+ * \brief Getter for #UBXAID_ALP
+ * \param chunk
+ * ALP data chunk
+ * \param chunkSize
+ * size of chunk
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_ALP(UBXU2_t* chunk, int chunkSize)
 {
     int payloadSize = sizeof(struct UBXAID_ALP) + chunkSize;
@@ -287,6 +492,13 @@ struct UBXMsgBuffer getAID_ALP(UBXU2_t* chunk, int chunkSize)
     return buffer;
 }
 
+/*!
+ * \fn getAID_AOP_POLL
+ * This function construct full buffer for #UBXAID_AOP_POLL message.
+ * \brief Getter for #UBXAID_AOP_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_AOP_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_AOP_POLL);
@@ -297,6 +509,15 @@ struct UBXMsgBuffer getAID_AOP_POLL()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid)
+ * This function construct full buffer for #UBXAID_AOP_POLL_OPT message.
+ * \brief Getter for #UBXAID_AOP_POLL_OPT
+ * \param svid
+ * GPS SV id for which the data is requested (valid range: 1..32).
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(struct UBXAID_AOP_POLL_OPT);
@@ -307,7 +528,17 @@ struct UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid)
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
-
+/*!
+ * \fn struct UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59])
+ * This function construct full buffer for #UBXAID_AOP message.
+ * \brief Getter for #UBXAID_AOP
+ * \param svid
+ * GPS SV id
+ * \param data
+ * AssistNow Autonomous data
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59])
 {
     int payloadSize = sizeof(struct UBXAID_AOP);
@@ -320,6 +551,23 @@ struct UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59])
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48], UBXU1_t optional1[48], UBXU1_t optional2[48])
+ * This function construct full buffer for #UBXAID_AOP_OPT message.
+ * \brief Getter for #UBXAID_AOP_OPT
+ * \param svid
+ * GPS SV id
+ * \param data
+ * AssistNow Autonomous data
+ * \param optional0
+ * Optional data chunk 1/3
+ * \param optional1
+ * Optional data chunk 2/3
+ * \param optional2
+ * Optional data chunk 3/3
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48], UBXU1_t optional1[48], UBXU1_t optional2[48])
 {
     int payloadSize = sizeof(struct UBXAID_AOP_OPT);
@@ -335,6 +583,13 @@ struct UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optio
     return buffer;
 }
 
+/*!
+ * \fn getAID_DATA_POLL
+ * This function construct full buffer for #UBXAID_DATA_POLL message.
+ * \brief Getter for #UBXAID_DATA_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_DATA_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_DATA_POLL);
@@ -345,6 +600,13 @@ struct UBXMsgBuffer getAID_DATA_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getAID_EPH_POLL
+ * This function construct full buffer for #UBXAID_EPH_POLL message.
+ * \brief Getter for #UBXAID_EPH_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_EPH_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_EPH_POLL);
@@ -355,6 +617,16 @@ struct UBXMsgBuffer getAID_EPH_POLL()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid)
+ * This function construct full buffer for #UBXAID_EPH_POLL_OPT message.
+ * \brief Getter for #UBXAID_EPH_POLL_OPT
+ * \param svid
+ * SV ID for which the receiver shall return its
+ * Ephemeris Data (Valid Range: 1 .. 32).
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(struct UBXAID_EPH_POLL_OPT);
@@ -366,6 +638,20 @@ struct UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how)
+ * This function construct full buffer for #UBXAID_EPH message.
+ * \brief Getter for #UBXAID_EPH
+ * \param svid
+ * SV ID for which this ephemeris data is
+ * \note Range: 1..32
+ * \param how
+ * Hand-Over Word of first Subframe. This is
+ * required if data is sent to the receiver.
+ * 0 indicates that no Ephemeris Data is following.
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how)
 {
     int payloadSize = sizeof(struct UBXAID_EPH);
@@ -378,6 +664,26 @@ struct UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how)
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t sf2d[8], UBXU4_t sf3d[8])
+ * This function construct full buffer for #UBXAID_EPH_OPT message.
+ * \brief Getter for #UBXAID_EPH_OPT
+ * \param svid
+ * SV ID for which this ephemeris data is
+ * \note Range: 1..32
+ * \param how
+ * Hand-Over Word of first Subframe. This is
+ * required if data is sent to the receiver.
+ * 0 indicates that no Ephemeris Data is following.
+ * \param sf1d
+ * Subframe 1 Words 3..10 (SF1D0..SF1D7)
+ * \param sf2d
+ * Subframe 2 Words 3..10 (SF1D0..SF1D7)
+ * \param sf3d
+ * Subframe 3 Words 3..10 (SF1D0..SF1D7)
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t sf2d[8], UBXU4_t sf3d[8])
 {
     int payloadSize = sizeof(struct UBXAID_EPH_OPT);
@@ -393,6 +699,13 @@ struct UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], U
     return buffer;
 }
 
+/*!
+ * \fn getAID_HUI_POLL
+ * This function construct full buffer for #UBXAID_HUI_POLL message.
+ * \brief Getter for #UBXAID_HUI_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_HUI_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_HUI_POLL);
@@ -403,24 +716,65 @@ struct UBXMsgBuffer getAID_HUI_POLL()
     return buffer;
 }
 
-struct UBXMsgBuffer getAID_HUI(UBXI4_t health,
-                               UBXR4_t utcA0,
-                               UBXR4_t utcA1,
-                               UBXI4_t utcTOW,
-                               UBXI2_t utcWNT,
-                               UBXI2_t utcLS,
-                               UBXI2_t utcWNF,
-                               UBXI2_t utcDN,
-                               UBXI2_t utcLSF,
-                               UBXI2_t utcSpare,
-                               UBXR4_t klobA0,
-                               UBXR4_t klobA1,
-                               UBXR4_t klobA2,
-                               UBXR4_t klobA3,
-                               UBXR4_t klobB0,
-                               UBXR4_t klobB1,
-                               UBXR4_t klobB2,
-                               UBXR4_t klobB3,
+/*!
+ * \fn struct UBXMsgBuffer getAID_HUI(UBXI4_t health, UBXR4_t utcA0, UBXR4_t utcA1,
+                               UBXI4_t utcTOW, UBXI2_t utcWNT, UBXI2_t utcLS,
+                               UBXI2_t utcWNF, UBXI2_t utcDN, UBXI2_t utcLSF,
+                               UBXI2_t utcSpare, UBXR4_t klobA0, UBXR4_t klobA1,
+                               UBXR4_t klobA2, UBXR4_t klobA3, UBXR4_t klobB0,
+                               UBXR4_t klobB1, UBXR4_t klobB2, UBXR4_t klobB3,
+                               UBXX2_t flags)
+ * This function construct full buffer for #UBXAID_HUI message.
+ * \brief Getter for #UBXAID_HUI
+ * \param health
+ * Bitmask, every bit represenst a GPS SV (1-32). If
+ * the bit is set the SV is healthy.
+ * \param utcA0
+ * UTC - parameter A0
+ * \param utcA1
+ * UTC - parameter A1
+ * \param utcTOW
+ * UTC - reference time of week
+ * \param utcWNT
+ * UTC - reference week number
+ * \param utcLS
+ * UTC - time difference due to leap seconds before event
+ * \param utcWNF
+ * UTC - week number when next leap second event occurs
+ * \param utcDN
+ * UTC - day of week when next leap second event occurs
+ * \param utcLSF
+ * UTC - time difference due to leap seconds after event
+ * \param utcSpare
+ * UTC - Spare to ensure structure is a multiple of 4 bytes
+ * \param klobA0
+ * Klobuchar - alpha 0
+ * \param klobA1
+ * Klobuchar - alpha 1
+ * \param klobA2
+ * Klobuchar - alpha 2
+ * \param klobA3
+ * Klobuchar - alpha 3
+ * \param klobB0
+ * Klobuchar - beta 0
+ * \param klobB1
+ * Klobuchar - beta 1
+ * \param klobB2
+ * Klobuchar - beta 2
+ * \param klobB3
+ * Klobuchar - beta 3
+ * \param flags
+ * Flags.
+ * \see #UBXHUIFlags to fill this field
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
+struct UBXMsgBuffer getAID_HUI(UBXI4_t health, UBXR4_t utcA0, UBXR4_t utcA1,
+                               UBXI4_t utcTOW, UBXI2_t utcWNT, UBXI2_t utcLS,
+                               UBXI2_t utcWNF, UBXI2_t utcDN, UBXI2_t utcLSF,
+                               UBXI2_t utcSpare, UBXR4_t klobA0, UBXR4_t klobA1,
+                               UBXR4_t klobA2, UBXR4_t klobA3, UBXR4_t klobB0,
+                               UBXR4_t klobB1, UBXR4_t klobB2, UBXR4_t klobB3,
                                UBXX2_t flags)
 {
     int payloadSize = sizeof(struct UBXAID_HUI);
@@ -450,6 +804,13 @@ struct UBXMsgBuffer getAID_HUI(UBXI4_t health,
     return buffer;
 }
 
+/*!
+ * \fn getAID_INI_POLL
+ * This function construct full buffer for #UBXAID_INI_POLL message.
+ * \brief Getter for #UBXAID_INI_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_INI_POLL()
 {
     int payloadSize = sizeof(struct UBXAID_INI_POLL);
@@ -460,6 +821,54 @@ struct UBXMsgBuffer getAID_INI_POLL()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
+                               UBXI1_t ecefYOrLat,
+                               UBXI1_t ecefZOrLat,
+                               UBXU1_t posAcc,
+                               UBXI1_t tmCfg,
+                               UBXU2_t wnoOrDate,
+                               UBXU4_t towOrDate,
+                               UBXI4_t towNs,
+                               UBXU4_t tAccMS,
+                               UBXU4_t tAccNS,
+                               UBXI4_t clkDOrFreq,
+                               UBXU4_t clkDAccOrFreqAcc,
+                               UBXX4_t flags)
+ * This function construct full buffer for #UBXAID_INI message.
+ * \brief Getter for #UBXAID_INI
+ * \param ecefXOrLat
+ * WGS84 ECEF X coordinate or latitude
+ * \param ecefYOrLat
+ * WGS84 ECEF Y coordinate or latitude
+ * \param ecefZOrLat
+ * WGS84 ECEF Z coordinate or latitude
+ * \param posAcc
+ * Position accuracy
+ * \param tmCfg
+ * Time mark configuration
+ * \see #UBXINItmCfg to fill this field
+ * \param wnoOrDate
+ * Actual week number or yearSince2000/Month (YYMM), depending on UBXAID_INI::flags
+ * \param towOrDate
+ * Actual time of week or
+ * DayOfMonth/Hour/Minute/Second
+ * (DDHHMMSS), depending on UBXAID_INI::flags
+ * \param towNs
+ * Fractional part of time of week
+ * \param tAccMS
+ * Milliseconds part of time accuracy
+ * \param tAccNS
+ * Nanoseconds part of time accuracy
+ * \param clkDOrFreq
+ * Clock drift or frequency, depending on UBXAID_INI::flags
+ * \param clkDAccOrFreqAcc
+ * Accuracy of clock drift or frequency, depending on UBXAID_INI::flags
+ * \param flags
+ * Bitmask with the flags
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
                                UBXI1_t ecefYOrLat,
                                UBXI1_t ecefZOrLat,
@@ -494,7 +903,18 @@ struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
-
+/*!
+ * \fn struct UBXMsgBuffer getCFG_ANT(UBXX2_t flags, struct UBXANTPins pins)
+ * This function construct full buffer for #UBXCFG_ANT message.
+ * \brief Getter for #UBXCFG_ANT
+ * \param flags
+ * Antenna flag mask
+ * \see #UBXANTFlags to fill this field
+ * \param pins
+ * Antenna Pin Configuration
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_ANT(UBXX2_t flags, struct UBXANTPins pins)
 {
     int payloadSize = sizeof(struct UBXCFG_ANT);
@@ -507,6 +927,13 @@ struct UBXMsgBuffer getCFG_ANT(UBXX2_t flags, struct UBXANTPins pins)
     return buffer;
 }
 
+/*!
+ * \fn getCFG_ANT_POLL
+ * This function construct full buffer for #UBXCFG_ANT_POLL message.
+ * \brief Getter for #UBXCFG_ANT_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_ANT_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_ANT_POLL);
@@ -517,6 +944,29 @@ struct UBXMsgBuffer getCFG_ANT_POLL()
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask)
+ * This function construct full buffer for #UBXCFG_CFG message.
+ * \brief Getter for #UBXCFG_CFG
+ * \param clearMask
+ * Mask with configuration sub-sections to Clear
+ * \note Load Default Configurations to Permanent
+ *       Configurations in non-volatile memory
+ * \see #UBXCFGMask to fill this field
+ * \param saveMask
+ * Mask with configuration sub-section to Save
+ * \note Save Current Configuration to Non-volatile
+ *       Memory
+ * \see #UBXCFGMask to fill this field
+ * \param loadMask
+ * Mask with configuration sub-sections to Load
+ * \note Load Permanent Configurations from
+ *       Non-volatile Memory to Current
+ *       Configurations
+ * \see #UBXCFGMask to fill this field
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask)
 {
     int payloadSize = sizeof(struct UBXCFG_CFG);
@@ -530,6 +980,33 @@ struct UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t load
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_CFG_OPT(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask, UBXX1_t deviceMask)
+ * This function construct full buffer for #UBXCFG_CFG_OPT message.
+ * \brief Getter for #UBXCFG_CFG_OPT
+ * \param clearMask
+ * Mask with configuration sub-sections to Clear
+ * \note Load Default Configurations to Permanent
+ *       Configurations in non-volatile memory
+ * \see #UBXCFGMask to fill this field
+ * \param saveMask
+ * Mask with configuration sub-section to Save
+ * \note Save Current Configuration to Non-volatile
+ *       Memory
+ * \see #UBXCFGMask to fill this field
+ * \param loadMask
+ * Mask with configuration sub-sections to Load
+ * \note Load Permanent Configurations from
+ *       Non-volatile Memory to Current
+ *       Configurations
+ * \see #UBXCFGMask to fill this field
+ * \param deviceMask
+ * Mask which selects the devices for this
+ * command
+ * \see #UBXCFGDeviceMask to fill this field
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_CFG_OPT(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask, UBXX1_t deviceMask)
 {
     int payloadSize = sizeof(struct UBXCFG_CFG_OPT);
@@ -544,6 +1021,22 @@ struct UBXMsgBuffer getCFG_CFG_OPT(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t 
     return buffer;
 }
 
+/*!
+ * \fn struct UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA, UBXR8_t flat, UBXR4_t dX, UBXR4_t dY, UBXR4_t dZ, UBXR4_t rotX, UBXR4_t rotY, UBXR4_t rotZ, UBXR4_t scale)
+ * This function construct full buffer for #UBXCFG_DAT_IN message.
+ * \brief Getter for #UBXCFG_DAT_IN
+ * \param majA
+ * \param flat
+ * \param dX
+ * \param dY
+ * \param dZ
+ * \param rotX
+ * \param rotY
+ * \param rotZ
+ * \param scale
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA, UBXR8_t flat, UBXR4_t dX, UBXR4_t dY, UBXR4_t dZ, UBXR4_t rotX, UBXR4_t rotY, UBXR4_t rotZ, UBXR4_t scale)
 {
     int payloadSize = sizeof(struct UBXCFG_DAT_IN);
@@ -563,6 +1056,13 @@ struct UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA, UBXR8_t flat, UBXR4_t dX, UBXR4_
     return buffer;
 }
 
+/*!
+ * \fn getCFG_DAT_POLL
+ * This function construct full buffer for #UBXCFG_DAT_POLL message.
+ * \brief Getter for #UBXCFG_DAT_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_DAT_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_DAT_POLL);
@@ -573,6 +1073,13 @@ struct UBXMsgBuffer getCFG_DAT_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_GNSS_POLL
+ * This function construct full buffer for #UBXCFG_GNSS_POLL message.
+ * \brief Getter for #UBXCFG_GNSS_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_GNSS_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_GNSS_POLL);
@@ -583,6 +1090,19 @@ struct UBXMsgBuffer getCFG_GNSS_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_GNSS
+ * This function construct full buffer for #UBXCFG_GNSS message.
+ * \brief Getter for #UBXCFG_GNSS
+ * \param msgVer
+ * \param numTrkChHw
+ * \param numTrkChUse
+ * \param numConfigBlocks
+ * \param gnssPart
+ * \param gnssPartCount
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
                                 UBXU1_t numTrkChHw,
                                 UBXU1_t numTrkChUse,
@@ -603,6 +1123,14 @@ struct UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_INF_POLL
+ * This function construct full buffer for #UBXCFG_INF_POLL message.
+ * \brief Getter for #UBXCFG_INF_POLL
+ * \param protocolId
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId)
 {
     int payloadSize = sizeof(struct UBXCFG_INF_POLL);
@@ -614,6 +1142,15 @@ struct UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId)
     return buffer;
 }
 
+/*!
+ * \fn getCFG_INF
+ * This function construct full buffer for #UBXCFG_INF message.
+ * \brief Getter for #UBXCFG_INF
+ * \param infPart
+ * \param infPartCount
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_INF(struct UBXCFG_INF_PART* infPart, int infPartCount)
 {
     int payloadSize = sizeof(struct UBXCFG_INF) + sizeof(struct UBXCFG_INF_PART)*infPartCount;
@@ -625,6 +1162,13 @@ struct UBXMsgBuffer getCFG_INF(struct UBXCFG_INF_PART* infPart, int infPartCount
     return buffer;
 }
 
+/*!
+ * \fn getCFG_ITFM_POLL
+ * This function construct full buffer for #UBXCFG_ITFM_POLL message.
+ * \brief Getter for #UBXCFG_ITFM_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_ITFM_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_ITFM_POLL);
@@ -635,6 +1179,15 @@ struct UBXMsgBuffer getCFG_ITFM_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_ITFM
+ * This function construct full buffer for #UBXCFG_ITFM message.
+ * \brief Getter for #UBXCFG_ITFM
+ * \param config
+ * \param config2
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_ITFM(struct UBXITFMConfig config,
                                 struct UBXITFMConfig2 config2)
 {
@@ -648,6 +1201,13 @@ struct UBXMsgBuffer getCFG_ITFM(struct UBXITFMConfig config,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_LOGFILTER_POLL
+ * This function construct full buffer for #UBXCFG_LOGFILTER_POLL message.
+ * \brief Getter for #UBXCFG_LOGFILTER_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_LOGFILTER_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_LOGFILTER_POLL);
@@ -658,6 +1218,19 @@ struct UBXMsgBuffer getCFG_LOGFILTER_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_LOGFILTER
+ * This function construct full buffer for #UBXCFG_LOGFILTER message.
+ * \brief Getter for #UBXCFG_LOGFILTER
+ * \param version
+ * \param flags
+ * \param minIterval
+ * \param timeThreshold
+ * \param speedThreshold
+ * \param positionThreshold
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_LOGFILTER(UBXU1_t version,
                                      UBXX1_t flags,
                                      UBXU2_t minIterval,
@@ -679,6 +1252,13 @@ struct UBXMsgBuffer getCFG_LOGFILTER(UBXU1_t version,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NAV5_POLL
+ * This function construct full buffer for #UBXCFG_NAV5_POLL message.
+ * \brief Getter for #UBXCFG_NAV5_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NAV5_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NAV5_POLL);
@@ -689,6 +1269,28 @@ struct UBXMsgBuffer getCFG_NAV5_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NAV5
+ * This function construct full buffer for #UBXCFG_NAV5 message.
+ * \brief Getter for #UBXCFG_NAV5
+ * \param mask
+ * \param dynModel
+ * \param fixMode
+ * \param fixedAlt
+ * \param fixedAltVar
+ * \param minElev
+ * \param drLimit
+ * \param pDop
+ * \param tDop
+ * \param pAcc
+ * \param tAcc
+ * \param staticHoldThresh
+ * \param dgpsTimeOut
+ * \param cnoThreshNumSVs
+ * \param cnoThresh
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NAV5(UBXX2_t mask,
                                 enum UBXNAV5Model dynModel,
                                 enum UBXNAV5FixMode fixMode,
@@ -731,6 +1333,13 @@ struct UBXMsgBuffer getCFG_NAV5(UBXX2_t mask,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NAVX5_POLL
+ * This function construct full buffer for #UBXCFG_NAVX5_POLL message.
+ * \brief Getter for #UBXCFG_NAVX5_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NAVX5_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NAVX5_POLL);
@@ -741,6 +1350,23 @@ struct UBXMsgBuffer getCFG_NAVX5_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NAVX5
+ * This function construct full buffer for #UBXCFG_NAVX5 message.
+ * \brief Getter for #UBXCFG_NAVX5
+ * \param version
+ * \param mask1
+ * \param minSVs
+ * \param maxSVs
+ * \param minCNO
+ * \param iniFix3D
+ * \param wknRollover
+ * \param usePPP
+ * \param aopCFG
+ * \param aopOrbMaxErr
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NAVX5(UBXU2_t version,
                                  UBXX2_t mask1,
                                  UBXU1_t minSVs,
@@ -786,6 +1412,13 @@ struct UBXMsgBuffer getCFG_NAVX5(UBXU2_t version,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NMEA_POLL
+ * This function construct full buffer for #UBXCFG_NMEA_POLL message.
+ * \brief Getter for #UBXCFG_NMEA_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NMEA_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_NMEA_POLL);
@@ -796,6 +1429,21 @@ struct UBXMsgBuffer getCFG_NMEA_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NMEA
+ * This function construct full buffer for #UBXCFG_NMEA message.
+ * \brief Getter for #UBXCFG_NMEA
+ * \param filter
+ * \param nmeaVersion
+ * \param numSV
+ * \param flags
+ * \param gnssToFilter
+ * \param svNumbering
+ * \param mainTalkerId
+ * \param gsvTalkerId
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NMEA(UBXX1_t filter,
                                 UBXU1_t nmeaVersion,
                                 UBXU1_t numSV,
@@ -822,6 +1470,17 @@ struct UBXMsgBuffer getCFG_NMEA(UBXX1_t filter,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_NVS
+ * This function construct full buffer for #UBXCFG_NVS message.
+ * \brief Getter for #UBXCFG_NVS
+ * \param clearMask
+ * \param saveMask
+ * \param loadMask
+ * \param deviceMask
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_NVS(UBXX4_t clearMask,
                                UBXX4_t saveMask,
                                UBXX4_t loadMask,
@@ -839,6 +1498,13 @@ struct UBXMsgBuffer getCFG_NVS(UBXX4_t clearMask,
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PM2_POLL
+ * This function construct full buffer for #UBXCFG_PM2_POLL message.
+ * \brief Getter for #UBXCFG_PM2_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PM2_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_PM2_POLL);
@@ -849,6 +1515,19 @@ struct UBXMsgBuffer getCFG_PM2_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PM2
+ * This function construct full buffer for #UBXCFG_PM2 message.
+ * \brief Getter for #UBXCFG_PM2
+ * \param flags
+ * \param updatePeriod
+ * \param searchPeriod
+ * \param gridOffset
+ * \param onTime
+ * \param minAcqTime
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PM2(struct UBXCFG_PM2Flags flags, UBXU4_t updatePeriod, UBXU4_t searchPeriod, UBXU4_t gridOffset, UBXU2_t onTime, UBXU2_t minAcqTime)
 {
     int payloadSize = sizeof(struct UBXCFG_PM2);
@@ -865,6 +1544,13 @@ struct UBXMsgBuffer getCFG_PM2(struct UBXCFG_PM2Flags flags, UBXU4_t updatePerio
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_POLL
+ * This function construct full buffer for #UBXCFG_PRT_POLL message.
+ * \brief Getter for #UBXCFG_PRT_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_PRT_POLL);
@@ -875,6 +1561,14 @@ struct UBXMsgBuffer getCFG_PRT_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_POLL_OPT
+ * This function construct full buffer for #UBXCFG_PRT_POLL_OPT message.
+ * \brief Getter for #UBXCFG_PRT_POLL_OPT
+ * \param portId
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId)
 {
     int payloadSize = sizeof(struct UBXCFG_PRT_POLL_OPT);
@@ -886,6 +1580,13 @@ struct UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId)
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_UART
+ * This function construct full buffer for #UBXCFG_PRT_UART message.
+ * \brief Getter for #UBXCFG_PRT_UART
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_UART()
 {
     //TODO
@@ -893,6 +1594,13 @@ struct UBXMsgBuffer getCFG_PRT_UART()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_USB
+ * This function construct full buffer for #UBXCFG_PRT_USB message.
+ * \brief Getter for #UBXCFG_PRT_USB
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_USB()
 {
     //TODO
@@ -900,6 +1608,13 @@ struct UBXMsgBuffer getCFG_PRT_USB()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_SPI
+ * This function construct full buffer for #UBXCFG_PRT_SPI message.
+ * \brief Getter for #UBXCFG_PRT_SPI
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_SPI()
 {
     //TODO
@@ -907,6 +1622,13 @@ struct UBXMsgBuffer getCFG_PRT_SPI()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_PRT_DDC
+ * This function construct full buffer for #UBXCFG_PRT_DDC message.
+ * \brief Getter for #UBXCFG_PRT_DDC
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_PRT_DDC()
 {
     //TODO
@@ -914,6 +1636,13 @@ struct UBXMsgBuffer getCFG_PRT_DDC()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RATE_POLL
+ * This function construct full buffer for #UBXCFG_RATE_POLL message.
+ * \brief Getter for #UBXCFG_RATE_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RATE_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RATE_POLL);
@@ -924,6 +1653,16 @@ struct UBXMsgBuffer getCFG_RATE_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RATE
+ * This function construct full buffer for #UBXCFG_RATE message.
+ * \brief Getter for #UBXCFG_RATE
+ * \param measRate
+ * \param navRate
+ * \param timeRef
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeRef)
 {
     int payloadSize = sizeof(struct UBXCFG_RATE);
@@ -937,6 +1676,16 @@ struct UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeR
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RINV
+ * This function construct full buffer for #UBXCFG_RINV message.
+ * \brief Getter for #UBXCFG_RINV
+ * \param flags
+ * \param data
+ * \param dataSize
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t* data, int dataSize)
 {
     int payloadSize = sizeof(struct UBXCFG_RINV) + dataSize*sizeof(UBXU1_t);
@@ -949,6 +1698,13 @@ struct UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t* data, int dataSize)
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RINV_POLL
+ * This function construct full buffer for #UBXCFG_RINV_POLL message.
+ * \brief Getter for #UBXCFG_RINV_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RINV_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RINV_POLL);
@@ -959,6 +1715,14 @@ struct UBXMsgBuffer getCFG_RINV_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RXM
+ * This function construct full buffer for #UBXCFG_RXM message.
+ * \brief Getter for #UBXCFG_RXM
+ * \param lpMode
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RXM(UBXU1_t lpMode)
 {
     int payloadSize = sizeof(struct UBXCFG_RXM);
@@ -971,6 +1735,13 @@ struct UBXMsgBuffer getCFG_RXM(UBXU1_t lpMode)
     return buffer;
 }
 
+/*!
+ * \fn getCFG_RXM_POLL
+ * This function construct full buffer for #UBXCFG_RXM_POLL message.
+ * \brief Getter for #UBXCFG_RXM_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_RXM_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_RXM_POLL);
@@ -981,6 +1752,18 @@ struct UBXMsgBuffer getCFG_RXM_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_SBAS
+ * This function construct full buffer for #UBXCFG_SBAS message.
+ * \brief Getter for #UBXCFG_SBAS
+ * \param mode
+ * \param usage
+ * \param maxSBAS
+ * \param scanmode2
+ * \param scanmode1
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_SBAS(UBXX1_t mode, UBXX1_t usage, UBXU1_t maxSBAS, UBXX1_t scanmode2, UBXX4_t scanmode1)
 {
     int payloadSize = sizeof(struct UBXCFG_SBAS);
@@ -996,6 +1779,13 @@ struct UBXMsgBuffer getCFG_SBAS(UBXX1_t mode, UBXX1_t usage, UBXU1_t maxSBAS, UB
     return buffer;
 }
 
+/*!
+ * \fn getCFG_SBAS_POLL
+ * This function construct full buffer for #UBXCFG_SBAS_POLL message.
+ * \brief Getter for #UBXCFG_SBAS_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_SBAS_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_SBAS_POLL);
@@ -1006,6 +1796,13 @@ struct UBXMsgBuffer getCFG_SBAS_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_TP5_POLL
+ * This function construct full buffer for #UBXCFG_TP5_POLL message.
+ * \brief Getter for #UBXCFG_TP5_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_TP5_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_TP5_POLL);
@@ -1016,6 +1813,13 @@ struct UBXMsgBuffer getCFG_TP5_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_USB_POLL
+ * This function construct full buffer for #UBXCFG_USB_POLL message.
+ * \brief Getter for #UBXCFG_USB_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_USB_POLL()
 {
     int payloadSize = sizeof(struct UBXCFG_USB_POLL);
@@ -1026,6 +1830,20 @@ struct UBXMsgBuffer getCFG_USB_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getCFG_USB
+ * This function construct full buffer for #UBXCFG_USB message.
+ * \brief Getter for #UBXCFG_USB
+ * \param vendorId
+ * \param productId
+ * \param powerConsumption
+ * \param flags
+ * \param vendorString
+ * \param productString
+ * \param serialNumber
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
                                UBXU2_t productId,
                                UBXU2_t powerConsumption,
@@ -1057,6 +1875,17 @@ struct UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
     return buffer;
 }
 
+/*!
+ * \fn getLOG_CREATE
+ * This function construct full buffer for #UBXLOG_CREATE message.
+ * \brief Getter for #UBXLOG_CREATE
+ * \param version
+ * \param logCfg
+ * \param logSize
+ * \param userDefinedSize
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_CREATE(UBXU1_t version, UBXX1_t logCfg, UBXU1_t logSize, UBXU4_t userDefinedSize)
 {
     int payloadSize = sizeof(struct UBXLOG_CREATE);
@@ -1072,6 +1901,13 @@ struct UBXMsgBuffer getLOG_CREATE(UBXU1_t version, UBXX1_t logCfg, UBXU1_t logSi
     return buffer;
 }
 
+/*!
+ * \fn getLOG_ERASE
+ * This function construct full buffer for #UBXLOG_ERASE message.
+ * \brief Getter for #UBXLOG_ERASE
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_ERASE()
 {
     int payloadSize = sizeof(struct UBXLOG_ERASE);
@@ -1082,6 +1918,19 @@ struct UBXMsgBuffer getLOG_ERASE()
     return buffer;
 }
 
+/*!
+ * \fn getLOG_FINDTIME_IN
+ * This function construct full buffer for #UBXLOG_FINDTIME_IN message.
+ * \brief Getter for #UBXLOG_FINDTIME_IN
+ * \param year
+ * \param month
+ * \param day
+ * \param hour
+ * \param minute
+ * \param second
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_FINDTIME_IN(UBXU2_t year, UBXU1_t month, UBXU1_t day, UBXU1_t hour, UBXU1_t minute, UBXU1_t second)
 {
     int payloadSize = sizeof(struct UBXLOG_FINDTIME_IN);
@@ -1100,6 +1949,13 @@ struct UBXMsgBuffer getLOG_FINDTIME_IN(UBXU2_t year, UBXU1_t month, UBXU1_t day,
     return buffer;
 }
 
+/*!
+ * \fn getLOG_INFO_POLL
+ * This function construct full buffer for #UBXLOG_INFO_POLL message.
+ * \brief Getter for #UBXLOG_INFO_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_INFO_POLL()
 {
     int payloadSize = sizeof(struct UBXLOG_INFO_POLL);
@@ -1110,6 +1966,16 @@ struct UBXMsgBuffer getLOG_INFO_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getLOG_RETRIEVE
+ * This function construct full buffer for #UBXLOG_RETRIEVE message.
+ * \brief Getter for #UBXLOG_RETRIEVE
+ * \param startNumber
+ * \param entryCount
+ * \param version
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_RETRIEVE(UBXU4_t startNumber,
                                     UBXU4_t entryCount,
                                     UBXU1_t version)
@@ -1125,6 +1991,13 @@ struct UBXMsgBuffer getLOG_RETRIEVE(UBXU4_t startNumber,
     return buffer;
 }
 
+/*!
+ * \fn getLOG_STRING
+ * This function construct full buffer for #UBXLOG_STRING message.
+ * \brief Getter for #UBXLOG_STRING
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getLOG_STRING()
 {
     int payloadSize = sizeof(struct UBXLOG_STRING);
@@ -1135,6 +2008,13 @@ struct UBXMsgBuffer getLOG_STRING()
     return buffer;
 }
 
+/*!
+ * \fn getMON_VER_POLL
+ * This function construct full buffer for #UBXMON_VER_POLL message.
+ * \brief Getter for #UBXMON_VER_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getMON_VER_POLL()
 {
     int payloadSize = sizeof(struct UBXMON_VER_POLL);
@@ -1145,6 +2025,13 @@ struct UBXMsgBuffer getMON_VER_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getRXM_ALM_POLL
+ * This function construct full buffer for #UBXRXM_ALM_POLL message.
+ * \brief Getter for #UBXRXM_ALM_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_ALM_POLL()
 {
     int payloadSize = sizeof(struct UBXRXM_ALM_POLL);
@@ -1155,6 +2042,14 @@ struct UBXMsgBuffer getRXM_ALM_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getRXM_ALM_POLL_OPT
+ * This function construct full buffer for #UBXRXM_ALM_POLL_OPT message.
+ * \brief Getter for #UBXRXM_ALM_POLL_OPT
+ * \param svid
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_ALM_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(struct UBXRXM_ALM_POLL_OPT);
@@ -1166,6 +2061,13 @@ struct UBXMsgBuffer getRXM_ALM_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
+/*!
+ * \fn getRXM_EPH_POLL
+ * This function construct full buffer for #UBXRXM_EPH_POLL message.
+ * \brief Getter for #UBXRXM_EPH_POLL
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_EPH_POLL()
 {
     int payloadSize = sizeof(struct UBXRXM_EPH_POLL);
@@ -1176,6 +2078,14 @@ struct UBXMsgBuffer getRXM_EPH_POLL()
     return buffer;
 }
 
+/*!
+ * \fn getRXM_EPH_POLL_OPT
+ * This function construct full buffer for #UBXRXM_EPH_POLL_OPT message.
+ * \brief Getter for #UBXRXM_EPH_POLL_OPT
+ * \param svid
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_EPH_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(struct UBXRXM_EPH_POLL_OPT);
@@ -1187,6 +2097,15 @@ struct UBXMsgBuffer getRXM_EPH_POLL_OPT(UBXU1_t svid)
     return buffer;
 }
 
+/*!
+ * \fn getRXM_PMREQ
+ * This function construct full buffer for #UBXRXM_PMREQ message.
+ * \brief Getter for #UBXRXM_PMREQ
+ * \param duration
+ * \param flags
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_PMREQ(UBXU4_t duration, UBXX4_t flags)
 {
     int payloadSize = sizeof(struct UBXRXM_PMREQ);
@@ -1199,6 +2118,19 @@ struct UBXMsgBuffer getRXM_PMREQ(UBXU4_t duration, UBXX4_t flags)
     return buffer;
 }
 
+/*!
+ * \fn getRXM_SVSI
+ * This function construct full buffer for #UBXRXM_SVSI message.
+ * \brief Getter for #UBXRXM_SVSI
+ * \param iTOW
+ * \param week
+ * \param numVis
+ * \param numSV
+ * \param svsiPart
+ * \param svsiPartCount
+ * \return
+ * Returns full UBXMsgBuffer including header and checksum
+ */
 struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
                                 UBXI2_t week,
                                 UBXU1_t numVis,
@@ -2626,7 +3558,8 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * message).
  * \brief Poll AssistNow Autonomous data for one satellite
  * \var UBXAID_AOP_POLL_OPT::svid
- * GPS SV id for which the data is requested (valid range: 1..32).
+ * GPS SV id for which the data is requested
+ * \note Range: 1..32
 */
 
 /*!
@@ -2719,8 +3652,8 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * Ephemeris (TOE).
  * \brief GPS Aiding Ephemeris Input/Output Message
  * \var UBXAID_EPH::svid
- * SV ID for which this ephemeris data is (Valid
- * Range: 1 .. 32).
+ * SV ID for which this ephemeris data is
+ * \note Range: 1..32
  * \var UBXAID_EPH::how
  * Hand-Over Word of first Subframe. This is
  * required if data is sent to the receiver.
@@ -2745,8 +3678,8 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * Ephemeris (TOE).
  * \brief GPS Aiding Ephemeris Input/Output Message
  * \var UBXAID_EPH_OPT::svid
- * SV ID for which this ephemeris data is (Valid
- * Range: 1 .. 32).
+ * SV ID for which this ephemeris data is
+ * \note Range: 1..32
  * \var UBXAID_EPH_OPT::how
  * Hand-Over Word of first Subframe. This is
  * required if data is sent to the receiver.
@@ -3054,7 +3987,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXCFG_GNSS
  * Gets or sets the GNSS system channel sharing configuration. The receiver will send an
- * #UBXACK_ACK message if the configuration is valid, an #UBXACK_NAK if any configuration
+ * #UBXACK_ACK message if the configuration is valid, an #UBXACK_NACK if any configuration
  * parameter is invalid.
  * The number of tracking channels in use must not exceed the number of tracking channels
  * available on hardware, and the sum of all reserved tracking channels needs to be smaller or
@@ -3722,6 +4655,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * It is part of #UBXCFG_PRTMode union
  * \brief This structure describes port settings for DDC(I2C)
  * \var UBXCFG_PRTDDCMode::blank0
+ * Stub for gap
  * \var UBXCFG_PRTDDCMode::slaveAddr
  * Slave address
  * \note Range: 0x07 < slaveAddr < 0x78. Bit 0 shall be 0
@@ -4055,7 +4989,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXLOG_CREATE
  * This message is used to create an initial logging file and activate the logging subsystem.
- * #UBXACK_ACK or #UBXACK_NAK are returned to indicate success or failure.
+ * #UBXACK_ACK or #UBXACK_NACK are returned to indicate success or failure.
  * This message does not handle activation of recording or filtering of log entries
  * \see #UBXCFG_LOGFILTER
  * \brief Create Log File
@@ -4080,7 +5014,7 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 /*!
  * \struct UBXLOG_ERASE
  * This message deactivates the logging system and erases all logged data.
- * #UBXACK_ACK or #UBXACK_NAK are returned to indicate success or failure.
+ * #UBXACK_ACK or #UBXACK_NACK are returned to indicate success or failure.
  * \note No payload
  * \brief Erase Logged Data
 */
@@ -5553,9 +6487,63 @@ struct UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
 * Reserved
 */
 
-
-
-
-
-
-
+/*!
+ * \typedef UBXU1_t
+ * Unsigned char
+ * \note Size: 1 byte\n
+ * Range: 0..255
+ *
+ * \typedef UBXI1_t
+ * Signed char
+ * \note Size: 1 byte\n
+ * Range: -128..127
+ *
+ * \typedef UBXX1_t
+ * Bitfield
+ * \note Size: 1 byte\n
+ * Range: 0b00000000..0b11111111
+ *
+ * \typedef UBXU2_t
+ * Unsigned short
+ * \note Size: 2 bytes\n
+ * Range: 0..65535
+ *
+ * \typedef UBXI2_t
+ * Signed short
+ * \note Size: 2 bytes\n
+ * Range: -32768..32767
+ *
+ * \typedef UBXX2_t
+ * Bitfield
+ * \note Size: 2 bytes\n
+ * Range: 0b0000000000000000..0b1111111111111111
+ *
+ * \typedef UBXU4_t
+ * Unsigned Long
+ * \note Size: 4 bytes\n
+ * Range: 0..4294967295
+ *
+ * \typedef UBXI4_t
+ * Unsigned Long
+ * \note Size: 4 bytes\n
+ * Range: -2147483648..2147483647
+ *
+ * \typedef UBXX4_t
+ * Bitfield
+ * \note Size: 4 bytes\n
+ * Range: 0b00000000000000000000000000000000..0b11111111111111111111111111111111
+ *
+ * \typedef UBXR4_t
+ * IEEE 754 Single Precision
+ * \note Size: 4 bytes\n
+ * Range: -1*2^+127..2^+127
+ *
+ * \typedef UBXR8_t
+ * IEEE 754 Double Precision
+ * \note Size: 8 bytes\n
+ * Range: -1*2^+1023..2^+1023
+ *
+ * \typedef UBXCH_t;
+ * ASCII / ISO 8859.1 Encoding
+ * \note Size: 1 byte\n
+ */
