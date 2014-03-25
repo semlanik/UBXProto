@@ -23,6 +23,7 @@
  *
  * File: ubxutils.h
  */
+/*! \file */
 
 #ifndef UBLOXUTILS_H
 #define UBLOXUTILS_H

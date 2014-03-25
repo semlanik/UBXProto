@@ -23,6 +23,7 @@
  *
  * File: ubxrxm.h
  */
+/*! \file */
 
 #ifndef UBLOXRXM_H
 #define UBLOXRXM_H

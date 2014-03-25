@@ -83,7 +83,6 @@ extern struct UBXMsgBuffer getCFG_NAV5(UBXX2_t mask, //See UBXNAV5Mask to fill t
                                        UBXI4_t fixedAlt,
                                        UBXU4_t fixedAltVar,
                                        UBXI1_t minElev,
-                                       UBXU1_t drLimit,
                                        UBXU2_t pDop,
                                        UBXU2_t tDop,
                                        UBXU2_t pAcc,

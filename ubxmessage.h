@@ -187,7 +187,7 @@ enum UBXMessageId
     UBXMsgIdTIM_TP = 0x01,
     UBXMsgIdTIM_VRFY = 0x06,
 
-    MsgIdInvalid = 0xFF
+    UBXMsgIdInvalid = 0xFF
 };
 
 enum UBXResetMode

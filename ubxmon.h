@@ -23,6 +23,7 @@
  *
  * File: ubxmon.h
  */
+/*! \file */
 
 #ifndef UBLOXMON_H
 #define UBLOXMON_H

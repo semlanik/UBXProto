@@ -23,6 +23,7 @@
  *
  * File: ubxlog.h
  */
+/*! \file */
 
 #ifndef UBLOXLOG_H
 #define UBLOXLOG_H
@@ -34,8 +35,7 @@ extern "C"
 #endif
 
 
-extern struct UBXMsgBuffer getLOG_CREATE(UBXU1_t version,
-                                         UBXX1_t logCfg, //See UBXLOGCfg
+extern struct UBXMsgBuffer getLOG_CREATE(UBXX1_t logCfg, //See UBXLOGCfg
                                          UBXU1_t logSize,
                                          UBXU4_t userDefinedSize);
 extern struct UBXMsgBuffer getLOG_ERASE();
