@@ -311,8 +311,8 @@ enum UBXGNSSIds
 {
     UBXGPS,
     UBXSBAS,
-    UBXQZSS,
-    UBXGLONASS
+    UBXQZSS = 5,
+    UBXGLONASS = 6
 };
 enum UBXCFGInfMsgMask
 {
