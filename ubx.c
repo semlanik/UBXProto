@@ -695,7 +695,6 @@ struct UBXMsgBuffer getCFG_NAV5(UBXX2_t mask,
     msg->payload.CFG_NAV5.fixedAlt = fixedAlt;
     msg->payload.CFG_NAV5.fixedAltVar = fixedAltVar;
     msg->payload.CFG_NAV5.minElev = minElev;
-    msg->payload.CFG_NAV5.drLimit = drLimit;
     msg->payload.CFG_NAV5.pDop = pDop;
     msg->payload.CFG_NAV5.tDop = tDop;
     msg->payload.CFG_NAV5.pAcc = pAcc;
