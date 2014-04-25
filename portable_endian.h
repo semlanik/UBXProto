@@ -107,6 +107,18 @@
 #	define __LITTLE_ENDIAN LITTLE_ENDIAN
 #	define __PDP_ENDIAN    PDP_ENDIAN
 
+#elif defined(__QNXNTO__)
+
+#   include <gulliver.h>
+#	define htobe16 ENDIAN_BE16
+#	define htole16 ENDIAN_LE16
+
+#	define htobe32 ENDIAN_BE32
+#	define htole32 ENDIAN_LE32
+
+#	define htobe64 ENDIAN_BE64
+#	define htole64 ENDIAN_LE64
+
 #else
 
 #	error platform not supported
