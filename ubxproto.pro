@@ -25,8 +25,10 @@ HEADERS +=\
     ubxutils.h
 
 header_files.files = $$HEADERS
-header_files.path = ../include
-target.path = ../lib
+header_files.path = $$PREFIX/usr/include
+target.path = $$PREFIX/usr/lib
+OBJECTS_DIR = .obj
+MOC_DIR = .moc
 DEPLOYMENT += header_files target
 INSTALLS += header_files
 INSTALLS += target

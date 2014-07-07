@@ -1,0 +1,7 @@
+UBX protocol implementation based on C language for u-blox© GNSS chips
+
+INSTALLATION
+
+qmake PREFIX=<path-to-sysroot>
+make
+make install
