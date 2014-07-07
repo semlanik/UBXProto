@@ -119,10 +119,12 @@
 #	define htobe64 ENDIAN_BE64
 #	define htole64 ENDIAN_LE64
 
+#elif defined (__vxworks)
+#   include <arch/arm/vxbAccessArchLib.h>
 #else
 
 #	error platform not supported
 
 #endif
 
-#endif
+#endif //#ifndef PORTABLE_ENDIAN_H__
