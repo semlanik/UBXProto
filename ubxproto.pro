@@ -27,7 +27,7 @@ HEADERS +=\
 OBJECTS_DIR = .obj
 MOC_DIR = .moc
 
-linux {
+linux-g++ {
     header_files.files = $$HEADERS
     header_files.path = $$PREFIX/usr/include
     target.path = $$PREFIX/usr/lib
