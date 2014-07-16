@@ -41,7 +41,7 @@ void fletcherChecksum(unsigned char* buffer, int size, unsigned char* checkSumA,
     }
 }
 
-extern void clearBuffer(const UBXMsgBuffer* buffer)
+extern void clearUBXMsgBuffer(const UBXMsgBuffer* buffer)
 {
     free(buffer->data);
 }
