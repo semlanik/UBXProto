@@ -53,10 +53,6 @@
 //#endif
 //#endif
 
-static const int UBX_CHECKSUM_SIZE = 2;
-static const int UBX_HEADER_SIZE = 6;
-static const u_int16_t UBX_PREAMBLE = 0xB562;
-
 #if defined (__linux__)
 typedef u_int8_t  UBXU1_t;
 typedef int8_t    UBXI1_t;
@@ -84,6 +80,10 @@ typedef float          UBXR4_t;
 typedef double         UBXR8_t;
 typedef char           UBXCH_t;
 #endif
+
+static const int UBX_CHECKSUM_SIZE = 2;
+static const int UBX_HEADER_SIZE = 6;
+static const UBXU2_t UBX_PREAMBLE = 0xB562;
 
 enum UBXMessageClass
 {
@@ -2105,7 +2105,7 @@ struct UBXAlpFileInfo
 
 struct UBXMsg
 {
-    u_int16_t preamble;
+    UBXU2_t preamble;
     struct UBXHdr hdr;
     union UBXMsgs payload;
 };
