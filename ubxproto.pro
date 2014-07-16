@@ -32,3 +32,7 @@ MOC_DIR = .moc
 DEPLOYMENT += header_files target
 INSTALLS += header_files
 INSTALLS += target
+
+win32 {
+    LIBS += ws2_32
+}

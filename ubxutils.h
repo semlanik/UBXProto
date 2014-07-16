@@ -36,7 +36,7 @@ extern "C"
 
 //Additional API will be replaced with checkMessage(const UBXMsgBuffer* buffer);
 extern void fletcherChecksum(unsigned char* buffer, int size, unsigned char* checkSumA, unsigned char* checkSumB);
-
+extern void clearBuffer(const UBXMsgBuffer *buffer);
 #ifdef __cplusplus
 }
 #endif

@@ -41,6 +41,11 @@ void fletcherChecksum(unsigned char* buffer, int size, unsigned char* checkSumA,
     }
 }
 
+extern void clearBuffer(const UBXMsgBuffer* buffer)
+{
+    free(buffer->data);
+}
+
 void completeMsg(UBXMsgBuffer* buffer, int payloadSize)
 {
     unsigned char* checkSumA = (unsigned char*)(buffer->data + UBX_HEADER_SIZE  + payloadSize);
@@ -60,7 +65,7 @@ UBXMsgBuffer createBuffer(int payloadSize)
 {
     UBXMsgBuffer buffer = {0, 0};
     buffer.size = UBX_HEADER_SIZE + payloadSize + UBX_CHECKSUM_SIZE;
-    buffer.data = malloc(buffer.size);
+    buffer.data = (char*)malloc(buffer.size);
     memset(buffer.data, 0, buffer.size);
     return buffer;
 }
@@ -68,14 +73,18 @@ UBXMsgBuffer createBuffer(int payloadSize)
 UBXMsgBuffer getAID_ALPSRV(UBXMsg* clientMgs, const UBXAlpFileInfo *fileInfo)
 {
     int requestedAlpSize = (clientMgs->payload.AID_ALPSRV.size << 1);
+    int alpMsgSize = 0;
+    int payloadSize = 0;
+    UBXMsgBuffer buffer;
+    UBXMsg* msg = 0;
     if(fileInfo->dataSize < (clientMgs->payload.AID_ALPSRV.offset + requestedAlpSize))
     {
         requestedAlpSize = fileInfo->dataSize - clientMgs->payload.AID_ALPSRV.offset - 1;
     }
-    int alpMsgSize = sizeof(UBXAID_ALPSRV);
-    int payloadSize = alpMsgSize + requestedAlpSize;
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
-    UBXMsg* msg = (UBXMsg*) buffer.data;
+    alpMsgSize = sizeof(UBXAID_ALPSRV);
+    payloadSize = alpMsgSize + requestedAlpSize;
+    buffer = createBuffer(payloadSize);
+    msg = (UBXMsg*) buffer.data;
 
     if(requestedAlpSize < 0)
     {
@@ -1016,6 +1025,9 @@ UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
     int payloadSize = sizeof(UBXCFG_USB);
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
+    int vendorStringSize = 0;
+    int productStringSize = 0;
+    int serialNumberSize = 0;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_USB);
     msg->payload.CFG_USB.vendorId = vendorId;
     msg->payload.CFG_USB.productId = productId;
@@ -1023,13 +1035,13 @@ UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
     msg->payload.CFG_USB.reserved2 = 1;
     msg->payload.CFG_USB.powerConsumption = powerConsumption;
     msg->payload.CFG_USB.flags = flags;
-    int vendorStringSize = strlen(vendorString)>32?32:strlen(vendorString);
+    vendorStringSize = strlen(vendorString)>32?32:strlen(vendorString);
     memcpy(msg->payload.CFG_USB.vendorString, vendorString, vendorStringSize);
 
-    int productStringSize = strlen(productString)>32?32:strlen(productString);
+    productStringSize = strlen(productString)>32?32:strlen(productString);
     memcpy(msg->payload.CFG_USB.productString, productString, productStringSize);
 
-    int serialNumberSize = strlen(serialNumber)>32?32:strlen(serialNumber);
+    serialNumberSize = strlen(serialNumber)>32?32:strlen(serialNumber);
     memcpy(msg->payload.CFG_USB.serialNumber, serialNumber, serialNumberSize);
 
     completeMsg(&buffer, payloadSize);
