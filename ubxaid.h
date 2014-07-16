@@ -33,25 +33,25 @@ extern "C"
 {
 #endif
 
-extern struct UBXMsgBuffer getAID_ALM_POLL();
-extern struct UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid);
-extern struct UBXMsgBuffer getAID_ALM(UBXU4_t svid, UBXU4_t week);
-extern struct UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8]);
-extern struct UBXMsgBuffer getAID_ALPSRV(struct UBXMsg* clientMgs, const struct UBXAlpFileInfo *fileInfo);
-extern struct UBXMsgBuffer getAID_ALP_POLL(UBXU4_t predTow, UBXU4_t predDur, UBXI4_t age, UBXU2_t predWno, UBXU2_t almWno, UBXU1_t svs);
-extern struct UBXMsgBuffer getAID_ALP_END();
-extern struct UBXMsgBuffer getAID_ALP(UBXU2_t *chunk, int chunkSize);
-extern struct UBXMsgBuffer getAID_AOP_POLL();
-extern struct UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid);
-extern struct UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59]);
-extern struct UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48], UBXU1_t optional1[48], UBXU1_t optional2[48]);
-extern struct UBXMsgBuffer getAID_DATA_POLL();
-extern struct UBXMsgBuffer getAID_EPH_POLL();
-extern struct UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid);
-extern struct UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how);
-extern struct UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t sf2d[8], UBXU4_t sf3d[8]);
-extern struct UBXMsgBuffer getAID_HUI_POLL();
-extern struct UBXMsgBuffer getAID_HUI(UBXI4_t health,
+extern UBXMsgBuffer getAID_ALM_POLL();
+extern UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid);
+extern UBXMsgBuffer getAID_ALM(UBXU4_t svid, UBXU4_t week);
+extern UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8]);
+extern UBXMsgBuffer getAID_ALPSRV(UBXMsg* clientMgs, const UBXAlpFileInfo *fileInfo);
+extern UBXMsgBuffer getAID_ALP_POLL(UBXU4_t predTow, UBXU4_t predDur, UBXI4_t age, UBXU2_t predWno, UBXU2_t almWno, UBXU1_t svs);
+extern UBXMsgBuffer getAID_ALP_END();
+extern UBXMsgBuffer getAID_ALP(UBXU2_t *chunk, int chunkSize);
+extern UBXMsgBuffer getAID_AOP_POLL();
+extern UBXMsgBuffer getAID_AOP_POLL_OPT(UBXU1_t svid);
+extern UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59]);
+extern UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48], UBXU1_t optional1[48], UBXU1_t optional2[48]);
+extern UBXMsgBuffer getAID_DATA_POLL();
+extern UBXMsgBuffer getAID_EPH_POLL();
+extern UBXMsgBuffer getAID_EPH_POLL_OPT(UBXU1_t svid);
+extern UBXMsgBuffer getAID_EPH(UBXU4_t svid, UBXU4_t how);
+extern UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t sf2d[8], UBXU4_t sf3d[8]);
+extern UBXMsgBuffer getAID_HUI_POLL();
+extern UBXMsgBuffer getAID_HUI(UBXI4_t health,
                                       UBXR4_t utcA0,
                                       UBXR4_t utcA1,
                                       UBXI4_t utcTOW,
@@ -71,8 +71,8 @@ extern struct UBXMsgBuffer getAID_HUI(UBXI4_t health,
                                       UBXR4_t klobB3,
                                       UBXX2_t flags //See UBXHUIFlags to fill this field
                                       );
-extern struct UBXMsgBuffer getAID_INI_POLL();
-extern struct UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
+extern UBXMsgBuffer getAID_INI_POLL();
+extern UBXMsgBuffer getAID_INI(UBXI1_t ecefXOrLat,
                                       UBXI1_t ecefYOrLat,
                                       UBXI1_t ecefZOrLat,
                                       UBXU1_t posAcc,

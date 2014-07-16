@@ -34,7 +34,7 @@ extern "C"
 {
 #endif
 
-extern struct UBXMsgBuffer getMON_VER_POLL();
+extern UBXMsgBuffer getMON_VER_POLL();
 
 #ifdef __cplusplus
 }

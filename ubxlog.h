@@ -35,21 +35,21 @@ extern "C"
 #endif
 
 
-extern struct UBXMsgBuffer getLOG_CREATE(UBXX1_t logCfg, //See UBXLOGCfg
+extern UBXMsgBuffer getLOG_CREATE(UBXX1_t logCfg, //See UBXLOGCfg
                                          UBXU1_t logSize,
                                          UBXU4_t userDefinedSize);
-extern struct UBXMsgBuffer getLOG_ERASE();
-extern struct UBXMsgBuffer getLOG_FINDTIME_IN(UBXU2_t year,
+extern UBXMsgBuffer getLOG_ERASE();
+extern UBXMsgBuffer getLOG_FINDTIME_IN(UBXU2_t year,
                                               UBXU1_t month,
                                               UBXU1_t day,
                                               UBXU1_t hour,
                                               UBXU1_t minute,
                                               UBXU1_t second);
-extern struct UBXMsgBuffer getLOG_INFO_POLL();
-extern struct UBXMsgBuffer getLOG_RETRIEVE(UBXU4_t startNumber,
+extern UBXMsgBuffer getLOG_INFO_POLL();
+extern UBXMsgBuffer getLOG_RETRIEVE(UBXU4_t startNumber,
                                            UBXU4_t entryCount,
                                            UBXU1_t version);
-extern struct UBXMsgBuffer getLOG_STRING();
+extern UBXMsgBuffer getLOG_STRING();
 
 #ifdef __cplusplus
 }
