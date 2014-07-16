@@ -776,9 +776,9 @@ struct UBXACK_NACK {
     UBXU1_t msgId;
 };
 
-struct UBXAID_ALM_POLL {
+//struct UBXAID_ALM_POLL {
     //No payload
-};
+//};
 
 struct UBXAID_ALM_POLL_OPT {
     UBXU1_t svid;
@@ -797,6 +797,9 @@ struct UBXAID_ALM_OPT {
 
 struct UBXAID_ALP {
     //Variable payload
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
 };
 
 struct UBXAID_ALP_END {
@@ -815,9 +818,9 @@ struct UBXAID_ALP_POLL {
     UBXU2_t reserved3;
 };
 
-struct UBXAID_AOP_POLL {
+//struct UBXAID_AOP_POLL {
     //No payload
-};
+//};
 
 struct UBXAID_AOP_POLL_OPT {
     UBXU1_t svid;
@@ -836,13 +839,13 @@ struct UBXAID_AOP_OPT {
     UBXU1_t optional2[48];
 };
 
-struct UBXAID_DATA_POLL {
+//struct UBXAID_DATA_POLL {
     //No payload
-};
+//};
 
-struct UBXAID_EPH_POLL {
+//struct UBXAID_EPH_POLL {
     //No payload
-};
+//};
 
 struct UBXAID_EPH_POLL_OPT {
     UBXU1_t svid;
@@ -861,9 +864,9 @@ struct UBXAID_EPH_OPT {
     UBXU4_t sf3d[8];
 };
 
-struct UBXAID_HUI_POLL {
+//struct UBXAID_HUI_POLL {
     //No payload
-};
+//};
 
 struct UBXAID_HUI {
     UBXI4_t health;
@@ -887,9 +890,9 @@ struct UBXAID_HUI {
     UBXX2_t flags;
 };
 
-struct UBXAID_INI_POLL {
+//struct UBXAID_INI_POLL {
     //No payload
-};
+//};
 
 struct UBXAID_INI {
     UBXI1_t ecefXOrLat;
@@ -907,13 +910,13 @@ struct UBXAID_INI {
     UBXX4_t flags;
 };
 
-struct UBXAID_REQ {
+//struct UBXAID_REQ {
     //No payload
-};
+//};
 
-struct UBXCFG_ANT_POLL {
+//struct UBXCFG_ANT_POLL {
     //No payload
-};
+//};
 
 struct UBXANTPins
 {
@@ -941,9 +944,9 @@ struct UBXCFG_CFG_OPT {
     UBXX1_t deviceMask; //See UBXCFGDeviceMask to fill this field
 };
 
-struct UBXCFG_DAT_POLL {
+//struct UBXCFG_DAT_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_DAT_IN {
     UBXR8_t majA;
@@ -971,9 +974,9 @@ struct UBXCFG_DAT_OUT {
     UBXR4_t scale;
 };
 
-struct UBXCFG_GNSS_POLL {
+//struct UBXCFG_GNSS_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_GNSS {
     UBXU1_t msgVer;
@@ -1000,6 +1003,9 @@ struct UBXCFG_INF_POLL {
 struct UBXCFG_INF {
     //Variable payload
     //See structure UBXCFG_INF_PART below
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
 };
 
 struct UBXCFG_INF_PART {
@@ -1009,9 +1015,9 @@ struct UBXCFG_INF_PART {
     UBXX1_t infMsgMask[6]; //See UBXCFGInfMsgMask to fill this field
 };
 
-struct UBXCFG_ITFM_POLL {
+//struct UBXCFG_ITFM_POLL {
     //No payload
-};
+//};
 
 struct UBXITFMConfig
 {
@@ -1033,9 +1039,9 @@ struct UBXITFMConfig2
         struct UBXITFMConfig2 config2;
     };
 
-struct UBXCFG_LOGFILTER_POLL {
+//struct UBXCFG_LOGFILTER_POLL {
     //No payload data
-};
+//};
 
 struct UBXCFG_LOGFILTER {
     UBXU1_t version;
@@ -1063,9 +1069,9 @@ struct UBXCFG_MSG_RATE {
     UBXU1_t rate;
 };
 
-struct UBXCFG_NAV5_POLL {
+//struct UBXCFG_NAV5_POLL {
     //No payload data
-};
+//};
 
 struct UBXCFG_NAV5 {
     UBXX2_t mask; //See UBXNAV5Mask to fill this field
@@ -1088,9 +1094,9 @@ struct UBXCFG_NAV5 {
     UBXU4_t reserved4; //Set to 0
 };
 
-struct UBXCFG_NAVX5_POLL {
+//struct UBXCFG_NAVX5_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_NAVX5 {
     UBXU2_t version;
@@ -1121,9 +1127,9 @@ struct UBXCFG_NAVX5 {
     UBXU4_t reserved4; //Set 0
 };
 
-struct UBXCFG_NMEA_POLL {
+//struct UBXCFG_NMEA_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_NMEA {
     UBXX1_t filter; //See UBXNMEAFilter to fill this field
@@ -1144,9 +1150,9 @@ struct UBXCFG_NVS {
     UBXX1_t deviceMask; //See UBXCFGDeviceMask to fill this field
 };
 
-struct UBXCFG_PM2_POLL {
+//struct UBXCFG_PM2_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_PM2Flags
 {
@@ -1186,9 +1192,9 @@ struct UBXCFG_PM2 {
     UBXU4_t reserved11;
 };
 
-struct UBXCFG_PRT_POLL {
+//struct UBXCFG_PRT_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_PRT_POLL_OPT {
     UBXU1_t portId;
@@ -1259,9 +1265,9 @@ struct UBXCFG_PRT
     UBXU1_t reserved5;
 };
 
-struct UBXCFG_RATE_POLL {
+//struct UBXCFG_RATE_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_RATE {
     UBXU2_t measRate;
@@ -1269,9 +1275,9 @@ struct UBXCFG_RATE {
     UBXU2_t timeRef;
 };
 
-struct UBXCFG_RINV_POLL {
+//struct UBXCFG_RINV_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_RINV {
     UBXX1_t flags; //See UBXRINVFlags to fill this field
@@ -1284,18 +1290,18 @@ struct UBXCFG_RST {
     UBXU1_t reserved1;
 };
 
-struct UBXCFG_RXM_POLL {
+//struct UBXCFG_RXM_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_RXM {
     UBXU1_t reserved1; //Shall be set to 8
     UBXU1_t lpMode; //See UBXRXMLowPowerModes to fill this field
 };
 
-struct UBXCFG_SBAS_POLL {
+//struct UBXCFG_SBAS_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_SBAS {
     UBXX1_t mode; //See UBXSBASModes to fill this field
@@ -1305,9 +1311,9 @@ struct UBXCFG_SBAS {
     UBXX4_t scanmode1; //See UBXSBASScanModes1 to fill this field
 };
 
-struct UBXCFG_TP5_POLL {
+//struct UBXCFG_TP5_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_TP5_POLL_OPT {
     UBXU1_t tpIdx;
@@ -1327,9 +1333,9 @@ struct UBXCFG_TP5 {
     UBXX4_t flags; //See UBXCFGTimepulseFlags to fill this field
 };
 
-struct UBXCFG_USB_POLL {
+//struct UBXCFG_USB_POLL {
     //No payload
-};
+//};
 
 struct UBXCFG_USB {
     UBXU2_t vendorId;
@@ -1344,22 +1350,37 @@ struct UBXCFG_USB {
 };
 
 struct UBXINF_DEBUG {
+#ifdef __WINDOWS__
+    UBXCH_t payload;
+#endif
     //Variable payload of UBXCH_t
 };
 
 struct UBXINF_ERROR {
+#ifdef __WINDOWS__
+    UBXCH_t payload;
+#endif
     //Variable payload of UBXCH_t
 };
 
 struct UBXINF_NOTICE {
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
     //Variable payload of UBXCH_t
 };
 
 struct UBXINF_TEST {
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
     //Variable payload of UBXCH_t
 };
 
 struct UBXINF_WARNING {
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
     //Variable payload of UBXCH_t
 };
 
@@ -1371,9 +1392,9 @@ struct UBXLOG_CREATE {
     UBXU4_t userDefinedSize;
 };
 
-struct UBXLOG_ERASE {
+//struct UBXLOG_ERASE {
     //No payload
-};
+//};
 
 struct UBXLOG_FINDTIME_IN {
     UBXU1_t version; //Shall be 0
@@ -1395,9 +1416,9 @@ struct UBXLOG_FINDTIME_OUT {
     UBXU4_t entryNumber;
 };
 
-struct UBXLOG_INFO_POLL {
+//struct UBXLOG_INFO_POLL {
     //No payload
-};
+//};
 
 struct UBXLOG_INFO
 {
@@ -1471,6 +1492,9 @@ struct UBXLOG_RETRIEVE {
 };
 
 struct UBXLOG_STRING {
+#ifdef __WINDOWS__
+    UBXU1_t payload;
+#endif
     //Variable payload UBXU1_t
 };
 
@@ -1561,9 +1585,9 @@ struct UBXMON_TXBUF {
     UBXU1_t reserved1;
 };
 
-struct UBXMON_VER_POLL {
+//struct UBXMON_VER_POLL {
     //No payload
-};
+//};
 
 struct UBXMON_VER {
     UBXCH_t swVersion[30];
@@ -1812,9 +1836,9 @@ struct UBXNAV_VELNED {
     UBXU4_t cAcc;
 };
 
-struct UBXRXM_ALM_POLL {
+//struct UBXRXM_ALM_POLL {
     //No payload
-};
+//};
 
 struct UBXRXM_ALM_POLL_OPT {
     UBXU1_t svid;
@@ -1837,9 +1861,9 @@ struct UBXRXM_ALM_OPT {
     UBXU4_t dwrd[8];
 };
 
-struct UBXRXM_EPH_POLL {
+//struct UBXRXM_EPH_POLL {
     //No payload
-};
+//};
 
 struct UBXRXM_EPH_POLL_OPT {
     UBXU1_t svid;
@@ -1979,7 +2003,6 @@ union UBXMsgs
 {
     struct UBXACK_NACK ACK_NACK;
     struct UBXACK_ACK ACK_ACK;
-    struct UBXAID_ALM_POLL AID_ALM_POLL;
     struct UBXAID_ALM_POLL_OPT AID_ALM_POLL_OPT;
     struct UBXAID_ALM AID_ALM;
     struct UBXAID_ALM_OPT AID_ALM_OPT;
@@ -1987,63 +2010,41 @@ union UBXMsgs
     struct UBXAID_ALP_POLL AID_ALP_POLL;
     struct UBXAID_ALP_END AID_ALP_END;
     struct UBXAID_ALP AID_ALP;
-    struct UBXAID_AOP_POLL AID_AOP_POLL;
     struct UBXAID_AOP_POLL_OPT AID_AOP_POLL_OPT;
     struct UBXAID_AOP AID_AOP;
     struct UBXAID_AOP_OPT AID_AOP_OPT;
-    struct UBXAID_DATA_POLL AID_DATA_POLL;
-    struct UBXAID_EPH_POLL AID_EPH_POLL;
     struct UBXAID_EPH_POLL_OPT AID_EPH_POLL_OPT;
     struct UBXAID_EPH AID_EPH;
     struct UBXAID_EPH_OPT AID_EPH_OPT;
-    struct UBXAID_HUI_POLL AID_HUI_POLL;
     struct UBXAID_HUI AID_HUI;
-    struct UBXAID_INI_POLL AID_INI_POLL;
     struct UBXAID_INI AID_INI;
-    struct UBXAID_REQ AID_REQ;
     struct UBXCFG_ANT CFG_ANT;
-    struct UBXCFG_ANT_POLL CFG_ANT_POLL;
     struct UBXCFG_CFG CFG_CFG;
     struct UBXCFG_CFG_OPT CFG_CFG_OPT;
     struct UBXCFG_DAT_IN CFG_DAT_IN;
     struct UBXCFG_DAT_OUT CFG_DAT_OUT;
-    struct UBXCFG_DAT_POLL CFG_DAT_POLL;
-    struct UBXCFG_GNSS_POLL CFG_GNSS_POLL;
     struct UBXCFG_GNSS CFG_GNSS;
     struct UBXCFG_INF_POLL CFG_INF_POLL;
     struct UBXCFG_INF CFG_INF;
-    struct UBXCFG_ITFM_POLL CFG_ITFM_POLL;
     struct UBXCFG_ITFM CFG_ITFM;
-    struct UBXCFG_LOGFILTER_POLL CFG_LOGFILTER_POLL;
     struct UBXCFG_LOGFILTER CFG_LOGFILTER;
     struct UBXCFG_MSG_POLL CFG_MSG_POLL;
     struct UBXCFG_MSG_RATE CFG_MSG_RATE;
     struct UBXCFG_MSG_RATES CFG_MSG_RATES;
-    struct UBXCFG_NAV5_POLL CFG_NAV5_POLL;
     struct UBXCFG_NAV5 CFG_NAV5;
-    struct UBXCFG_NAVX5_POLL CFG_NAVX5_POLL;
     struct UBXCFG_NAVX5 CFG_NAVX5;
-    struct UBXCFG_NMEA_POLL CFG_NMEA_POLL;
     struct UBXCFG_NMEA CFG_NMEA;
     struct UBXCFG_NVS CFG_NVS;
-    struct UBXCFG_PM2_POLL CFG_PM2_POLL;
     struct UBXCFG_PM2 CFG_PM2;
-    struct UBXCFG_PRT_POLL CFG_PRT_POLL;
     struct UBXCFG_PRT_POLL_OPT CFG_PRT_POLL_OPT;
     struct UBXCFG_PRT CFG_PRT;
-    struct UBXCFG_RATE_POLL CFG_RATE_POLL;
     struct UBXCFG_RATE CFG_RATE;
     struct UBXCFG_RINV CFG_RINV;
-    struct UBXCFG_RINV_POLL CFG_RINV_POLL;
     struct UBXCFG_RST CFG_RST;
     struct UBXCFG_RXM CFG_RXM;
-    struct UBXCFG_RXM_POLL CFG_RXM_POLL;
-    struct UBXCFG_SBAS_POLL CFG_SBAS_POLL;
     struct UBXCFG_SBAS CFG_SBAS;
-    struct UBXCFG_TP5_POLL CFG_TP5_POLL;
     struct UBXCFG_TP5_POLL_OPT CFG_TP5_POLL_OPT;
     struct UBXCFG_TP5 CFG_TP5;
-    struct UBXCFG_USB_POLL CFG_USB_POLL;
     struct UBXCFG_USB CFG_USB;
     struct UBXINF_DEBUG INF_DEBUG;
     struct UBXINF_ERROR INF_ERROR;
@@ -2051,10 +2052,8 @@ union UBXMsgs
     struct UBXINF_TEST INF_TEST;
     struct UBXINF_WARNING INF_WARNING;
     struct UBXLOG_CREATE LOG_CREATE;
-    struct UBXLOG_ERASE LOG_ERASE;
     struct UBXLOG_FINDTIME_IN LOG_FINDTIME_IN;
     struct UBXLOG_FINDTIME_OUT LOG_FINDTIME_OUT;
-    struct UBXLOG_INFO_POLL LOG_INFO_POLL;
     struct UBXLOG_INFO LOG_INFO;
     struct UBXLOG_RETRIEVEPOS LOG_RETRIEVEPOS;
     struct UBXLOG_RETRIEVESTRING LOG_RETRIEVESTRING;
@@ -2067,7 +2066,6 @@ union UBXMsgs
     struct UBXMON_RXBUF MON_RXBUF;
     struct UBXMON_RXR MON_RXR;
     struct UBXMON_TXBUF MON_TXBUF;
-    struct UBXMON_VER_POLL MON_VER_POLL;
     struct UBXMON_VER MON_VER;
     struct UBXNAV_AOPSTATUS NAV_AOPSTATUS;
     struct UBXNAV_CLOCK NAV_CLOCK;
@@ -2084,10 +2082,8 @@ union UBXMsgs
     struct UBXNAV_TIMEUTC NAV_TIMEUTC;
     struct UBXNAV_VELECEF NAV_VELECEF;
     struct UBXNAV_VELNED NAV_VELNED;
-    struct UBXRXM_ALM_POLL RXM_ALM_POLL;
     struct UBXRXM_ALM_POLL_OPT RXM_ALM_POLL_OPT;
     struct UBXRXM_ALM_OPT RXM_ALM_OPT;
-    struct UBXRXM_EPH_POLL RXM_EPH_POLL;
     struct UBXRXM_EPH_POLL_OPT RXM_EPH_POLL_OPT;
     struct UBXRXM_EPH RXM_EPH;
     struct UBXRXM_EPH_OPT RXM_EPH_OPT;
