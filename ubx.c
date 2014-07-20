@@ -284,7 +284,7 @@ UBXMsgBuffer getAID_ALP(UBXU2_t* chunk, int chunkSize)
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_ALP);
-    memcpy(&(msg->payload) + sizeof(UBXAID_ALP), chunk, chunkSize);
+    memcpy(((char*)&(msg->payload)) + sizeof(UBXAID_ALP), chunk, chunkSize);
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -577,10 +577,9 @@ UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
                                 UBXU1_t numTrkChHw,
                                 UBXU1_t numTrkChUse,
                                 UBXU1_t numConfigBlocks,
-                                UBXCFG_GNSS_PART* gnssPart,
-                                int gnssPartCount)
+                                UBXCFG_GNSS_PART* gnssPart)
 {
-    int payloadSize = sizeof(UBXCFG_GNSS) + gnssPartCount*sizeof(UBXCFG_GNSS_PART);
+    int payloadSize = sizeof(UBXCFG_GNSS) + numConfigBlocks*sizeof(UBXCFG_GNSS_PART);
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_GNSS);
@@ -588,7 +587,7 @@ UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
     msg->payload.CFG_GNSS.numTrkChHw = numTrkChHw;
     msg->payload.CFG_GNSS.numTrkChUse = numTrkChUse;
     msg->payload.CFG_GNSS.numConfigBlocks = numConfigBlocks;
-    memcpy(&(msg->payload.CFG_GNSS) + sizeof(UBXCFG_GNSS), gnssPart, gnssPartCount*sizeof(UBXCFG_GNSS_PART));
+    memcpy(((char*)&(msg->payload.CFG_GNSS)) + sizeof(UBXCFG_GNSS), gnssPart, numConfigBlocks*sizeof(UBXCFG_GNSS_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -932,7 +931,7 @@ UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t* data, int dataSize)
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RINV);
     msg->payload.CFG_RINV.flags = flags;
-    memcpy(&(msg->payload.CFG_RINV) + sizeof(UBXCFG_RINV), data, dataSize*sizeof(UBXU1_t));
+    memcpy(((char*)&(msg->payload.CFG_RINV)) + sizeof(UBXCFG_RINV), data, dataSize*sizeof(UBXU1_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -1206,7 +1205,7 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
     msg->payload.RXM_SVSI.week = week;
     msg->payload.RXM_SVSI.numVis = numVis;
     msg->payload.RXM_SVSI.numSV = numSV;
-    memcpy(&(msg->payload.RXM_SVSI) + sizeof(UBXRXM_SVSI), svsiPart, svsiPartCount*sizeof(UBXRXM_SVSI_PART));
+    memcpy(((char*)&(msg->payload.RXM_SVSI)) + sizeof(UBXRXM_SVSI), svsiPart, svsiPartCount*sizeof(UBXRXM_SVSI_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }

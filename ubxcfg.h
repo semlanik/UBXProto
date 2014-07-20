@@ -60,8 +60,7 @@ extern UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
                                        UBXU1_t numTrkChHw,
                                        UBXU1_t numTrkChUse,
                                        UBXU1_t numConfigBlocks,
-                                       UBXCFG_GNSS_PART* gnssPart,
-                                       int gnssPartCount);
+                                       UBXCFG_GNSS_PART* gnssPart);
 extern UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId);
 extern UBXMsgBuffer getCFG_INF(UBXCFG_INF_PART *infPart, int infPartCount);
 extern UBXMsgBuffer getCFG_ITFM_POLL();
