@@ -6221,8 +6221,7 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
                                 UBXU1_t numTrkChHw,
                                 UBXU1_t numTrkChUse,
                                 UBXU1_t numConfigBlocks,
-                                struct UBXCFG_GNSS_PART* gnssPart,
-                                int gnssPartCount)
+                                struct UBXCFG_GNSS_PART* gnssPart)
  * This function construct full buffer for #UBXCFG_GNSS message.
  * \brief Getter for #UBXCFG_GNSS
  * \param msgVer
@@ -6238,8 +6237,6 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * Number of configuration blocks following
  * \param gnssPart
  * Variable payload part
- * \param gnssPartCount
- * Variable payload count
  * \return
  * Returns full UBXMsgBuffer including header and checksum
  */
