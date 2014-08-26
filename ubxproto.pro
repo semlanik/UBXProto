@@ -37,5 +37,5 @@ linux|linux-g++ {
 }
 
 win32 {
-    LIBS += ws2_32
+    LIBS += -lws2_32
 }
