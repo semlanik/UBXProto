@@ -29,7 +29,6 @@
 #define UBXMESSAGE_H
 
 #include <stdio.h>
-#include "portable_endian.h"
 
 #ifdef __linux__
 #include <sys/types.h>

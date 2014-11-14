@@ -24,6 +24,7 @@
  * File: ubx.c
  */
 
+#include "portable_endian.h"
 #include "ubxmessage.h"
 #include "ubx.h"
 #include "malloc.h"
