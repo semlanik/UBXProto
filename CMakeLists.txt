@@ -2,9 +2,11 @@ project(ubxproto C)
 cmake_minimum_required (VERSION 2.8)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-set(UBXPROTO_VERSION 0.14.0)
-set(INSTALL_LIB_DIR ${INSTALL_LIB_DIR} CACHE PATH "Installation directory for libraries")
-set(INSTALL_INCLUDE_DIR "${INSTALL_INCLUDE_DIR}/ubxproto")
+set(UBXPROTO_VERSION 14.0)
+
+set(INSTALL_LIB_DIR usr/lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_INCLUDE_DIR usr/include CACHE PATH "Installation directory for headers")
+set(INSTALL_DATA_DIR usr/share/${PROJECT_NAME} CACHE PATH "Installation directory for data files")
 
 #Define include paths
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR})
@@ -55,12 +57,12 @@ endif(DOXYGEN_FOUND)
 
 install(TARGETS ${PROJECT_TARGETS}
         EXPORT ${PROJECT_NAME}Targets
-        ARCHIVE DESTINATION "${SYSROOT}/${PREFIX}/${INSTALL_LIB_DIR}" COMPONENT staticlib
-        LIBRARY DESTINATION "${SYSROOT}/${PREFIX}/${INSTALL_LIB_DIR}" COMPONENT sharedlib
-        PUBLIC_HEADER DESTINATION "${SYSROOT}/${INSTALL_INCLUDE_DIR}"
+        ARCHIVE DESTINATION "/${INSTALL_LIB_DIR}" COMPONENT staticlib
+        LIBRARY DESTINATION "/${INSTALL_LIB_DIR}" COMPONENT sharedlib
+        PUBLIC_HEADER DESTINATION "/${INSTALL_INCLUDE_DIR}/ubxproto"
         COMPONENT dev
         )
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "${SYSROOT}/${PREFIX}/${INSTALL_DOC_DIR}/${PROJECT_NAME}")
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "/${INSTALL_DATA_DIR}")
 
 #Generate cmake find library addtion
 include(CMakeGen)
