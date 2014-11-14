@@ -44,17 +44,6 @@ set(PROJECT_TARGETS ${PROJECT_TARGETS} ubxprotoshared)
 
 set(PROJECT_LIBS ubxproto)
 
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-  set(DOXYGEN_INPUT ${CMAKE_SOURCE_DIR})
-  set(DOXYGEN_OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/doc")
-  add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ubxproto.doxyconf
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                    COMMENT "Generating doxygen documenation")
-else(DOXYGEN_FOUND)
-  message(STATUS "WARNING: Doxygen not found - Reference manual will not be created")
-endif(DOXYGEN_FOUND)
-
 install(TARGETS ${PROJECT_TARGETS}
         EXPORT ${PROJECT_NAME}Targets
         ARCHIVE DESTINATION "/${INSTALL_LIB_DIR}" COMPONENT staticlib
@@ -62,7 +51,18 @@ install(TARGETS ${PROJECT_TARGETS}
         PUBLIC_HEADER DESTINATION "/${INSTALL_INCLUDE_DIR}/ubxproto"
         COMPONENT dev
         )
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "/${INSTALL_DATA_DIR}")
+
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  set(DOXYGEN_INPUT ${CMAKE_SOURCE_DIR})
+  set(DOXYGEN_OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/doc")
+  add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ubxproto.doxyconf
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                    COMMENT "Generating doxygen documenation")
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "/${INSTALL_DATA_DIR}")
+else(DOXYGEN_FOUND)
+  message(STATUS "WARNING: Doxygen not found - Reference manual will not be created")
+endif(DOXYGEN_FOUND)
 
 #Generate cmake find library addtion
 include(CMakeGen)
