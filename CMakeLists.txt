@@ -59,7 +59,7 @@ if(DOXYGEN_FOUND)
   add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ubxproto.doxyconf
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                     COMMENT "Generating doxygen documenation")
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "/${INSTALL_DATA_DIR}")
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc" DESTINATION "/${INSTALL_DATA_DIR}" OPTIONAL)
 else(DOXYGEN_FOUND)
   message(STATUS "WARNING: Doxygen not found - Reference manual will not be created")
 endif(DOXYGEN_FOUND)
