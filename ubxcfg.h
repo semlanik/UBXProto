@@ -149,6 +149,11 @@ extern UBXMsgBuffer getCFG_PM2(UBXCFG_PM2Flags flags,
                                UBXU4_t gridOffset,
                                UBXU2_t onTime,
                                UBXU2_t minAcqTime);
+extern UBXMsgBuffer getCFG_PMS_POLL();
+extern UBXMsgBuffer getCFG_PMS(UBXU1_t version,
+                               UBXPMSValue powerSetupValue,
+                               UBXU2_t period,
+                               UBXU2_t onTime);
 extern UBXMsgBuffer getCFG_PRT_POLL();
 extern UBXMsgBuffer getCFG_PRT_POLL_OPT(UBXU1_t portId);
 extern UBXMsgBuffer getCFG_PRT_UART();

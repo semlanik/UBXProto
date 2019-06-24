@@ -1010,6 +1010,34 @@ UBXMsgBuffer getCFG_PM2(UBXCFG_PM2Flags flags, UBXU4_t updatePeriod, UBXU4_t sea
     return buffer;
 }
 
+extern UBXMsgBuffer getCFG_PMS_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_PMS);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_PMS(UBXU1_t version,
+                               UBXPMSValue powerSetupValue,
+                               UBXU2_t period,
+                               UBXU2_t onTime)
+{
+    int payloadSize = sizeof(UBXCFG_PMS);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_PMS);
+    msg->payload.CFG_PMS.version = version;
+    msg->payload.CFG_PMS.powerSetupValue = powerSetupValue;
+    msg->payload.CFG_PMS.period = period;
+    msg->payload.CFG_PMS.onTime = onTime;
+    memset(msg->payload.CFG_PMS.reserved1, 0, sizeof(msg->payload.CFG_PMS));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 UBXMsgBuffer getCFG_PRT_POLL()
 {
     int payloadSize = 0;

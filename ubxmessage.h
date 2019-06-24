@@ -584,6 +584,16 @@ typedef enum
     UBXPM2CyclicTrackOperation = 0x01
 } UBXPM2Mode;
 
+typedef enum
+{
+    UBXPMSFullPower = 0x00,
+    UBXPMSBalanced = 0x01,
+    UBXPMSInterval = 0x02,
+    UBXPMSAggressive1Hz = 0x03,
+    UBXPMSAggressive2Hz = 0x04,
+    UBXPMSAggressive4Hz = 0x05,
+    UBXPMSInvalid = 0xFF
+} UBXPMSValue;
 
 typedef enum
 {
@@ -1413,6 +1423,15 @@ typedef struct {
     UBXU2_t reserved10;
     UBXU4_t reserved11;
 } UBXCFG_PM2;
+
+
+typedef struct {
+    UBXU1_t version;
+    UBXU1_t powerSetupValue;
+    UBXU2_t period;
+    UBXU2_t onTime;
+    UBXU1_t reserved1[2];
+} UBXCFG_PMS;
 
 //typedef struct {
     //No payload
@@ -2264,6 +2283,7 @@ typedef union
     UBXCFG_NMEA CFG_NMEA;
     UBXCFG_NVS CFG_NVS;
     UBXCFG_PM2 CFG_PM2;
+    UBXCFG_PMS CFG_PMS;
     UBXCFG_PRT_POLL_OPT CFG_PRT_POLL_OPT;
     UBXCFG_PRT CFG_PRT;
     UBXCFG_RATE CFG_RATE;
