@@ -676,9 +676,9 @@ extern UBXMsgBuffer getCFG_GEOFENCE_POLL()
 
 extern UBXMsgBuffer getCFG_GEOFENCE(UBXU1_t version,
                                     UBXU1_t numFences,
-                                    UBXU1_t confLvl,
-                                    UBXU1_t pioEnabled,
-                                    UBXU1_t pinPolarity,
+                                    UBXCFGGEOFENCEConfidenceLevel confLvl,
+                                    UBXCFGGEOFENCEPIOState pioEnabled,
+                                    UBXCFGGEOFENCEPinPolarity pinPolarity,
                                     UBXU1_t pin,
                                     UBXCFG_GEOFENCE_PART* fences)
 {
@@ -689,10 +689,34 @@ extern UBXMsgBuffer getCFG_GEOFENCE(UBXU1_t version,
     msg->payload.CFG_GEOFENCE.version = version;
     msg->payload.CFG_GEOFENCE.numFences = numFences;
     msg->payload.CFG_GEOFENCE.confLvl = confLvl;
+    memset(msg->payload.CFG_GEOFENCE.reserved1, 0, sizeof(msg->payload.CFG_GEOFENCE.reserved1));
     msg->payload.CFG_GEOFENCE.pioEnabled = pioEnabled;
     msg->payload.CFG_GEOFENCE.pinPolarity = pinPolarity;
     msg->payload.CFG_GEOFENCE.pin = pin;
+    memset(msg->payload.CFG_GEOFENCE.reserved2, 0, sizeof(msg->payload.CFG_GEOFENCE.reserved2));
     memcpy(msg->payload.CFG_GEOFENCE.fence, fences, numFences * sizeof(UBXCFG_GEOFENCE_PART));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_HNR_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_HNR);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_HNR(UBXU1_t highNavRate)
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_HNR);
+    msg->payload.CFG_HNR.highNavRate = highNavRate;
+    memset(msg->payload.CFG_HNR.reserved1, 0, sizeof(msg->payload.CFG_HNR.reserved1));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }

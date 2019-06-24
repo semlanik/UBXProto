@@ -383,6 +383,27 @@ typedef enum
 
 typedef enum
 {
+    UBXCFGGEOFENCEConfidenceLevel0 = 0,
+    UBXCFGGEOFENCEConfidenceLevel1 = 1,
+    UBXCFGGEOFENCEConfidenceLevel2 = 3,
+    UBXCFGGEOFENCEConfidenceLevel3 = 4,
+    UBXCFGGEOFENCEConfidenceLevel4 = 5
+} UBXCFGGEOFENCEConfidenceLevel;
+
+typedef enum
+{
+    UBXCFGGEOFENCEPIODisabled = 0,
+    UBXCFGGEOFENCEPIOEnabled = 1
+} UBXCFGGEOFENCEPIOState;
+
+typedef enum
+{
+    UBXCFGGEOFENCELowInside = 0,
+    UBXCFGGEOFENCELowOutside = 1
+} UBXCFGGEOFENCEPinPolarity;
+
+typedef enum
+{
     //CFG_CFG message
     UBXCFGioPort = 1,
     UBXCFGmsgConf = 1 << 1,
@@ -1172,6 +1193,11 @@ typedef struct {
     UBXU1_t reserved2[1];
     UBXCFG_GEOFENCE_PART fence[0];
 } UBXCFG_GEOFENCE;
+
+typedef struct {
+    UBXU1_t highNavRate;
+    UBXU1_t reserved1[3];
+} UBXCFG_HNR;
 
 //typedef struct {
     //No payload
@@ -2225,6 +2251,7 @@ typedef union
     UBXCFG_ESRC CFG_ESRC;
     UBXCFG_GEOFENCE CFG_GEOFENCE;
     UBXCFG_GNSS CFG_GNSS;
+    UBXCFG_HNR CFG_HNR;
     UBXCFG_INF_POLL CFG_INF_POLL;
     UBXCFG_INF CFG_INF;
     UBXCFG_ITFM CFG_ITFM;

@@ -75,11 +75,13 @@ extern UBXMsgBuffer getCFG_ESRC(UBXU1_t version,
 extern UBXMsgBuffer getCFG_GEOFENCE_POLL();
 extern UBXMsgBuffer getCFG_GEOFENCE(UBXU1_t version,
                                     UBXU1_t numFences,
-                                    UBXU1_t confLvl,
-                                    UBXU1_t pioEnabled,
-                                    UBXU1_t pinPolarity,
+                                    UBXCFGGEOFENCEConfidenceLevel confLvl,
+                                    UBXCFGGEOFENCEPIOState pioEnabled,
+                                    UBXCFGGEOFENCEPinPolarity pinPolarity,
                                     UBXU1_t pin,
                                     UBXCFG_GEOFENCE_PART* fences);
+extern UBXMsgBuffer getCFG_HNR_POLL();
+extern UBXMsgBuffer getCFG_HNR(UBXU1_t highNavRate);
 extern UBXMsgBuffer getCFG_GNSS_POLL();
 extern UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
                                 UBXU1_t numTrkChHw,
