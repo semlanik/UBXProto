@@ -634,7 +634,32 @@ extern UBXMsgBuffer getCFG_DOSC(UBXU1_t version, UBXU1_t numOsc, UBXCFG_DOSC_CFG
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_DOSC);
     msg->payload.CFG_DOSC.version = version;
     msg->payload.CFG_DOSC.numOsc = numOsc;
-    memcpy(&(msg->payload.CFG_DOSC.cfg), oscCfg, numOsc * sizeof(UBXCFG_DOSC_CFG));
+    memcpy(msg->payload.CFG_DOSC.cfg, oscCfg, numOsc * sizeof(UBXCFG_DOSC_CFG));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_ESRC_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_ESRC);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_ESRC(UBXU1_t version,
+                                UBXU1_t numSources,
+                                UBXCFG_ESRC_CFG* esrcCfg)
+{
+    int payloadSize = sizeof(UBXCFG_ESRC) + sizeof(UBXCFG_ESRC_CFG) * numSources;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_ESRC);
+    msg->payload.CFG_ESRC.version = version;
+    msg->payload.CFG_ESRC.numSources = numSources;
+    memcpy(msg->payload.CFG_ESRC.cfg, esrcCfg, numSources * sizeof(UBXCFG_ESRC_CFG));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -685,7 +710,7 @@ UBXMsgBuffer getCFG_INF(UBXCFG_INF_PART* infPart, int infPartCount)
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_INF);
-    memcpy(&(msg->payload.CFG_INF.inf), infPart, infPartCount * sizeof(UBXCFG_INF_PART));
+    memcpy(msg->payload.CFG_INF.inf, infPart, infPartCount * sizeof(UBXCFG_INF_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }

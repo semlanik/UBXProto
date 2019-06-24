@@ -348,7 +348,7 @@ typedef enum
 
 typedef enum
 {
-    isCalibrated = 1
+    UBXCFGDOSCisCalibrated = 1
 } UBXCFGDOSCFlags;
 
 typedef enum
@@ -366,6 +366,20 @@ typedef enum
     UBXCFGDOSC14bitDAC = 14,
     UBXCFGDOSC16bitDAC = 15
 } UBXCFGDOSCControlInterface;
+
+typedef enum
+{
+    UBXCFGESRCNone = 0,
+    UBXCFGESRCFrequency = 1,
+    UBXCFGESRCTime = 2,
+    UBXCFGESRCOscillatorFeedback = 3
+} UBXCFGESRCType;
+
+typedef enum
+{
+    UBXCFGESRCpolarity = 1,
+    UBXCFGESRCgnssUtc = 1 << 1
+} UBXCFGESRCFlags;
 
 typedef enum
 {
@@ -455,7 +469,7 @@ typedef enum
     UBXNAV5PosMask = 1 << 4,
     UBXNAV5TimeMask = 1 << 5,
     UBXNAV5StaticHoldMask = 1 << 6,
-    UBXNAV5DgpsMask = 1 << 7,
+    UBXNAV5DgpsMask = 1 << 7
 } UBXNAV5Mask;
 
 typedef enum
@@ -669,7 +683,7 @@ typedef enum
     UBXSBASScanModePRN148 = 1 << 28,
     UBXSBASScanModePRN149 = 1 << 29,
     UBXSBASScanModePRN150 = 1 << 30,
-    UBXSBASScanModePRN151 = 1 << 31,
+    UBXSBASScanModePRN151 = 1 << 31
 } UBXSBASScanModes1;
 
 typedef enum
@@ -1118,6 +1132,28 @@ typedef struct {
     UBXU1_t reserved1[2];
     UBXCFG_DOSC_CFG cfg[0];
 } UBXCFG_DOSC;
+
+typedef struct {
+    UBXU1_t extInt;
+    UBXU1_t sourceType; //See UBXCFGESRCType to fill this field
+    UBXX2_t flags; //See UBXCFGESRCFlags to fill this field
+    UBXU4_t freq;
+    UBXU1_t reserved2[4];
+    UBXU4_t withTemp;
+    UBXU4_t withAge;
+    UBXU2_t timeToTemp;
+    UBXU2_t maxDevLifeTime;
+    UBXI4_t offset;
+    UBXU4_t offsetUncertainty;
+    UBXU4_t jitter;
+} UBXCFG_ESRC_CFG;
+
+typedef struct {
+    UBXU1_t version;
+    UBXU1_t numSources;
+    UBXU1_t reserved1[2];
+    UBXCFG_ESRC_CFG cfg[0];
+} UBXCFG_ESRC;
 
 //typedef struct {
     //No payload
@@ -2168,6 +2204,7 @@ typedef union
     UBXCFG_DAT_OUT CFG_DAT_OUT;
     UBXCFG_DGNSS CFG_DGNSS;
     UBXCFG_DOSC CFG_DOSC;
+    UBXCFG_ESRC CFG_ESRC;
     UBXCFG_GNSS CFG_GNSS;
     UBXCFG_INF_POLL CFG_INF_POLL;
     UBXCFG_INF CFG_INF;
