@@ -64,6 +64,8 @@ extern UBXMsgBuffer getCFG_DAT_IN(UBXR8_t majA,
 extern UBXMsgBuffer getCFG_DAT_POLL();
 extern UBXMsgBuffer getCFG_DGNSS_POLL();
 extern UBXMsgBuffer getCFG_DGNSS(UBXU1_t dgnssMode);
+extern UBXMsgBuffer getCFG_DOSC_POLL();
+extern UBXMsgBuffer getCFG_DOSC(UBXU1_t version, UBXU1_t numOsc, UBXCFG_DOSC_CFG* oscCfg);
 extern UBXMsgBuffer getCFG_GNSS_POLL();
 extern UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
                                 UBXU1_t numTrkChHw,

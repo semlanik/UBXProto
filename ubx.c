@@ -616,6 +616,29 @@ extern UBXMsgBuffer getCFG_DGNSS(UBXU1_t dgnssMode)
     return buffer;
 }
 
+extern UBXMsgBuffer getCFG_DOSC_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_DOSC);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_DOSC(UBXU1_t version, UBXU1_t numOsc, UBXCFG_DOSC_CFG* oscCfg)
+{
+    int payloadSize = sizeof(UBXCFG_DOSC) + sizeof(UBXCFG_DOSC_CFG) * numOsc;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_DOSC);
+    msg->payload.CFG_DOSC.version = version;
+    msg->payload.CFG_DOSC.numOsc = numOsc;
+    memcpy(&(msg->payload.CFG_DOSC.cfg), oscCfg, numOsc * sizeof(UBXCFG_DOSC_CFG));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 UBXMsgBuffer getCFG_GNSS_POLL()
 {
     int payloadSize = 0;
@@ -662,7 +685,7 @@ UBXMsgBuffer getCFG_INF(UBXCFG_INF_PART* infPart, int infPartCount)
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_INF);
-    memcpy(&(msg->payload.CFG_INF), infPart, infPartCount * sizeof(UBXCFG_INF_PART));
+    memcpy(&(msg->payload.CFG_INF.inf), infPart, infPartCount * sizeof(UBXCFG_INF_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }

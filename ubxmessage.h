@@ -343,8 +343,29 @@ typedef enum
     UNXCFGBATCHextraPvt = 1 << 2,
     UNXCFGBATCHextraOdo = 1 << 3,
     UNXCFGBATCHpioEnable = 1 << 5,
-    UNXCFGBATCHpioActiveLow = 1 << 6,
+    UNXCFGBATCHpioActiveLow = 1 << 6
 } UNXCFGBATCHFlags;
+
+typedef enum
+{
+    isCalibrated = 1
+} UBXCFGDOSCFlags;
+
+typedef enum
+{
+  UBXOscilatorInternal = 0,
+  UBXOscilatorExternal = 1
+} UBXOscilatorType;
+
+typedef enum
+{
+    UBXCFGDOSCCustomDACAttachedI2C = 0,
+    UBXCFGDOSCMCP4726AttachedI2C = 1,
+    UBXCFGDOSCDAC8571AttachedI2C = 2,
+    UBXCFGDOSC12bitDAC = 13,
+    UBXCFGDOSC14bitDAC = 14,
+    UBXCFGDOSC16bitDAC = 15
+} UBXCFGDOSCControlInterface;
 
 typedef enum
 {
@@ -1074,6 +1095,30 @@ typedef struct {
     UBXU1_t dgnssMode;
     UBXU1_t reserved1[3];
 } UBXCFG_DGNSS;
+
+
+typedef struct {
+    UBXU1_t oscId; //It likely to use UBXOscilatorType for this field
+    UBXU1_t reserved2;
+    UBXX2_t flags; //See UBXCFGDOSCFlags and UNXCFGBATCHFlags to fill this field
+    UBXU4_t freq;
+    UBXI4_t phaseOffset;
+    UBXU4_t withTemp;
+    UBXU4_t withAge;
+    UBXU2_t timeToTemp;
+    UBXU1_t reserved3[2];
+    UBXI4_t gainVco;
+    UBXU1_t gainUncertainty;
+    UBXU1_t reserved4[3];
+} UBXCFG_DOSC_CFG;
+
+typedef struct {
+    UBXU1_t version;
+    UBXU1_t numOsc;
+    UBXU1_t reserved1[2];
+    UBXCFG_DOSC_CFG cfg[0];
+} UBXCFG_DOSC;
+
 //typedef struct {
     //No payload
 //} UBXCFG_GNSS_POLL;
@@ -1100,19 +1145,17 @@ typedef struct {
 } UBXCFG_INF_POLL;
 
 typedef struct {
-    //Variable payload
-    //See structure UBXCFG_INF_PART below
-#ifdef __WINDOWS__
-    UBXU1_t payload;
-#endif
-} UBXCFG_INF;
-
-typedef struct {
     UBXU1_t protocolId;
     UBXU1_t reserved0;
     UBXU2_t reserved1;
     UBXX1_t infMsgMask[6]; //See UBXCFGInfMsgMask to fill this field
 } UBXCFG_INF_PART;
+
+typedef struct {
+    //Variable payload
+    //See structure UBXCFG_INF_PART below
+    UBXCFG_INF_PART inf[0];
+} UBXCFG_INF;
 
 //typedef struct {
     //No payload
@@ -2124,6 +2167,7 @@ typedef union
     UBXCFG_DAT_IN CFG_DAT_IN;
     UBXCFG_DAT_OUT CFG_DAT_OUT;
     UBXCFG_DGNSS CFG_DGNSS;
+    UBXCFG_DOSC CFG_DOSC;
     UBXCFG_GNSS CFG_GNSS;
     UBXCFG_INF_POLL CFG_INF_POLL;
     UBXCFG_INF CFG_INF;
