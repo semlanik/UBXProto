@@ -30,16 +30,18 @@ set(PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/ubxaid.h
 
 #Static library target
 add_library(ubxprotostatic STATIC $<TARGET_OBJECTS:ubxprotoobjects>)
-set_target_properties(ubxprotostatic PROPERTIES OUTPUT_NAME ubxproto)
-set_target_properties(ubxprotostatic PROPERTIES LINKER_LANGUAGE C)
-set_target_properties(ubxprotostatic PROPERTIES PUBLIC_HEADER "${PUBLIC_HEADER}")
+set_target_properties(ubxprotostatic PROPERTIES
+    OUTPUT_NAME ubxproto
+    LINKER_LANGUAGE C
+    PUBLIC_HEADER "${PUBLIC_HEADER}")
 set(PROJECT_TARGETS ubxprotostatic)
 
 #Shared library target
 add_library(ubxprotoshared SHARED $<TARGET_OBJECTS:ubxprotoobjects>)
-set_target_properties(ubxprotoshared PROPERTIES LINKER_LANGUAGE C)
-set_target_properties(ubxprotoshared PROPERTIES OUTPUT_NAME ubxproto)
-set_target_properties(ubxprotoshared PROPERTIES SOVERSION ${UBXPROTO_VERSION})
+set_target_properties(ubxprotoshared PROPERTIES
+    OUTPUT_NAME ubxproto
+    LINKER_LANGUAGE C
+    SOVERSION ${UBXPROTO_VERSION})
 set(PROJECT_TARGETS ${PROJECT_TARGETS} ubxprotoshared)
 
 set(PROJECT_LIBS ubxproto)
