@@ -1155,6 +1155,24 @@ typedef struct {
     UBXCFG_ESRC_CFG cfg[0];
 } UBXCFG_ESRC;
 
+typedef struct {
+    UBXI4_t lat;
+    UBXI4_t lon;
+    UBXU4_t radius;
+} UBXCFG_GEOFENCE_PART;
+
+typedef struct {
+    UBXU1_t version;
+    UBXU1_t numFences;
+    UBXU1_t confLvl;
+    UBXU1_t reserved1[1];
+    UBXU1_t pioEnabled;
+    UBXU1_t pinPolarity;
+    UBXU1_t pin;
+    UBXU1_t reserved2[1];
+    UBXCFG_GEOFENCE_PART fence[0];
+} UBXCFG_GEOFENCE;
+
 //typedef struct {
     //No payload
 //} UBXCFG_GNSS_POLL;
@@ -2205,6 +2223,7 @@ typedef union
     UBXCFG_DGNSS CFG_DGNSS;
     UBXCFG_DOSC CFG_DOSC;
     UBXCFG_ESRC CFG_ESRC;
+    UBXCFG_GEOFENCE CFG_GEOFENCE;
     UBXCFG_GNSS CFG_GNSS;
     UBXCFG_INF_POLL CFG_INF_POLL;
     UBXCFG_INF CFG_INF;

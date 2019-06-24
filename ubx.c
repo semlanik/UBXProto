@@ -664,6 +664,39 @@ extern UBXMsgBuffer getCFG_ESRC(UBXU1_t version,
     return buffer;
 }
 
+extern UBXMsgBuffer getCFG_GEOFENCE_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_GEOFENCE);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_GEOFENCE(UBXU1_t version,
+                                    UBXU1_t numFences,
+                                    UBXU1_t confLvl,
+                                    UBXU1_t pioEnabled,
+                                    UBXU1_t pinPolarity,
+                                    UBXU1_t pin,
+                                    UBXCFG_GEOFENCE_PART* fences)
+{
+    int payloadSize = sizeof(UBXCFG_GEOFENCE) + sizeof(UBXCFG_GEOFENCE_PART) * numFences;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_ESRC);
+    msg->payload.CFG_GEOFENCE.version = version;
+    msg->payload.CFG_GEOFENCE.numFences = numFences;
+    msg->payload.CFG_GEOFENCE.confLvl = confLvl;
+    msg->payload.CFG_GEOFENCE.pioEnabled = pioEnabled;
+    msg->payload.CFG_GEOFENCE.pinPolarity = pinPolarity;
+    msg->payload.CFG_GEOFENCE.pin = pin;
+    memcpy(msg->payload.CFG_GEOFENCE.fence, fences, numFences * sizeof(UBXCFG_GEOFENCE_PART));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 UBXMsgBuffer getCFG_GNSS_POLL()
 {
     int payloadSize = 0;
