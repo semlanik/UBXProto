@@ -39,14 +39,14 @@ extern UBXMsgBuffer getRXM_ALM_POLL_OPT(UBXU1_t svid);
 extern UBXMsgBuffer getRXM_EPH_POLL();
 extern UBXMsgBuffer getRXM_EPH_POLL_OPT(UBXU1_t svid);
 extern UBXMsgBuffer getRXM_PMREQ(UBXU4_t duration,
-                                        UBXX4_t flags //See UBXPMREQFlags to fill this field
-                                        );
+                                 UBXX4_t flags //See UBXPMREQFlags to fill this field
+                                 );
 extern UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
-                                       UBXI2_t week,
-                                       UBXU1_t numVis,
-                                       UBXU1_t numSV,
-                                       UBXRXM_SVSI_PART* svsiPart,
-                                       int svsiPartCount);
+                                UBXI2_t week,
+                                UBXU1_t numVis,
+                                UBXU1_t numSV,
+                                UBXRXM_SVSI_PART* svsiPart,
+                                int svsiPartCount);
 
 #ifdef __cplusplus
 }

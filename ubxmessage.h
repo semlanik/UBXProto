@@ -54,6 +54,7 @@
 
 #if defined (__linux__)
 typedef u_int8_t  UBXU1_t;
+typedef u_int8_t  UBXRU1_3_t;
 typedef int8_t    UBXI1_t;
 typedef u_int8_t  UBXX1_t;
 typedef u_int16_t UBXU2_t;
@@ -67,6 +68,7 @@ typedef double    UBXR8_t;
 typedef char      UBXCH_t;
 #else
 typedef unsigned char  UBXU1_t;
+typedef unsigned char  UBXRU1_3_t;
 typedef char           UBXI1_t;
 typedef unsigned char  UBXX1_t;
 typedef unsigned short UBXU2_t;
@@ -91,10 +93,15 @@ typedef enum
     UBXMsgClassINF = 0x04,
     UBXMsgClassACK = 0x05,
     UBXMsgClassCFG = 0x06,
+    UBXMsgClassUPD = 0x09, //TODO: new in UBX8
     UBXMsgClassMON = 0x0A,
     UBXMsgClassAID = 0x0B,
     UBXMsgClassTIM = 0x0D,
+    UBXMsgClassESF = 0x10, //TODO: new in UBX8
+    UBXMsgClassMGA = 0x13, //TODO: new in UBX8
     UBXMsgClassLOG = 0x21,
+    UBXMsgClassSEC = 0x27, //TODO: new in UBX8
+    UBXMsgClassHNR = 0x28, //TODO: new in UBX8
     UBXMsgClassInvalid = 255
 } UBXMessageClass;
 
@@ -104,19 +111,25 @@ typedef enum
     UBXMsgIdACK_ACK = 0x01,
 
     UBXMsgIdAID_ALM = 0x30,
-    UBXMsgIdAID_ALPSRV = 0x32,
-    UBXMsgIdAID_ALP = 0x50,
+    UBXMsgIdAID_ALPSRV = 0x32, //TODO: deprecated
+    UBXMsgIdAID_ALP = 0x50, //TODO: deprecated
     UBXMsgIdAID_AOP = 0x33,
     UBXMsgIdAID_DATA = 0x10,
     UBXMsgIdAID_EPH = 0x31,
     UBXMsgIdAID_HUI = 0x02,
     UBXMsgIdAID_INI = 0x01,
-    UBXMsgIdAID_REQ = 0x00,
+    UBXMsgIdAID_REQ = 0x00, //TODO: deprecated
 
     UBXMsgIdCFG_ANT = 0x13,
+    UBXMsgIdCFG_BATCH = 0x93, //TODO: new in UBX8
     UBXMsgIdCFG_CFG = 0x09,
     UBXMsgIdCFG_DAT = 0x06,
+    UBXMsgIdCFG_DGNSS = 0x70, //TODO: new in UBX8
+    UBXMsgIdCFG_DOSC = 0x61, //TODO: new in UBX8
+    UBXMsgIdCFG_ESRC = 0x60, //TODO: new in UBX8
+    UBXMsgIdCFG_GEOFENCE = 0x69, //TODO: new in UBX8
     UBXMsgIdCFG_GNSS = 0x3E,
+    UBXMsgIdCFG_HNR = 0x5C, //TODO: new in UBX8
     UBXMsgIdCFG_INF = 0x02,
     UBXMsgIdCFG_ITFM = 0x39,
     UBXMsgIdCFG_LOGFILTER = 0x47,
@@ -124,16 +137,32 @@ typedef enum
     UBXMsgIdCFG_NAV5 = 0x24,
     UBXMsgIdCFG_NAVX5 = 0x23,
     UBXMsgIdCFG_NMEA = 0x17,
-    UBXMsgIdCFG_NVS = 0x22,
+    UBXMsgIdCFG_NVS = 0x22, //TODO: deprecated
+    UBXMsgIdCFG_ODO = 0x1E,
     UBXMsgIdCFG_PM2 = 0x3B,
+    UBXMsgIdCFG_PMS = 0x86, //TODO: new in UBX8
     UBXMsgIdCFG_PRT = 0x00,
+    UBXMsgIdCFG_PWR = 0x58, //TODO: new in UBX8
     UBXMsgIdCFG_RATE = 0x08,
     UBXMsgIdCFG_RINV = 0x34,
     UBXMsgIdCFG_RST = 0x04,
     UBXMsgIdCFG_RXM = 0x11,
     UBXMsgIdCFG_SBAS = 0x16,
+    UBXMsgIdCFG_SLAS = 0x8D, //TODO: new in UBX8
+    UBXMsgIdCFG_SMGR = 0x62, //TODO: new in UBX8
+    UBXMsgIdCFG_TMODE2 = 0x3D, //TODO: new in UBX8
+    UBXMsgIdCFG_TMODE3 = 0x71, //TODO: new in UBX8
     UBXMsgIdCFG_TP5 = 0x31,
+    UBXMsgIdCFG_TXSLOT = 0x53, //TODO: new in UBX8
     UBXMsgIdCFG_USB = 0x1B,
+
+    UBXMsgIdESF_INS = 0x15, //TODO: new in UBX8
+    UBXMsgIdESF_MEAS = 0x02, //TODO: new in UBX8
+    UBXMsgIdESF_RAW = 0x03, //TODO: new in UBX8
+    UBXMsgIdESF_STATUS = 0x10, //TODO: new in UBX8
+
+    UBXMsgIdHNR_INS = 0x02, //TODO: new in UBX8
+    UBXMsgIdHNR_PVT = 0x00, //TODO: new in UBX8
 
     UBXMsgIdINF_DEBUG = 0x04,
     UBXMsgIdINF_ERROR = 0x00,
@@ -141,50 +170,99 @@ typedef enum
     UBXMsgIdINF_TEST = 0x03,
     UBXMsgIdINF_WARNING = 0x01,
 
+    UBXMsgIdLOG_BATCH = 0x11, //TODO: new in UBX8
     UBXMsgIdLOG_CREATE = 0x07,
     UBXMsgIdLOG_ERASE = 0x03,
     UBXMsgIdLOG_FINDTIME = 0x0E,
     UBXMsgIdLOG_INFO = 0x08,
+    UBXMsgIdLOG_RETRIEVEBATCH = 0x10, //TODO: new in UBX8
+    UBXMsgIdLOG_RETRIEVEPOSEXTRA = 0x0f, //TODO: new in UBX8
     UBXMsgIdLOG_RETRIEVEPOS = 0x0B,
     UBXMsgIdLOG_RETRIEVESTRING = 0x0D,
     UBXMsgIdLOG_RETRIEVE = 0x09,
     UBXMsgIdLOG_STRING = 0x04,
 
+    UBXMsgIdMGA_ACK_DATA0 = 0x60, //TODO: new in UBX8
+    UBXMsgIdMGA_BDS = 0x03, //TODO: new in UBX8
+    UBXMsgIdMGA_DBD = 0x80, //TODO: new in UBX8
+    UBXMsgIdMGA_FLASH = 0x21, //TODO: new in UBX8
+    UBXMsgIdMGA_GAL = 0x02, //TODO: new in UBX8
+    UBXMsgIdMGA_GLO = 0x06, //TODO: new in UBX8
+    UBXMsgIdMGA_GPS = 0x00, //TODO: new in UBX8
+    UBXMsgIdMGA_INI = 0x40, //TODO: new in UBX8
+    UBXMsgIdMGA_QZSS = 0x05, //TODO: new in UBX8
+
+    UBXMsgIdMON_BATCH = 0x32, //TODO: new in UBX8
+    UBXMsgIdMON_GNSS = 0x28, //TODO: new in UBX8
     UBXMsgIdMON_HW2 = 0x0B,
     UBXMsgIdMON_HW = 0x09,
     UBXMsgIdMON_IO = 0x02,
     UBXMsgIdMON_MSGPP = 0x06,
+    UBXMsgIdMON_PATCH = 0x27, //TODO: new in UBX8
     UBXMsgIdMON_RXBUF = 0x07,
     UBXMsgIdMON_RXR = 0x21,
     UBXMsgIdMON_TXBUF = 0x08,
     UBXMsgIdMON_VER = 0x04,
 
     UBXMsgIdNAV_AOPSTATUS = 0x60,
+    UBXMsgIdNAV_ATT = 0x05, //TODO: new in UBX8
     UBXMsgIdNAV_CLOCK = 0x22,
     UBXMsgIdNAV_DGPS = 0x31,
     UBXMsgIdNAV_DOP = 0x04,
+    UBXMsgIdNAV_EOE = 0x61, //TODO: new in UBX8
+    UBXMsgIdNAV_GEOFENCE = 0x39, //TODO: new in UBX8
+    UBXMsgIdNAV_HPPOSECEF = 0x13, //TODO: new in UBX8
+    UBXMsgIdNAV_HPPOSLLH = 0x14, //TODO: new in UBX8
+    UBXMsgIdNAV_ODO = 0x09, //TODO: new in UBX8
+    UBXMsgIdNAV_ORB = 0x34, //TODO: new in UBX8
     UBXMsgIdNAV_POSECEF = 0x01,
     UBXMsgIdNAV_POSLLH = 0x02,
     UBXMsgIdNAV_PVT = 0x07,
+    UBXMsgIdNAV_RELPOSNED = 0x3C, //TODO: new in UBX8
+    UBXMsgIdNAV_RESETODO = 0x10, //TODO: new in UBX8
+    UBXMsgIdNAV_SAT = 0x35, //TODO: new in UBX8
     UBXMsgIdNAV_SBAS = 0x32,
+    UBXMsgIdNAV_SLAS = 0x42, //TODO: new in UBX8
     UBXMsgIdNAV_SOL = 0x06,
     UBXMsgIdNAV_STATUS = 0x03,
     UBXMsgIdNAV_SVINFO = 0x30,
+    UBXMsgIdNAV_SVIN = 0x3B, //TODO: new in UBX8
+    UBXMsgIdNAV_TIMEBDS = 0x24, //TODO: new in UBX8
+    UBXMsgIdNAV_TIMEGAL = 0x25, //TODO: new in UBX8
+    UBXMsgIdNAV_TIMEGLO = 0x23, //TODO: new in UBX8
     UBXMsgIdNAV_TIMEGPS = 0x20,
+    UBXMsgIdNAV_TIMELS = 0x26, //TODO: new in UBX8
     UBXMsgIdNAV_TIMEUTC = 0x21,
     UBXMsgIdNAV_VELECEF = 0x11,
     UBXMsgIdNAV_VELNED = 0x12,
 
-    UBXMsgIdRXM_ALM = 0x30,
-    UBXMsgIdRXM_EPH = 0x31,
+    UBXMsgIdRXM_ALM = 0x30, //TODO: deprecated
+    UBXMsgIdRXM_EPH = 0x31, //TODO: deprecated
+    UBXMsgIdRXM_IMES = 0x61, //TODO: new in UBX8
+    UBXMsgIdRXM_MEASX = 0x14, //TODO: new in UBX8
     UBXMsgIdRXM_PMREQ = 0x41,
-    UBXMsgIdRXM_RAW = 0x10,
-    UBXMsgIdRXM_SFRB = 0x11,
+    UBXMsgIdRXM_RAW = 0x10, //TODO: deprecated
+    UBXMsgIdRXM_RAWX = 0x15, //TODO: new in UBX8
+    UBXMsgIdRXM_RLM = 0x59, //TODO: new in UBX8
+    UBXMsgIdRXM_RTCM = 0x32, //TODO: new in UBX8
+    UBXMsgIdRXM_SFRB = 0x11, //TODO: deprecated
+    UBXMsgIdRXM_SFRBX = 0x13, //TODO: new in UBX8
     UBXMsgIdRXM_SVSI = 0x20,
 
+    UBXMsgIdSEC_UNIQID = 0x03, //TODO: new in UBX8
+
+    UBXMsgIdTIM_DOSC = 0x11, //TODO: new in UBX8
+    UBXMsgIdTIM_FCHG = 0x16, //TODO: new in UBX8
+    UBXMsgIdTIM_HOC = 0x17, //TODO: new in UBX8
+    UBXMsgIdTIM_SMEAS = 0x13, //TODO: new in UBX8
+    UBXMsgIdTIM_SVIN = 0x04, //TODO: new in UBX8
     UBXMsgIdTIM_TM2 = 0x03,
+    UBXMsgIdTIM_TOS = 0x12, //TODO: new in UBX8
     UBXMsgIdTIM_TP = 0x01,
+    UBXMsgIdTIM_VCOCAL = 0x15, //TODO: new in UBX8
     UBXMsgIdTIM_VRFY = 0x06,
+
+    UBXMsgIdUPD_SOS = 0x14, //TODO: new in UBX8
 
     UBXMsgIdInvalid = 0xFF
 } UBXMessageId;
@@ -258,6 +336,15 @@ typedef enum
     UBXANTpdwnOnSCD = 1 << 3,
     UBXANTrecovery = 1 << 4
 } UBXANTFlags;
+
+typedef enum
+{
+    UNXCFGBATCHenable = 1,
+    UNXCFGBATCHextraPvt = 1 << 2,
+    UNXCFGBATCHextraOdo = 1 << 3,
+    UNXCFGBATCHpioEnable = 1 << 5,
+    UNXCFGBATCHpioActiveLow = 1 << 6,
+} UNXCFGBATCHFlags;
 
 typedef enum
 {
@@ -938,6 +1025,15 @@ typedef struct {
 } UBXCFG_CFG;
 
 typedef struct {
+    UBXU1_t version;
+    UBXX1_t flags; //See UNXCFGBATCHFlags to fill this field
+    UBXU2_t bufSize;
+    UBXU2_t notifThrs;
+    UBXU1_t pioId;
+    UBXU1_t reserved1;
+} UBXCFG_BATCH;
+
+typedef struct {
     UBXX4_t clearMask; //See UBXCFGMask to fill this field
     UBXX4_t saveMask; //See UBXCFGMask to fill this field
     UBXX4_t loadMask; //See UBXCFGMask to fill this field
@@ -974,6 +1070,10 @@ typedef struct {
     UBXR4_t scale;
 } UBXCFG_DAT_OUT;
 
+typedef struct {
+    UBXU1_t dgnssMode;
+    UBXU1_t reserved1[3];
+} UBXCFG_DGNSS;
 //typedef struct {
     //No payload
 //} UBXCFG_GNSS_POLL;
@@ -2018,10 +2118,12 @@ typedef union
     UBXAID_HUI AID_HUI;
     UBXAID_INI AID_INI;
     UBXCFG_ANT CFG_ANT;
+    UBXCFG_BATCH CFG_BATCH;
     UBXCFG_CFG CFG_CFG;
     UBXCFG_CFG_OPT CFG_CFG_OPT;
     UBXCFG_DAT_IN CFG_DAT_IN;
     UBXCFG_DAT_OUT CFG_DAT_OUT;
+    UBXCFG_DGNSS CFG_DGNSS;
     UBXCFG_GNSS CFG_GNSS;
     UBXCFG_INF_POLL CFG_INF_POLL;
     UBXCFG_INF CFG_INF;

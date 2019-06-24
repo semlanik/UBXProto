@@ -110,7 +110,7 @@ UBXMsgBuffer getAID_ALPSRV(UBXMsg* clientMgs, const UBXAlpFileInfo *fileInfo)
 UBXMsgBuffer getCFG_MSG_POLL(UBXMessageClass msgClass, UBXMessageId msgId)
 {
     int payloadSize = sizeof(UBXCFG_MSG_POLL);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_MSG);
     msg->payload.CFG_MSG_POLL.msgClass = msgClass;
@@ -122,7 +122,7 @@ UBXMsgBuffer getCFG_MSG_POLL(UBXMessageClass msgClass, UBXMessageId msgId)
 UBXMsgBuffer getCFG_MSG_RATE(UBXMessageClass msgClass, UBXMessageId msgId, UBXU1_t rate)
 {
     int payloadSize = sizeof(UBXCFG_MSG_RATE);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_MSG);
     msg->payload.CFG_MSG_RATE.msgClass = msgClass;
@@ -135,12 +135,12 @@ UBXMsgBuffer getCFG_MSG_RATE(UBXMessageClass msgClass, UBXMessageId msgId, UBXU1
 UBXMsgBuffer getCFG_MSG_RATES(UBXMessageClass msgClass, UBXMessageId msgId, UBXU1_t rate[])
 {
     int payloadSize = sizeof(UBXCFG_MSG_RATES);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_MSG);
     msg->payload.CFG_MSG_RATES.msgClass = msgClass;
     msg->payload.CFG_MSG_RATES.msgId = msgId;
-    memcpy(msg->payload.CFG_MSG_RATES.rate, rate, 6*sizeof(UBXU1_t));
+    memcpy(msg->payload.CFG_MSG_RATES.rate, rate, 6 * sizeof(UBXU1_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -148,7 +148,7 @@ UBXMsgBuffer getCFG_MSG_RATES(UBXMessageClass msgClass, UBXMessageId msgId, UBXU
 UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
 {
     int payloadSize = sizeof(UBXCFG_RST);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RST);
     msg->payload.CFG_RST.resetMode = mode;
@@ -160,7 +160,7 @@ UBXMsgBuffer getCFG_RST(int mode, UBXU2_t mask)
 UBXMsgBuffer getCFG_RST_OPT(int mode, UBXBBRSpecialSets special)
 {
     int payloadSize = sizeof(UBXCFG_RST);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RST);
     msg->payload.CFG_RST.resetMode = mode;
@@ -172,7 +172,7 @@ UBXMsgBuffer getCFG_RST_OPT(int mode, UBXBBRSpecialSets special)
 UBXMsgBuffer getCFG_TP5_POLL_OPT(UBXCFGTimepulses tpIdx)
 {
     int payloadSize = sizeof(UBXCFG_TP5_POLL_OPT);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_TP5);
     msg->payload.CFG_TP5_POLL_OPT.tpIdx = tpIdx;
@@ -182,10 +182,10 @@ UBXMsgBuffer getCFG_TP5_POLL_OPT(UBXCFGTimepulses tpIdx)
 
 UBXMsgBuffer getCFG_TP5(UBXCFGTimepulses tpIdx, UBXI2_t antCableDelay, UBXI2_t rfGroupDelay,
                                UBXU4_t freqPeriod, UBXU4_t freqPeriodLock, UBXU4_t pulseLenRatio,
-                               UBXU4_t pulseLenRatioLock, UBXU4_t userConfigDelay, UBXU4_t flags)
+                               UBXU4_t pulseLenRatioLock, UBXI4_t userConfigDelay, UBXU4_t flags)
 {
     int payloadSize = sizeof(UBXCFG_TP5);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_TP5);
     msg->payload.CFG_TP5.tpIdx = tpIdx;
@@ -204,7 +204,7 @@ UBXMsgBuffer getCFG_TP5(UBXCFGTimepulses tpIdx, UBXI2_t antCableDelay, UBXI2_t r
 UBXMsgBuffer getAID_ALM_POLL()
 {
     int payloadSize = 0;
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_ALP);
     completeMsg(&buffer, payloadSize);
@@ -214,7 +214,7 @@ UBXMsgBuffer getAID_ALM_POLL()
 UBXMsgBuffer getAID_ALM_POLL_OPT(UBXU1_t svid)
 {
     int payloadSize = sizeof(UBXAID_ALM_POLL_OPT);
-    UBXMsgBuffer buffer  = createBuffer(payloadSize);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_ALP);
     msg->payload.AID_ALM_POLL_OPT.svid = svid;
@@ -242,7 +242,7 @@ UBXMsgBuffer getAID_ALM_OPT(UBXU4_t svid, UBXU4_t week, UBXU4_t dwrd[8])
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_ALM);
     msg->payload.AID_ALM_OPT.svid = svid;
     msg->payload.AID_ALM_OPT.week = week;
-    memcpy(msg->payload.AID_ALM_OPT.dwrd, dwrd, 8*sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_ALM_OPT.dwrd, dwrd, 8 * sizeof(UBXU4_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -318,7 +318,7 @@ UBXMsgBuffer getAID_AOP(UBXU1_t svid, UBXU1_t data[59])
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_AOP);
     msg->payload.AID_AOP.svid = svid;
-    memcpy(msg->payload.AID_AOP.data, data, 59*sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP.data, data, 59 * sizeof(UBXU1_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -330,10 +330,10 @@ UBXMsgBuffer getAID_AOP_OPT(UBXU1_t svid, UBXU1_t data[59], UBXU1_t optional0[48
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_AOP);
     msg->payload.AID_AOP_OPT.svid = svid;
-    memcpy(msg->payload.AID_AOP_OPT.data, data, 59*sizeof(UBXU1_t));
-    memcpy(msg->payload.AID_AOP_OPT.optional0, optional0, 48*sizeof(UBXU1_t));
-    memcpy(msg->payload.AID_AOP_OPT.optional1, optional1, 48*sizeof(UBXU1_t));
-    memcpy(msg->payload.AID_AOP_OPT.optional2, optional2, 48*sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.data, data, 59 * sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional0, optional0, 48 * sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional1, optional1, 48 * sizeof(UBXU1_t));
+    memcpy(msg->payload.AID_AOP_OPT.optional2, optional2, 48 * sizeof(UBXU1_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -389,9 +389,9 @@ UBXMsgBuffer getAID_EPH_OPT(UBXU4_t svid, UBXU4_t how, UBXU4_t sf1d[8], UBXU4_t 
     initMsg(msg, payloadSize, UBXMsgClassAID, UBXMsgIdAID_EPH);
     msg->payload.AID_EPH_OPT.svid = svid;
     msg->payload.AID_EPH_OPT.how = how;
-    memcpy(msg->payload.AID_EPH_OPT.sf1d, sf1d, 8*sizeof(UBXU4_t));
-    memcpy(msg->payload.AID_EPH_OPT.sf2d, sf2d, 8*sizeof(UBXU4_t));
-    memcpy(msg->payload.AID_EPH_OPT.sf3d, sf3d, 8*sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_EPH_OPT.sf1d, sf1d, 8 * sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_EPH_OPT.sf2d, sf2d, 8 * sizeof(UBXU4_t));
+    memcpy(msg->payload.AID_EPH_OPT.sf3d, sf3d, 8 * sizeof(UBXU4_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -508,6 +508,36 @@ UBXMsgBuffer getCFG_ANT_POLL()
     return buffer;
 }
 
+UBXMsgBuffer getCFG_BATCH(UBXU1_t version,
+              UBXX1_t flags,
+              UBXU2_t bufSize,
+              UBXU2_t notifThrs,
+              UBXU1_t pioId)
+{
+    int payloadSize = sizeof(UBXCFG_BATCH);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_BATCH);
+    msg->payload.CFG_BATCH.version = version;
+    msg->payload.CFG_BATCH.flags = flags;
+    msg->payload.CFG_BATCH.bufSize = bufSize;
+    msg->payload.CFG_BATCH.notifThrs = notifThrs;
+    msg->payload.CFG_BATCH.pioId = pioId;
+    msg->payload.CFG_BATCH.reserved1 = 0;
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_BATCH_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_BATCH);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 UBXMsgBuffer getCFG_CFG(UBXX4_t clearMask, UBXX4_t saveMask, UBXX4_t loadMask)
 {
     int payloadSize = sizeof(UBXCFG_CFG);
@@ -564,6 +594,28 @@ UBXMsgBuffer getCFG_DAT_POLL()
     return buffer;
 }
 
+extern UBXMsgBuffer getCFG_DGNSS_POLL()
+{
+    int payloadSize = 0;
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_DGNSS);
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
+extern UBXMsgBuffer getCFG_DGNSS(UBXU1_t dgnssMode)
+{
+    int payloadSize = sizeof(UBXCFG_DGNSS);
+    UBXMsgBuffer buffer = createBuffer(payloadSize);
+    UBXMsg* msg = (UBXMsg*)buffer.data;
+    initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_DGNSS);
+    msg->payload.CFG_DGNSS.dgnssMode = dgnssMode;
+    memset(msg->payload.CFG_DGNSS.reserved1, 0, sizeof(msg->payload.CFG_DGNSS));
+    completeMsg(&buffer, payloadSize);
+    return buffer;
+}
+
 UBXMsgBuffer getCFG_GNSS_POLL()
 {
     int payloadSize = 0;
@@ -588,7 +640,7 @@ UBXMsgBuffer getCFG_GNSS(UBXU1_t msgVer,
     msg->payload.CFG_GNSS.numTrkChHw = numTrkChHw;
     msg->payload.CFG_GNSS.numTrkChUse = numTrkChUse;
     msg->payload.CFG_GNSS.numConfigBlocks = numConfigBlocks;
-    memcpy(((char*)&(msg->payload.CFG_GNSS)) + sizeof(UBXCFG_GNSS), gnssPart, numConfigBlocks*sizeof(UBXCFG_GNSS_PART));
+    memcpy(((char*)&(msg->payload.CFG_GNSS)) + sizeof(UBXCFG_GNSS), gnssPart, numConfigBlocks * sizeof(UBXCFG_GNSS_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -606,11 +658,11 @@ UBXMsgBuffer getCFG_INF_POLL(UBXU1_t protocolId)
 
 UBXMsgBuffer getCFG_INF(UBXCFG_INF_PART* infPart, int infPartCount)
 {
-    int payloadSize = sizeof(UBXCFG_INF_PART)*infPartCount;
+    int payloadSize = sizeof(UBXCFG_INF_PART) * infPartCount;
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_INF);
-    memcpy(&(msg->payload.CFG_INF), infPart, infPartCount*sizeof(UBXCFG_INF_PART));
+    memcpy(&(msg->payload.CFG_INF), infPart, infPartCount * sizeof(UBXCFG_INF_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -927,12 +979,12 @@ UBXMsgBuffer getCFG_RATE(UBXU2_t measRate, UBXU2_t navRate, UBXU2_t timeRef)
 
 UBXMsgBuffer getCFG_RINV(UBXX1_t flags, UBXU1_t* data, int dataSize)
 {
-    int payloadSize = sizeof(UBXCFG_RINV) + dataSize*sizeof(UBXU1_t);
+    int payloadSize = sizeof(UBXCFG_RINV) + dataSize * sizeof(UBXU1_t);
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassCFG, UBXMsgIdCFG_RINV);
     msg->payload.CFG_RINV.flags = flags;
-    memcpy(((char*)&(msg->payload.CFG_RINV)) + sizeof(UBXCFG_RINV), data, dataSize*sizeof(UBXU1_t));
+    memcpy(((char*)&(msg->payload.CFG_RINV)) + sizeof(UBXCFG_RINV), data, dataSize * sizeof(UBXU1_t));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -1035,13 +1087,13 @@ UBXMsgBuffer getCFG_USB(UBXU2_t vendorId,
     msg->payload.CFG_USB.reserved2 = 1;
     msg->payload.CFG_USB.powerConsumption = powerConsumption;
     msg->payload.CFG_USB.flags = flags;
-    vendorStringSize = strlen(vendorString)>32?32:strlen(vendorString);
+    vendorStringSize = strlen(vendorString) > 32 ? 32 : strlen(vendorString);
     memcpy(msg->payload.CFG_USB.vendorString, vendorString, vendorStringSize);
 
-    productStringSize = strlen(productString)>32?32:strlen(productString);
+    productStringSize = strlen(productString) > 32 ? 32 : strlen(productString);
     memcpy(msg->payload.CFG_USB.productString, productString, productStringSize);
 
-    serialNumberSize = strlen(serialNumber)>32?32:strlen(serialNumber);
+    serialNumberSize = strlen(serialNumber) > 32 ? 32 : strlen(serialNumber);
     memcpy(msg->payload.CFG_USB.serialNumber, serialNumber, serialNumberSize);
 
     completeMsg(&buffer, payloadSize);
@@ -1198,7 +1250,7 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
                                 UBXRXM_SVSI_PART* svsiPart,
                                 int svsiPartCount)
 {
-    int payloadSize = sizeof(UBXRXM_SVSI) + svsiPartCount*sizeof(UBXRXM_SVSI_PART);
+    int payloadSize = sizeof(UBXRXM_SVSI) + svsiPartCount * sizeof(UBXRXM_SVSI_PART);
     UBXMsgBuffer buffer = createBuffer(payloadSize);
     UBXMsg* msg = (UBXMsg*)buffer.data;
     initMsg(msg, payloadSize, UBXMsgClassRXM, UBXMsgIdRXM_SVSI);
@@ -1206,7 +1258,7 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
     msg->payload.RXM_SVSI.week = week;
     msg->payload.RXM_SVSI.numVis = numVis;
     msg->payload.RXM_SVSI.numSV = numSV;
-    memcpy(((char*)&(msg->payload.RXM_SVSI)) + sizeof(UBXRXM_SVSI), svsiPart, svsiPartCount*sizeof(UBXRXM_SVSI_PART));
+    memcpy(((char*)&(msg->payload.RXM_SVSI)) + sizeof(UBXRXM_SVSI), svsiPart, svsiPartCount * sizeof(UBXRXM_SVSI_PART));
     completeMsg(&buffer, payloadSize);
     return buffer;
 }
@@ -1241,14 +1293,24 @@ UBXMsgBuffer getRXM_SVSI(UBXU4_t iTOW,
  * Ack/Nack Messages: as replies to CFG Input Messages
  * \var UBXMsgClassCFG
  * Configuration Input Messages: Set Dynamic Model, Set DOP Mask, Set Baud Rate, etc.
+ * \var UBXMsgClassUPD
+ * Firmware   Update   Messages: Memory/Flash erase/write, Reboot, Flash identification, etc.
  * \var UBXMsgClassMON
  * Monitoring Messages: Comunication Status, CPU Load, Stack Usage, Task Status
  * \var UBXMsgClassAID
  * AssistNow Aiding Messages: Ephemeris, Almanac, other A-GPS data input
  * \var UBXMsgClassTIM
  * Timing Messages: Time Pulse Output, Timemark Results
+ * \var UBXMsgClassESF
+ * External Sensor Fusion Messages: External Sensor Measurements and Status Information
+ * \var UBXMsgClassMGA
+ * Multiple GNSS Assistance Messages: Assistance data for various GNSS
  * \var UBXMsgClassLOG
  * Logging Messages: Log creation, deletion, info and retrieval
+ * \var UBXMsgClassSEC
+ * Security Feature Messages
+ * \var UBXMsgClassHNR
+ * High Rate Navigation Results Messages: High rate time, position, speed, heading
  * \var UBXMsgClassInvalid
  * Default invalid message class
  */
